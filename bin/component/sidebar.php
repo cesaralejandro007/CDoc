@@ -20,24 +20,10 @@ use config\componentes\configSistema as configSistema;
         <div class="sidebar-body">
             <ul class="sidebar-body-menu">
                 <li>
-                    <a class="active" href="?pagina=<?php configSistema::_PRINCIPAL_();?>"><span class="icon home" aria-hidden="true"></span>Principal</a>
+                    <a href="?pagina=<?php configSistema::_PRINCIPAL_();?>"><span class="icon home" aria-hidden="true"></span>Principal</a>
                 </li>
                 <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon document" aria-hidden="true"></span>Usuarios
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="?pagina=<?php configSistema::_RegistrarUsuario_();?>">Registrar</a>
-                        </li>
-                        <li>
-                            <a href="?pagina=<?php configSistema::_ConsultarUsuario_();?>">Consultar</a>
-                        </li>
-                    </ul>
+                    <a href="?pagina=<?php configSistema::_ConsultarUsuario_();?>"><span class="icon document" aria-hidden="true"></span>Usuarios</a>
                 </li>
                 <li>
                     <a class="show-cat-btn" href="##">

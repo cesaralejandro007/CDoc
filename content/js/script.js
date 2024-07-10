@@ -335,6 +335,14 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
           labels: ['Enero','Febrero','Marzo','Abril', 'Mayo','julio','junio','Agosto','Septiembre','Octubre','Nomviembre','Diciembre'],
           datasets: [{
+            label: 'todos Doc.',
+            data: [80, 100, 120, 56, 70, 56, 77],
+            cubicInterpolationMode: 'monotone',
+            tension: 0.4,
+            backgroundColor: ['rgb(75, 222, 151)'],
+            borderColor: ['rgb(75, 222, 151)'],
+            borderWidth: 2
+          },{
             label: 'Doc. Entrada',
             data: [35, 27, 40, 15, 30, 25, 45],
             cubicInterpolationMode: 'monotone',
@@ -364,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
           scales: {
             y: {
               min: 0,
-              max: 100,
+              max: 200,
               ticks: {
                 stepSize: 25
               },

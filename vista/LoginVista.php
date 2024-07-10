@@ -24,6 +24,7 @@ use config\componentes\configSistema as configSistema;
     </form>
   </article>
 </main>
+<?php include_once "bin/component/footer.php";?>
 <!-- Chart library -->
 <script src="plugins/chart.min.js"></script>
 <!-- Icons library -->

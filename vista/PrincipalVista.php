@@ -15,7 +15,7 @@
     <nav class="main-nav--bg">
         <div class="container main-nav">
             <div class="main-nav-start">
-                <h2 class="">Pagina Principal</h2>
+                <h2 class="sign-up__title">Pagina Principal</h2>
             </div>
             <div class="main-nav-end">
             <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
@@ -107,19 +107,7 @@
       </div>
     </main>
     <!-- ! Footer -->
-    <footer class="footer">
-  <div class="container footer--flex">
-    <div class="footer-start">
-      <p>2021 © Elegant Dashboard - <a href="elegant-dashboard.com" target="_blank"
-          rel="noopener noreferrer">elegant-dashboard.com</a></p>
-    </div>
-    <ul class="footer-end">
-      <li><a href="##">About</a></li>
-      <li><a href="##">Support</a></li>
-      <li><a href="##">Puchase</a></li>
-    </ul>
-  </div>
-</footer>
+    <?php include_once "bin/component/footer.php";?>
   </div>
 </div>
 <!-- Chart library -->

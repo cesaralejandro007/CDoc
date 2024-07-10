@@ -5,6 +5,51 @@
 
 <body>
   <div class="layer"></div>
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content white-block">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Documento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="sign-up-form form">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="form-label" for="inputCedula">Fecha de entrada</label>
+            <input type="date" class="form-control form-input" id="inputFecha" placeholder="Fecha de entrada" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-label" for="inputNombres">Nº de Documento</label>
+            <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label class="form-label" for="inputRemitente">Nombre de Remitente</label>
+            <select id="inputRemitente" class="form-control form-input" required>
+              <option selected>Seleccione...</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-label" for="inputTipo">Tipo de Documento</label>
+            <select id="inputTipo" class="form-control form-input" required>
+              <option selected>Seleccione...</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ! Body -->
 <a class="skip-link sr-only" href="#skip-target">Skip to content</a>
 <div class="page-flex">
@@ -50,23 +95,34 @@
     </nav>
     <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
-    <div class="container">
+    <div class="card white-block m-1">
+    <div class="card-body">
+      <div class="users-table table-wrapper py-2 m-0">
+        <table id="funcionpaginacion" class="posts-table">
+        <thead>
+          <tr class="users-table-info">
+            <th>Acciones</th>
+            <th>Fecha de Entrada</th>
+            <th>Funcionario</th>
+            <th>Nº de documento</th>
+            <th>Nombre de Remitente</th>
+            <th>Tipo de Documento</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        </table>
+      </div>
     </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-center">
+        <button type="submit" data-toggle="modal" data-target="#exampleModalCenter" class="form-btn primary-default-btn transparent-btn col-2">Registrar Documento</button>
+      </div>
+    </div>
+  </div>
     </main>
     <!-- ! Footer -->
-    <footer class="footer">
-  <div class="container footer--flex">
-    <div class="footer-start">
-      <p>2021 © Elegant Dashboard - <a href="elegant-dashboard.com" target="_blank"
-          rel="noopener noreferrer">elegant-dashboard.com</a></p>
-    </div>
-    <ul class="footer-end">
-      <li><a href="##">About</a></li>
-      <li><a href="##">Support</a></li>
-      <li><a href="##">Puchase</a></li>
-    </ul>
-  </div>
-</footer>
+    <?php include_once "bin/component/footer.php";?>
   </div>
 </div>
 <!-- Chart library -->

@@ -50,23 +50,34 @@
     </nav>
     <!-- ! Main -->
     <main class="main users chart-page" id="skip-target">
-    <div class="container">
+    <div class="card white-block m-1">
+    <div class="card-body">
+      <div class="users-table table-wrapper py-2 m-0">
+        <table id="funcionpaginacion" class="posts-table">
+        <thead>
+          <tr class="users-table-info">
+            <th>Acciones</th>
+            <th>Fecha de Entrada</th>
+            <th>Funcionario</th>
+            <th>Nº de documento</th>
+            <th>Nombre de Remitente</th>
+            <th>Tipo de Documento</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        </table>
+      </div>
     </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="form-btn primary-default-btn transparent-btn col-2">Registrar Documento</button>
+      </div>
+    </div>
+  </div>
     </main>
     <!-- ! Footer -->
-    <footer class="footer">
-  <div class="container footer--flex">
-    <div class="footer-start">
-      <p>2021 © Elegant Dashboard - <a href="elegant-dashboard.com" target="_blank"
-          rel="noopener noreferrer">elegant-dashboard.com</a></p>
-    </div>
-    <ul class="footer-end">
-      <li><a href="##">About</a></li>
-      <li><a href="##">Support</a></li>
-      <li><a href="##">Puchase</a></li>
-    </ul>
-  </div>
-</footer>
+    <?php include_once "bin/component/footer.php";?>
   </div>
 </div>
 <!-- Chart library -->
