@@ -2,8 +2,8 @@
 
 	namespace config\componentes;
 
-	define("_URL_", "http://localhost/practica/");
-	define("_BD_", "censport");
+	define("_URL_", "http://localhost/dashboard/www/Control_de_Documentos/CDoc/");
+	define("_BD_", "cdoc");
 	define("_PASS_", "");
 	define("_USER_", "root");
 	define("_LOCAL_", "localhost");
