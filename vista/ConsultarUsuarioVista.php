@@ -129,7 +129,7 @@
     </div>
     <div class="card-footer">
       <div class="d-flex justify-content-center">
-        <button type="submit"  data-toggle="modal" data-target="#exampleModalCenter" class="form-btn primary-default-btn transparent-btn col-2">Registrar Persona</button>
+        <button type="submit"  data-toggle="modal" data-target="#exampleModalCenter" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Persona</button>
       </div>
     </div>
   </div>
