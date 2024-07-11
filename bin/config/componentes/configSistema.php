@@ -94,10 +94,6 @@
 			echo self::Seguridad('ConsultarUsuario', 'codificar');
 		}
 		
-		public static function _RegistrarUsuario_() {
-			echo self::Seguridad('RegistrarUsuario', 'codificar');
-		}
-
 		public static function _DocumentosEntrada_() {
 			echo self::Seguridad('DocumentosEntrada', 'codificar');
 		}
