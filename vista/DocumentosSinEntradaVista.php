@@ -57,21 +57,15 @@
         <thead>
           <tr class="users-table-info">
             <th>Acciones</th>
-            <th>Fecha de Entrada</th>
             <th>Funcionario</th>
             <th>Nº de documento</th>
-            <th>Nombre de Remitente</th>
             <th>Tipo de Documento</th>
+            <th>Descripción del Documento</th>
           </tr>
         </thead>
         <tbody>
         </tbody>
         </table>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="d-flex justify-content-center">
-        <button type="submit" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Documento</button>
       </div>
     </div>
   </div>
