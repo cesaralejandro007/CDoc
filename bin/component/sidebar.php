@@ -61,7 +61,7 @@ use config\componentes\configSistema as configSistema;
                 <picture><source srcset="assets/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
             </span>
             <div class="sidebar-user-info">
-                <span class="sidebar-user__title">Cesar Vides.</span>
+                <span class="sidebar-user__title">Ing. Cesar Vides.</span>
                 <span class="sidebar-user__subtitle">Gerente de Soporte</span>
             </div>
         </a>
@@ -71,7 +71,7 @@ use config\componentes\configSistema as configSistema;
                 <picture><source srcset="assets/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
             <div class="sidebar-user-info">
-                <span class="sidebar-user__title">Maria Zapata.</span>
+                <span class="sidebar-user__title">Ing. Maria Zapata.</span>
                 <span class="sidebar-user__subtitle">Gerente de Soporte</span>
             </div>
         </a>
