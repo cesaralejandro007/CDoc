@@ -6,8 +6,9 @@ class loginModelo extends connectDB
     private $cedula;
     private $nombres;
     private $apellidos;
-    private $rol;
+    private $sexo;
     private $password;
+    private $seccion;
     public function set_cedula($valor)
     {
         $this->cedula = $valor;
@@ -20,18 +21,21 @@ class loginModelo extends connectDB
     {
         $this->apellidos = $valor;
     }
-    public function set_rol($valor)
+    public function set_sexo($valor)
     {
-        return $this->rol = $valor;
+        return $this->sexo = $valor;
     }
     public function set_clave($valor)
     {
         $this->password = $valor;
     }
-
     public function set_clave_encriptada($valor)
     {
         $this->password = $valor;
+    }
+    public function set_seccion($valor)
+    {
+        $this->seccion = $valor;
     }
 
     public function registrar_usuario()
@@ -45,15 +49,19 @@ class loginModelo extends connectDB
         					cedula,
                             nombres,
                             apellidos,
-        					cargo,
-        					contrasenna
+        					sexo,
+        					contrasena,
+                            id_seccion,
+                            estatus
         					)
         				VALUES(
                             '$this->cedula',
         					'$this->nombres',
         					'$this->apellidos',
-        					'$this->rol',
-        					'$this->password'
+        					'$this->sexo',
+        					'$this->password',
+                            '$this->seccion',
+                            '1'
         				)");
                 return true;
             } catch (Exception $e) {
@@ -68,13 +76,17 @@ class loginModelo extends connectDB
         try {
             $resultado->execute();
             $respuesta1 = $resultado->fetchAll();
-            if(password_verify($password, $respuesta1[0]['contrasenna'])) {
-                return $respuesta1[0]['contrasenna'];
+            if (!empty($respuesta1)) {
+                if(password_verify($password, $respuesta1[0]['contrasena'])) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
         } catch (Exception $e) {
-            return $e->getMessage();
+                return $e->getMessage();
         }
     }
 
@@ -105,6 +117,19 @@ class loginModelo extends connectDB
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    public function listar_secciones()
+    {
+        $resultado = $this->conex->prepare("SELECT * FROM secciones");
+        $respuestaArreglo = [];
+        try {
+            $resultado->execute();
+            $respuestaArreglo = $resultado->fetchAll();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return $respuestaArreglo;
     }
 
 }

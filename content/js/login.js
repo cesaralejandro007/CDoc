@@ -49,20 +49,20 @@ function carga() {
         );
     };
 /*--------------FIN VALIDACION PARA APELLIDO--------------------*/
-/*--------------VALIDACION PARA ROL--------------------*/
-    document.getElementById("rol").maxLength = 9;
-    document.getElementById("rol").onkeypress = function (e) {
+/*--------------VALIDACION PARA sexo--------------------*/
+    document.getElementById("sexo").maxLength = 9;
+    document.getElementById("sexo").onkeypress = function (e) {
       er = /^[A-Za-z\b\u00f1\u00d1\u00E0-\u00FC]*$/;
       validarkeypress(er, e);
     };
-    document.getElementById("rol").onchange = function () {
+    document.getElementById("sexo").onchange = function () {
         r = validarselect(
             this,
-            document.getElementById("srol"),
-            "* Seleccione un Rol"
+            document.getElementById("ssexo"),
+            "* Seleccione un sexo"
         );
     };
-/*--------------FIN VALIDACION PARA ROL--------------------*/
+/*--------------FIN VALIDACION PARA sexo--------------------*/
 /*--------------VALIDACION PARA CLAVE--------------------*/
 document.getElementById("clave").maxLength = 30;
 document.getElementById("clave").onkeypress = function (e) {
@@ -93,8 +93,9 @@ document.getElementById("enviar").onclick = function () {
         datos.append("cedula", $("#user").val());
         datos.append("nombres", $("#nombres").val());
         datos.append("apellidos", $("#apellidos").val());
-        datos.append("rol", $("#rol").val());
+        datos.append("sexo", $("#sexo").val());
         datos.append("clave", $("#clave").val());
+        datos.append("seccion", $("#seccion").val());
         enviaAjax(datos);
     }
 };
@@ -167,13 +168,13 @@ function limpiar() {
     $("#user").val("");
     $("#nombres").val("");
     $("#apellidos").val("");
-    $("#rol").val(0);
+    $("#sexo").val(0);
     $("#clave").val("");
     $("#clave2").val("");
     document.getElementById("suser").innerText = "";
     document.getElementById("snombres").innerText = "";
     document.getElementById("sapellidos").innerText = "";
-    document.getElementById("srol").innerText = "";
+    document.getElementById("ssexo").innerText = "";
     document.getElementById("sclave").innerText = "";
     document.getElementById("sclave2").innerText = "";
    /*  document.getElementById("sarea").innerText = ""; */
@@ -181,7 +182,7 @@ function limpiar() {
     document.getElementById("user").classList.remove("is-invalid", "is-valid");
     document.getElementById("nombres").classList.remove("is-invalid", "is-valid");
     document.getElementById("apellidos").classList.remove("is-invalid", "is-valid");
-    document.getElementById("rol").classList.remove("is-invalid", "is-valid");
+    document.getElementById("sexo").classList.remove("is-invalid", "is-valid");
     document.getElementById("clave").classList.remove("is-invalid", "is-valid");
     document.getElementById("clave2").classList.remove("is-invalid", "is-valid");
     /* document.getElementById("area").classList.remove("is-invalid", "is-valid"); */
@@ -207,14 +208,14 @@ function valida_registrar() {
         document.getElementById("sapellidos"),
         "* Solo letras de 3 a 30 caracteres, siendo la primera en mayúscula."
     );
-    if(document.getElementById("rol").value == 0){
-        document.getElementById("srol").innerHTML ="* Seleccione un genero";
-        document.getElementById("srol").style.color = "red";
-        document.getElementById("rol").classList.add("is-invalid");
+    if(document.getElementById("sexo").value == 0){
+        document.getElementById("ssexo").innerHTML ="* Seleccione un genero";
+        document.getElementById("ssexo").style.color = "red";
+        document.getElementById("sexo").classList.add("is-invalid");
     }else{
-        document.getElementById("srol").innerHTML ="";
-        document.getElementById("rol").classList.remove("is-invalid");
-        document.getElementById("rol").classList.add("is-valid");
+        document.getElementById("ssexo").innerHTML ="";
+        document.getElementById("sexo").classList.remove("is-invalid");
+        document.getElementById("sexo").classList.add("is-valid");
     }
     clave = validarkeyup(
         keyup_clave,
@@ -223,11 +224,22 @@ function valida_registrar() {
         "* El formato debe ser 0426-1234567"
     );
 
+    if(document.getElementById("seccion").value == 0){
+        document.getElementById("sseccion").innerHTML ="* Seleccione una sección";
+        document.getElementById("sseccion").style.color = "red";
+        document.getElementById("seccion").classList.add("is-invalid");
+    }else{
+        document.getElementById("sseccion").innerHTML ="";
+        document.getElementById("seccion").classList.remove("is-invalid");
+        document.getElementById("seccion").classList.add("is-valid");
+    }
+
     if(
         user == 0 ||
         nombres == 0 ||
         apellidos == 0 ||
-        document.getElementById("rol").value == 0 ||
+        document.getElementById("sexo").value == 0 ||
+        document.getElementById("seccion").value == 0 ||
         clave == 0 
     ){
         error = true;

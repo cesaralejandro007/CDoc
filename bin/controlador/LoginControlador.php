@@ -19,7 +19,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 if($res_usuario == true){
                     $info_usuario = $login->datos_usuario($usuario);
                     foreach ($info_usuario as $datos) {
-                        $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'rol' => $datos['cargo']);
+                        $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'sexo' => $datos['sexo'], 'seccion' => $datos['id_seccion']);
                     }
                     echo json_encode([
                         'estatus' => '1',
@@ -54,14 +54,16 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
             $nombres = $_POST['nombres'];
             $apellidos = $_POST['apellidos'];
-            $rol = $_POST['rol'];
+            $sexo = $_POST['sexo'];
             $clave_encriptada = password_hash($_POST['clave'], PASSWORD_DEFAULT);
+            $seccion = $_POST['seccion'];
 
             $login->set_cedula($cedula);
             $login->set_nombres($nombres);
             $login->set_apellidos($apellidos);
-            $login->set_rol($rol);
+            $login->set_sexo($sexo);
             $login->set_clave_encriptada($clave_encriptada);
+            $login->set_seccion($seccion);
             $response = $login->registrar_usuario();
             if ($response == true) {
                 echo json_encode([
@@ -86,7 +88,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     }else {
         session_destroy();
     }
-   
+    $list = $login->listar_secciones();
     require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";

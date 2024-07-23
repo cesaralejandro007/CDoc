@@ -113,16 +113,50 @@
         <table id="funcionpaginacion" class="posts-table">
           <thead>
             <tr class="users-table-info">
-              <th>Acciones</th>
-              <th>Cedula</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Genero</th>
-              <th>Nombre de Sección</th>
+              <th style="text-align: center;">Editar</th>
+              <th style="text-align: center;">Eliminar</th>
+              <th style="text-align: center;">Cedula</th>
+              <th style="text-align: center;">Nombres</th>
+              <th style="text-align: center;">Apellidos</th>
+              <th style="text-align: center;">Genero</th>
+              <th style="text-align: center;">Nombre de Sección</th>
+              <th style="text-align: center;">Meta</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Aquí puedes añadir filas de datos si es necesario -->
+          <?php
+                                foreach ($list as $valor) 
+                                {?>
+                                    <tr>
+                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                                        onclick="cargar_datos(<?=$valor['id_usuario'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        onclick="eliminar(<?=$valor['id_usuario'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['cedula']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['nombres']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['apellidos']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['sexo']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['nombre_seccion']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['meta']; ?>
+                                    </td>
+                                    </tr>
+                            <?php
+                                }?>
           </tbody>
         </table>
       </div>
