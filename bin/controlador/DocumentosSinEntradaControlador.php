@@ -15,7 +15,7 @@ if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     exit;
 }
 if (is_file("vista/" . $pagina . "Vista.php")) {
-
+    $listDocSinEntr = $DSE->listaDocumentosSinEntrada();
     require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";

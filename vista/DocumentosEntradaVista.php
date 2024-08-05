@@ -19,50 +19,62 @@
       </div>
       <form class="sign-up-form form">
     <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-4">
             <label class="form-label" for="inputTipoDocumento">Entrada / Sin entrada</label>
             <select id="inputTipoDocumento" class="form-control form-input" required>
                 <option selected value="1">Documento de entrada</option>
                 <option value="2">Documento sin entrada</option>
             </select>
         </div>
-        <div class="form-group col-md-4">
-          <label class="form-label" for="inputNombres">Nº de Documento</label>
-          <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
+        <div class="col-4">
+          <div class="form-group">
+            <label class="form-label" for="inputNumeroDocumento">Nº de Documento</label>
+            <input type="text" class="form-control form-input" id="inputNumeroDocumento" placeholder="Nº documento" required>
+          </div>
+          <span id="snumeroDocumento"></span>
         </div>
-        <div class="form-group col-md-4">
-            <label class="form-label" for="inputFecha">Fecha de entrada</label>
-            <input type="date" class="form-control form-input" id="inputFecha" placeholder="Fecha de entrada" disabled>
+        <div class="col-4">
+          <div class="form-group">
+              <label class="form-label" for="inputFecha">Fecha de entrada</label>
+              <input type="date" class="form-control form-input" id="inputFecha" placeholder="Fecha de entrada" disabled>
+          </div>
+          <span id="sfecha"></span>
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-md-6">
-            <label class="form-label" for="inputTipo">Tipo de Documento</label>
-            <select id="inputTipo" class="form-control form-input" required>
-                <option selected>Seleccione...</option>
-                <option value="1">Tipo 1</option>
-                <option value="2">Tipo 2</option>
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label class="form-label" for="inputRemitente">Nombre de Remitente</label>
-            <select id="inputRemitente" class="form-control form-input" disabled>
-                <option selected>Seleccione...</option>
-                <option value="1">Remitente 1</option>
-                <option value="2">Remitente 2</option>
-            </select>
-        </div>
+    <div class="form-group col-md-6">
+        <label class="form-label" for="inputTipo">Tipo de Documento</label>
+        <input list="tipoDocumentos" id="inputTipo" placeholder="Tipo de Documento" class="form-control form-input" required>
+        <datalist id="tipoDocumentos">
+            <?php foreach($listTDoc as $key => $tipo) {?>
+              <option value="<?php echo $tipo["nombre_doc"]; ?> / <?php echo $tipo["descripcion_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
+            <?php }?>
+        </datalist>
+        <span id="stipo"></span>
     </div>
+    <div class="form-group col-md-6">
+        <label class="form-label" for="inputRemitente">Nombre de Remitente</label>
+        <input list="remitentes" id="inputRemitente"  placeholder="Nombre de Remitente" class="form-control form-input" disabled>
+        <datalist id="remitentes">
+            <?php foreach($listRemit as $key => $renit) {?>
+              <option value="<?php echo $renit["nombre_rem"]; ?>" data-id="<?php echo $renit["id_remitente"]; ?>"></option>
+            <?php }?>
+        </datalist>
+        <span id="sremitente"></span>
+    </div>
+</div>
+
     <div class="row">
         <div class="form-group col-md-12">
             <label class="form-label" for="inputDescripcion">Descripción del Documento</label>
-            <textarea id="inputDescripcion" class="form-control form-input"></textarea>
+            <textarea id="inputDescripcion" class="form-control form-input" style="height: 128px;" placeholder="Descripción del documento"></textarea>
         </div>
+        <span id="sdescripcion"></span>
     </div>
 </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-primary" id="enviar">Registrar</button>
       </div>
     </div>
   </div>
@@ -114,19 +126,55 @@
     <main class="main users chart-page" id="skip-target">
     <div class="card white-block m-1">
     <div class="card-body">
-      <div class="users-table table-wrapper py-2 m-0">
-        <table id="funcionpaginacion" class="posts-table">
+      <div class="users-table table-responsive py-2 m-0">
+        <table id="tabla" class="posts-table">
         <thead>
           <tr class="users-table-info">
-            <th>Acciones</th>
-            <th>Fecha de Entrada</th>
-            <th>Funcionario</th>
-            <th>Nº de documento</th>
-            <th>Nombre de Remitente</th>
-            <th>Tipo de Documento</th>
+            <th style="text-align: center;">Editar</th>
+            <th style="text-align: center;">Eliminar</th>
+            <th style="text-align: center;">Migrar Doc.</th>
+            <th style="text-align: center;">Fecha de Entrada</th>
+            <th style="text-align: center;">Funcionario</th>
+            <th style="text-align: center;">Nº de documento</th>
+            <th style="text-align: center;">Nombre de Remitente</th>
+            <th style="text-align: center;">Tipo de Documento</th>
           </tr>
         </thead>
         <tbody>
+        <?php
+                                foreach ($listDoc as $valor) 
+                                {?>
+                                    <tr>
+                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                                        onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-arrow-down"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['fecha_entrada_formateada']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['usuario_completo']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['numero_doc']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['nombre_rem']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['nombre_doc']; ?>
+                                    </td>
+                                    </tr>
+                            <?php
+                                }?>
         </tbody>
         </table>
       </div>
@@ -199,6 +247,8 @@ habilitarFechaEntrada();
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="content/js/script.js"></script>
+<script src="content/js/datatables-docEntrada.js"></script>
+<script src="content/js/documentos_entrada.js"></script>
 </body>
 
 </html>

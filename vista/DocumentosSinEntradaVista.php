@@ -52,18 +52,47 @@
     <main class="main users chart-page" id="skip-target">
     <div class="card white-block m-1">
     <div class="card-body">
-      <div class="users-table table-wrapper py-2 m-0">
-        <table id="funcionpaginacion" class="posts-table">
+    <div class="users-table table-responsive py-2 m-0">
+      <table id="tabla" class="posts-table">
         <thead>
-          <tr class="users-table-info">
-            <th>Acciones</th>
-            <th>Funcionario</th>
-            <th>Nº de documento</th>
-            <th>Tipo de Documento</th>
-            <th>Descripción del Documento</th>
+        <tr class="users-table-info">
+            <th style="text-align: center;">Editar</th>
+            <th style="text-align: center;">Eliminar</th>
+            <th style="text-align: center;">Migrar Doc.</th>
+            <th style="text-align: center;">Funcionario</th>
+            <th style="text-align: center;">Nº de documento</th>
+            <th style="text-align: center;">Tipo de Documento</th>
           </tr>
         </thead>
         <tbody>
+        <?php
+                                foreach ($listDocSinEntr as $valor) 
+                                {?>
+                                    <tr>
+                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                                        onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                                        onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-arrow-down"></i></button>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['usuario_completo']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['numero_doc']; ?>
+                                    </td>
+                                    <td style="text-align: center;" class="project-actions text-left">
+                                        <?php echo $valor['nombre_doc']; ?>
+                                    </td>
+                                    </tr>
+                            <?php
+                                }?>
         </tbody>
         </table>
       </div>
@@ -79,6 +108,9 @@
 <!-- Icons library -->
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
+
+<script src="content/js/datatables-docSinEntrada.js"></script>
+
 <script src="content/js/script.js"></script>
 </body>
 

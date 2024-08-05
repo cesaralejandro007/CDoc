@@ -52,8 +52,8 @@
     <main class="main users chart-page" id="skip-target">
     <div class="card white-block m-1">
     <div class="card-body">
-      <div class="users-table table-wrapper py-2 m-0">
-        <table id="funcionpaginacion" class="posts-table">
+    <div class="users-table table-responsive py-2 m-0">
+      <table id="tabla" class="posts-table">
         <thead>
           <tr class="users-table-info">
             <th>Acciones</th>
@@ -82,6 +82,8 @@
 <!-- Icons library -->
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
+<script src="content/js/datatables-docSalida.js"></script>
+
 <script src="content/js/script.js"></script>
 </body>
 
