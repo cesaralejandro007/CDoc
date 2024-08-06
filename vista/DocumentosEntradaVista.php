@@ -6,19 +6,23 @@
 <body>
   <div class="layer"></div>
 
-
+  <style>
+        .swal2-confirm {
+            background-color: #2f49d1 !important;
+        }
+    </style>
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="exampleModalCenter"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="modalshowhide">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content white-block">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Documento</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="sign-up-form form">
     <div class="row">
+      <input type="hidden" name="accion" class="form-control" id="accion">
+      <input type="hidden" name="id_documento" class="form-control" id="id_documento">
         <div class="form-group col-4">
             <label class="form-label" for="inputTipoDocumento">Entrada / Sin entrada</label>
             <select id="inputTipoDocumento" class="form-control form-input" required>
@@ -73,7 +77,7 @@
     </div>
 </form>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary" id="enviar">Registrar</button>
       </div>
     </div>
@@ -142,46 +146,46 @@
         </thead>
         <tbody>
         <?php
-                                foreach ($listDoc as $valor) 
-                                {?>
-                                    <tr>
-                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
-                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
-                                        onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-arrow-down"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['fecha_entrada_formateada']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['usuario_completo']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['numero_doc']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['nombre_rem']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['nombre_doc']; ?>
-                                    </td>
-                                    </tr>
-                            <?php
-                                }?>
+          foreach ($listDoc as $valor) 
+          {?>
+              <tr>
+              <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                  <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                  onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                  onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Migrar"
+                  onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['fecha_entrada_formateada']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['usuario_completo']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['numero_doc']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['nombre_rem']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['nombre_doc']; ?>
+              </td>
+              </tr>
+      <?php
+          }?>
         </tbody>
         </table>
       </div>
     </div>
     <div class="card-footer">
       <div class="d-flex justify-content-center">
-        <button type="submit" data-toggle="modal" data-target="#exampleModalCenter" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Documento</button>
+        <button type="submit" id="nuevo" data-toggle="modal" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Documento</button>
       </div>
     </div>
   </div>

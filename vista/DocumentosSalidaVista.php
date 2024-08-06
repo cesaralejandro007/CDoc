@@ -56,17 +56,59 @@
       <table id="tabla" class="posts-table">
         <thead>
           <tr class="users-table-info">
-            <th>Acciones</th>
-            <th>Funcionario</th>
-            <th>Nº de documento</th>
-            <th>Fecha de Entrada</th>
-            <th>Fecha de Salida</th>
-            <th>Dias de diferencia</th>
-            <th>Nombre de Remitente</th>
-            <th>Descripción del Documento</th>
+            <th style="text-align: center;">Editar</th>
+            <th style="text-align: center;">Eliminar</th>
+            <th style="text-align: center;">Migrar Doc.</th>
+            <th style="text-align: center;">Funcionario</th>
+            <th style="text-align: center;">Nº de documento</th>
+            <th style="text-align: center;">Fecha de Entrada</th>
+            <th style="text-align: center;">Fecha de Salida</th>
+            <th style="text-align: center;">Dias de diferencia</th>
+            <th style="text-align: center;">Nombre de Remitente</th>
+            <th style="text-align: center;">Descripción del Documento</th>
           </tr>
         </thead>
         <tbody>
+        <?php
+          foreach ($listDocSal as $valor) 
+          {?>
+              <tr>
+              <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                  <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                  onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                  onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Migrar"
+                  onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['usuario_completo']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['numero_doc']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['fecha_entrada_formateada']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['fecha_salida_formateada']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['nombre_rem']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['diferencia_dias']; ?>
+              </td>
+              <td style="text-align: center;" class="project-actions text-left">
+                  <?php echo $valor['descripcion']; ?>
+              </td>
+              </tr>
+      <?php
+          }?>
         </tbody>
         </table>
       </div>

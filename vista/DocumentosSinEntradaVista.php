@@ -66,33 +66,33 @@
         </thead>
         <tbody>
         <?php
-                                foreach ($listDocSinEntr as $valor) 
-                                {?>
-                                    <tr>
-                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
-                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
-                                        onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-arrow-down"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['usuario_completo']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['numero_doc']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['nombre_doc']; ?>
-                                    </td>
-                                    </tr>
-                            <?php
-                                }?>
+            foreach ($listDocSinEntr as $valor) 
+            {?>
+                <tr>
+                <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                    <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                    onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                </td>
+                <td style="text-align: center;" class="project-actions text-left">
+                    <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                    onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                </td>
+                <td style="text-align: center;" class="project-actions text-left">
+                    <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                    onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+                </td>
+                <td style="text-align: center;" class="project-actions text-left">
+                    <?php echo $valor['usuario_completo']; ?>
+                </td>
+                <td style="text-align: center;" class="project-actions text-left">
+                    <?php echo $valor['numero_doc']; ?>
+                </td>
+                <td style="text-align: center;" class="project-actions text-left">
+                    <?php echo $valor['nombre_doc']; ?>
+                </td>
+                </tr>
+        <?php
+            }?>
         </tbody>
         </table>
       </div>

@@ -111,6 +111,10 @@
 		public static function _docSinEntrada_() {
 			return self::Seguridad('DocumentosSinEntrada', 'codificar');
 		}
+		
+		public static function _docSilida_() {
+			return self::Seguridad('DocumentosSalida', 'codificar');
+		}
 	}
 
  ?>
