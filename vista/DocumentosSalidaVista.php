@@ -98,10 +98,10 @@
                   <?php echo $valor['fecha_salida_formateada']; ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
-                  <?php echo $valor['nombre_rem']; ?>
+                  <?php echo $valor['diferencia_dias']; ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
-                  <?php echo $valor['diferencia_dias']; ?>
+                  <?php echo $valor['nombre_rem']; ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
                   <?php echo $valor['descripcion']; ?>
