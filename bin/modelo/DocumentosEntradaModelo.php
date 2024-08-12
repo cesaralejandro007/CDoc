@@ -141,7 +141,6 @@ class DocumentosEntradaModelo extends connectDB
     try {
         $this->conex->query("DELETE FROM documentos WHERE id_documento = '$id_documento'");
         return true;
-        return $respuesta;
     } catch (Exception $e) {
         return false;
     }

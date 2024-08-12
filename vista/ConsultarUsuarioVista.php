@@ -7,57 +7,84 @@
   <div class="layer"></div>
 
 <!-- Modal -->
-  <div class="modal fade bd-example-modal-lg" id="exampleModalCenter"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="modalshowhide">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content white-block">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Persona</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="sign-up-form form">
+        <input type="hidden" name="accion" class="form-control" id="accion">
+        <input type="hidden" name="id_usuario" class="form-control" id="id_usuario">
         <div class="row">
-          <div class="form-group col-md-6">
-            <label class="form-label" for="inputCedula">Cédula</label>
-            <input type="text" class="form-control form-input" id="inputCedula" placeholder="Cédula" required>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="inputCedula">Cédula</label>
+              <input type="text" class="form-control form-input" id="inputCedula" placeholder="Cédula" required>
+            </div>
+            <span id="sinputCedula"></span>
           </div>
-          <div class="form-group col-md-6">
-            <label class="form-label" for="inputNombres">Nombres</label>
-            <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="inputNombres">Nombres</label>
+              <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
+            </div>
+            <span id="sinputNombres"></span>
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-6">
-            <label class="form-label" for="inputApellidos">Apellidos</label>
-            <input type="text" class="form-control form-input" id="inputApellidos" placeholder="Apellidos" required>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="inputApellidos">Apellidos</label>
+              <input type="text" class="form-control form-input" id="inputApellidos" placeholder="Apellidos" required>
+            </div>
+            <span id="sinputApellidos"></span>
           </div>
-          <div class="form-group col-md-6">
-            <label class="form-label" for="inputSexo">Sexo</label>
-            <select id="inputSexo" class="form-control form-input" required>
-              <option selected>Seleccione...</option>
-              <option>Masculino</option>
-              <option>Femenino</option>
-              <option>Otro</option>
-            </select>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="inputSexo">Sexo</label>
+              <select id="inputSexo" class="form-control form-input" required>
+                <option value="0" selected>Seleccione...</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <span id="sinputSexo"></span>
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-6">
-            <label class="form-label" for="inputPassword">Contraseña</label>
-            <input type="password" class="form-control form-input" id="inputPassword" placeholder="Contraseña" required>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="form-label" for="inputPassword">Contraseña</label>
+              <input type="password" class="form-control form-input" id="inputPassword" placeholder="Contraseña" required>
+            </div>
+            <span id="sinputPassword"></span>
           </div>
-          <div class="form-group col-md-6">
-          <label class="form-label" for="inputSexo">Nombre de Sección</label>
-          <select id="inputSexo" class="form-control form-input" required>
-              <option selected>Seleccione...</option>
-            </select>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="form-label" for="inputPassword2">Repetir Contraseña</label>
+              <input type="password" class="form-control form-input" id="inputPassword2" placeholder="Repetir Contraseña" required>
+            </div>
           </div>
+          <div class="col-md-4">
+            <div class="form-group"> 
+                <label class="form-label" for="seccion">Nombre de Sección</label>
+                <input list="tipoSeccion" id="seccion" placeholder="Sección" class="form-control form-input" required>
+                <datalist id="tipoSeccion">
+                    <?php foreach($list as $key => $section) {?>
+                    <option value="<?php echo $section["nombre_seccion"]; ?>" data-id="<?php echo $section["id_seccion"]; ?>"></option>
+                    <?php }?>
+                </datalist>
+              </div>
+              <span id="sseccion"></span>
+            </div>
         </div>
       </form>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="enviar" type="button" class="btn btn-primary">Registrar</button>
       </div>
     </div>
   </div>
@@ -163,7 +190,7 @@
     </div>
     <div class="card-footer">
       <div class="d-flex justify-content-center">
-        <button type="submit"  data-toggle="modal" data-target="#exampleModalCenter" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Persona</button>
+      <button type="submit" id="nuevo" data-toggle="modal" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Usuario</button>
       </div>
     </div>
   </div>
@@ -181,6 +208,8 @@
 <script src="content/js/datatables-Usuarios.js"></script>
 
 <script src="content/js/script.js"></script>
+
+<script src="content/js/usuario.js"></script>
 </body>
 
 </html>

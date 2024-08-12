@@ -65,18 +65,18 @@ use config\componentes\configSistema as configSistema;
                             <span id="sclave2"></span>
                         </div>
                         <div class="col-12">
-                                <div class="input-group mb-1">
-                                    <span class="input-group-text" id="inputGroup-sizing-default">Sección</span>
-                                    <select type="select" class="form-select" id="seccion" aria-label="Default select example">
-                                        <option value="0" selected>--Seleccione--</option>
-                                        <?php foreach($list as $key => $section) {?>
-                                          <option value="<?php echo $section["id_seccion"];?>"><?php echo $section["nombre_seccion"]; ?></option>
-                                        <?php }?>
-                                    </select>
-                                </div>
-                                <span id="sseccion"></span>
+                            <div class="input-group mb-1">
+                                <label class="input-group-text" for="seccion">Sección</label>
+                                <input list="tipoSeccion" id="seccion" placeholder="Sección" class="form-control" required>
+                                <datalist id="tipoSeccion">
+                                    <?php foreach($list as $key => $section) {?>
+                                    <option value="<?php echo $section["nombre_seccion"]; ?>" data-id="<?php echo $section["id_seccion"]; ?>"></option>
+                                    <?php }?>
+                                </datalist>
                             </div>
-                    </div>
+                            <span id="sseccion"></span>
+                        </div>
+                    </div>  
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button id="enviar" type="button" style="background:#2f49d1" class="btn btn-primary">Registrar</button>

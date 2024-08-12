@@ -2,6 +2,21 @@ var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
 var keyup_clave =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
 
+function obtenerIdSeccion() {
+    let input = $("#seccion").val();
+    let options = document.getElementById('tipoSeccion').options;
+    let selectedId = '';
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === input) {
+            selectedId = options[i].getAttribute('data-id');
+            break;
+        }
+    }
+
+    return selectedId;
+}
+
 document.onload = carga();
 function carga() {
 /*--------------VALIDACION PARA CEDULA--------------------*/
@@ -83,10 +98,16 @@ document.getElementById("clave").onkeyup = function () {
 document.getElementById("enviar").onclick = function () {
     a = valida_registrar();
     if (a != "") {
-    }if($("#clave").val() != $("#clave2").val()){
+    }else if($("#clave").val() != $("#clave2").val()){
         document.getElementById("sclave").innerText = "¡Las claves no coinciden!";
+        document.getElementById("clave").classList.add("is-invalid");
+        document.getElementById("clave2").classList.add("is-invalid");
     }else {
         document.getElementById("sclave").innerText = "";
+        document.getElementById("clave").classList.remove("is-invalid");
+        document.getElementById("clave2").classList.remove("is-invalid");
+        document.getElementById("clave").classList.add("is-valid");
+        document.getElementById("clave2").classList.add("is-valid");
         var datos = new FormData();
         datos.append("accion", 'registrar_usuario');
         datos.append("id", $("#id_usuario").val());
@@ -95,7 +116,7 @@ document.getElementById("enviar").onclick = function () {
         datos.append("apellidos", $("#apellidos").val());
         datos.append("sexo", $("#sexo").val());
         datos.append("clave", $("#clave").val());
-        datos.append("seccion", $("#seccion").val());
+        datos.append("seccion", obtenerIdSeccion());
         enviaAjax(datos);
     }
 };
@@ -221,10 +242,10 @@ function valida_registrar() {
         keyup_clave,
         document.getElementById("clave"),
         document.getElementById("sclave"),
-        "* El formato debe ser 0426-1234567"
+        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
     );
 
-    if(document.getElementById("seccion").value == 0){
+    if(obtenerIdSeccion() == ""){
         document.getElementById("sseccion").innerHTML ="* Seleccione una sección";
         document.getElementById("sseccion").style.color = "red";
         document.getElementById("seccion").classList.add("is-invalid");
@@ -239,8 +260,8 @@ function valida_registrar() {
         nombres == 0 ||
         apellidos == 0 ||
         document.getElementById("sexo").value == 0 ||
-        document.getElementById("seccion").value == 0 ||
-        clave == 0 
+        clave == 0  ||    
+        obtenerIdSeccion() == ""
     ){
         error = true;
     }

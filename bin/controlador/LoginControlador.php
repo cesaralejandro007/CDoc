@@ -18,16 +18,26 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 $res_usuario = $login->verificar_usuario($usuario,$clave);
                 if($res_usuario == true){
                     $info_usuario = $login->datos_usuario($usuario);
-                    foreach ($info_usuario as $datos) {
-                        $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'sexo' => $datos['sexo'], 'seccion' => $datos['id_seccion']);
+                    if($info_usuario[0]['estatus']==1){
+                        foreach ($info_usuario as $datos) {
+                            $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'sexo' => $datos['sexo'], 'seccion' => $datos['id_seccion']);
+                        }
+                        echo json_encode([
+                            'estatus' => '1',
+                            'icon' => 'success',
+                            'title' => 'Login',
+                            'message' => 'Inicio exitoso!'
+                        ]);
+                        return 0;                         
+                    }else{
+                        echo json_encode([
+                            'estatus' => '2',
+                            'icon' => 'info',
+                            'title' => 'Login',
+                            'message' => 'La persona esta deshabilitada!'
+                        ]);
+                        return 0;
                     }
-                    echo json_encode([
-                        'estatus' => '1',
-                        'icon' => 'success',
-                        'title' => 'Login',
-                        'message' => 'Inicio exitoso!'
-                    ]);
-                    return 0;
                 }
                 else{
                     echo json_encode([
