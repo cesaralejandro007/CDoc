@@ -51,7 +51,7 @@
         <input list="tipoDocumentos" id="inputTipo" placeholder="Tipo de Documento" class="form-control form-input" required>
         <datalist id="tipoDocumentos">
             <?php foreach($listTDoc as $key => $tipo) {?>
-              <option value="<?php echo $tipo["nombre_doc"]; ?> / <?php echo $tipo["descripcion_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
+              <option value="<?php echo $tipo["nombre_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
             <?php }?>
         </datalist>
         <span id="stipo"></span>

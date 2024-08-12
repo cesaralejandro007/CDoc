@@ -6,6 +6,98 @@
 <body>
   <div class="layer"></div>
 <!-- ! Body -->
+
+<div class="modal fade bd-example-modal-lg" id="modalshowhide">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content white-block">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Documento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="sign-up-form form">
+    <div class="row">
+      <input type="hidden" name="accion" class="form-control" id="accion">
+      <input type="hidden" name="id_documento" class="form-control" id="id_documento">
+      <input type="hidden" name="id_salida" class="form-control" id="id_salida">
+        <div class="form-group col-6">
+            <label class="form-label" for="inputTipoDocumento">Entrada / Sin entrada</label>
+            <select id="inputTipoDocumento" class="form-control form-input" required>
+                <option selected value="1">Documento de entrada</option>
+                <option value="2">Documento sin entrada</option>
+            </select>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="form-label" for="inputNumeroDocumento">Nº de Documento</label>
+            <input type="text" class="form-control form-input" id="inputNumeroDocumento" placeholder="Nº documento" required>
+          </div>
+          <span id="snumeroDocumento"></span>
+        </div>
+    </div> 
+    <div class="row">      
+        <div class="col-6">
+          <div class="form-group">
+              <label class="form-label" for="inputFecha">Fecha de entrada</label>
+              <input type="date" class="form-control form-input" id="inputFecha" placeholder="Fecha de entrada">
+          </div>
+          <span id="sfecha"></span>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+              <label class="form-label" for="inputFecha">Fecha de salida</label>
+              <input type="date" class="form-control form-input" id="inputFechas" placeholder="Fecha de Salida">
+          </div>
+          <span id="sfechas"></span>
+        </div>
+    </div>
+    <div class="row">
+    <div class="form-group col-md-6">
+        <label class="form-label" for="inputTipo">Tipo de Documento</label>
+        <input list="tipoDocumentos" id="inputTipo" placeholder="Tipo de Documento" class="form-control form-input" required>
+        <datalist id="tipoDocumentos">
+            <?php foreach($listTDoc as $key => $tipo) {?>
+              <option value="<?php echo $tipo["nombre_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
+            <?php }?>
+        </datalist>
+        <span id="stipo"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="form-label" for="inputRemitente">Nombre de Remitente</label>
+        <input list="remitentes" id="inputRemitente"  placeholder="Nombre de Remitente" class="form-control form-input">
+        <datalist id="remitentes">
+            <?php foreach($listRemit as $key => $renit) {?>
+              <option value="<?php echo $renit["nombre_rem"]; ?>" data-id="<?php echo $renit["id_remitente"]; ?>"></option>
+            <?php }?>
+        </datalist>
+        <span id="sremitente"></span>
+    </div>
+</div>
+<div class="row">
+      <div class="form-group col-6">
+          <label class="form-label" for="inputDestinatario">Destinatario</label>
+          <input list="tipoDestinatario" id="inputDestinatario" placeholder="Destinatario" class="form-control form-input" required>
+          <datalist id="tipoDestinatario">
+              <?php foreach($listDestinarios as $key => $tipo) {?>
+                <option value="<?php echo $tipo["nombre_des"]; ?>" data-id="<?php echo $tipo["id_destinatario"]; ?>"></option>
+              <?php }?>
+          </datalist>
+          <span id="sdestinatario"></span>
+      </div>
+        <div class="form-group col-6">
+            <label class="form-label" for="inputDescripcion">Descripción del Documento</label>
+            <textarea id="inputDescripcion" class="form-control form-input" style="height: 100px;" placeholder="Descripción del documento"></textarea>
+        </div>
+        <span id="sdescripcion"></span>
+    </div>
+</form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="enviar">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <a class="skip-link sr-only" href="#skip-target">Skip to content</a>
 <div class="page-flex">
   <!-- ! Sidebar -->
@@ -79,11 +171,11 @@
               </td>
               <td style="text-align: center;" class="project-actions text-left">
                   <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                  onclick="eliminar(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                  onclick="eliminar(<?=$valor['id_documento'];?>,<?=$valor['id_salida'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
                   <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Migrar"
-                  onclick="migrarDoc(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+                  onclick="migrarDoc(<?=$valor['id_documento'];?>,<?=$valor['id_salida'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
                   <?php echo $valor['usuario_completo']; ?>
@@ -127,6 +219,7 @@
 <script src="content/js/datatables-docSalida.js"></script>
 
 <script src="content/js/script.js"></script>
+<script src="content/js/documentos_salida.js"></script>
 </body>
 
 </html>
