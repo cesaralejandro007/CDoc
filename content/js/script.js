@@ -326,110 +326,169 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Visitors chart */
 
 
-    var ctx = document.getElementById('myChart');
+reporte_doc();
 
-    if (ctx) {
-      var myCanvas = ctx.getContext('2d');
-      var myChart = new Chart(myCanvas, {
-        type: 'line',
-        data: {
-          labels: ['Enero','Febrero','Marzo','Abril', 'Mayo','julio','junio','Agosto','Septiembre','Octubre','Nomviembre','Diciembre'],
-          datasets: [{
-            label: 'todos Doc.',
-            data: [80, 100, 120, 56, 70, 56, 77],
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
-            backgroundColor: ['rgb(75, 222, 151)'],
-            borderColor: ['rgb(75, 222, 151)'],
-            borderWidth: 2
-          },{
-            label: 'Doc. Entrada',
-            data: [35, 27, 40, 15, 30, 25, 45],
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
-            backgroundColor: ['rgb(47, 73, 209)'],
-            borderColor: ['rgb(47, 73, 209)'],
-            borderWidth: 2
-          }, {
-            label: 'Doc. Salida',
-            data: [20, 36, 16, 45, 29, 32, 10],
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
-            backgroundColor: ['rgb(255, 182, 72)'],
-            borderColor: ['rgb(255, 182, 72)'],
-            borderWidth: 2
-          },{
-            label: 'Doc. Sin entrada',
-            data: [24, 12, 10, 30, 24, 15, 50],
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
-            backgroundColor: ['rgb(242, 100, 100)'],
-            borderColor: ['rgb(242, 100, 100)'],
-            borderWidth: 2
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              min: 0,
-              max: 200,
-              ticks: {
-                stepSize: 25
+function reporte_doc() {
+  var datos = new FormData();
+  datos.append("accion", "reporte_doc");
+
+  $.ajax({
+    url: "", // Agrega tu URL de endpoint aquí
+    type: "POST",
+    contentType: false,
+    data: datos,
+    processData: false,
+    cache: false,
+    success: (response) => {
+      // Parsear la respuesta JSON
+      var datos = JSON.parse(response);
+
+      // Actualizar el gráfico
+      var ctx = document.getElementById('myChart');
+      if (ctx) {
+        var myCanvas = ctx.getContext('2d');
+        var myChart = new Chart(myCanvas, {
+          type: 'line',
+          data: {
+            labels: ['Enero','Febrero','Marzo','Abril', 'Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            datasets: [
+              {
+                label: 'Todos Doc.',
+                data: Object.values(datos.todos),
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                backgroundColor: ['rgb(75, 222, 151)'],
+                borderColor: ['rgb(75, 222, 151)'],
+                borderWidth: 2
               },
-              grid: {
-                display: false
+              {
+                label: 'Doc. Entrada',
+                data: Object.values(datos.entrada),
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                backgroundColor: ['rgb(47, 73, 209)'],
+                borderColor: ['rgb(47, 73, 209)'],
+                borderWidth: 2
+              },
+              {
+                label: 'Doc. Salida',
+                data: Object.values(datos.salida),
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                backgroundColor: ['rgb(255, 182, 72)'],
+                borderColor: ['rgb(255, 182, 72)'],
+                borderWidth: 2
+              },
+              {
+                label: 'Doc. Sin entrada',
+                data: Object.values(datos.sin_entrada),
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4,
+                backgroundColor: ['rgb(242, 100, 100)'],
+                borderColor: ['rgb(242, 100, 100)'],
+                borderWidth: 2
               }
-            },
-            x: {
-              grid: {
-                color: gridLine
-              }
-            }
+            ]
           },
-          elements: {
-            point: {
-              radius: 2
-            }
-          },
-          plugins: {
-            legend: {
-              position: 'top',
-              align: 'end',
-              labels: {
-                boxWidth: 8,
-                boxHeight: 8,
-                usePointStyle: true,
-                font: {
-                  size: 12,
-                  weight: '500'
+          options: {
+            scales: {
+              y: {
+                min: 0,
+                max: 800,
+                ticks: {
+                  stepSize: 200
+                },
+                grid: {
+                  display: false
+                }
+              },
+              x: {
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.1)'
                 }
               }
             },
-            title: {
-              display: true,
-              text: ['Tolal de Doc x meses', 'Enero - Diciembre'],
-              align: 'start',
-              color: '#171717',
-              font: {
-                size: 16,
-                family: 'Inter',
-                weight: '600',
-                lineHeight: 1.4
+            elements: {
+              point: {
+                radius: 2
               }
+            },
+            plugins: {
+              legend: {
+                position: 'top',
+                align: 'end',
+                labels: {
+                  boxWidth: 8,
+                  boxHeight: 8,
+                  usePointStyle: true,
+                  font: {
+                    size: 12,
+                    weight: '500'
+                  }
+                }
+              },
+              title: {
+                display: true,
+                text: ['Total de Documentos x Meses', 'Enero - Diciembre'],
+                align: 'start',
+                color: '#171717',
+                font: {
+                  size: 16,
+                  family: 'Inter',
+                  weight: '600',
+                  lineHeight: 1.4
+                }
+              }
+            },
+            tooltips: {
+              mode: 'index',
+              intersect: false
+            },
+            hover: {
+              mode: 'nearest',
+              intersect: true
             }
-          },
-          tooltips: {
-            mode: 'index',
-            intersect: false
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true
           }
-        }
+        });
+        charts.visitors = myChart;
+      }
+
+      // Llenar la tabla con los datos
+      var tabla = document.getElementById('tablaDocumentos').getElementsByTagName('tbody')[0];
+      tabla.innerHTML = ''; // Limpiar el contenido actual
+
+      var meses = ['Enero','Febrero','Marzo','Abril', 'Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+      
+      // Desplazar los datos un mes hacia adelante
+      var datosDesplazados = {
+        todos: Object.values(datos.todos),
+        entrada: Object.values(datos.entrada),
+        salida: Object.values(datos.salida),
+        sin_entrada: Object.values(datos.sin_entrada)
+      };
+
+      for (var i = 0; i < 12; i++) {
+        var fila = tabla.insertRow();
+        fila.insertCell().textContent = meses[i];
+        fila.insertCell().textContent = datosDesplazados.todos[i] || 0;
+        fila.insertCell().textContent = datosDesplazados.entrada[i] || 0;
+        fila.insertCell().textContent = datosDesplazados.salida[i] || 0;
+        fila.insertCell().textContent = datosDesplazados.sin_entrada[i] || 0;
+      }
+
+    },
+    error: (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salió mal!',
       });
-      charts.visitors = myChart;
     }
+  });
+}
+
+
+
     /* Customers chart */
 
 

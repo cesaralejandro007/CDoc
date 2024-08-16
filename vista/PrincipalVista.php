@@ -58,7 +58,7 @@
                 <i data-feather="file" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">1478 286</p>
+                <p class="stat-cards-info__num"><?php echo $principal->count_doc_entrada() ?></p>
                 <p class="stat-cards-info__title">Total Doc. entrada</p>
               </div>
             </article>
@@ -69,7 +69,7 @@
                 <i data-feather="file" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">1478 286</p>
+                <p class="stat-cards-info__num"> <?php echo $principal->count_doc_salida() ?>
                 <p class="stat-cards-info__title">Total Doc. Salida</p>
               </div>
             </article>
@@ -80,7 +80,7 @@
                 <i data-feather="file" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-info">
-                <p class="stat-cards-info__num">1378 286</p>
+                <p class="stat-cards-info__num"><?php echo $principal->count_doc_sin_entrada() ?></p>
                 <p class="stat-cards-info__title">Total Doc. sin Entrada</p>
               </div>
             </article>
@@ -91,7 +91,7 @@
                 <i data-feather="file" aria-hidden="true"></i>
               </div>
               <div class="stat-cards-danger">
-                <p class="stat-cards-info__num">1378 286</p>
+                <p class="stat-cards-info__num"><?php echo $principal->count_doc_total() ?></p>
                 <p class="stat-cards-info__title">Total Doc</p>
               </div>
             </article>
@@ -102,6 +102,30 @@
             <div class="chart">
               <canvas id="myChart" aria-label="Site statistics" role="img"></canvas>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+          <div class="card white-block m-1">
+          <div class="card-body">
+          <div class="users-table table-responsive py-2 m-0">
+          <table id="tablaDocumentos" class="posts-table table_principal">
+                <thead>
+                  <tr>
+                    <th>Mes</th>
+                    <th>Todos Doc.</th>
+                    <th>Doc. Entrada</th>
+                    <th>Doc. Salida</th>
+                    <th>Doc. Sin Entrada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Las filas se llenarán dinámicamente con JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
           </div>
         </div>
       </div>
@@ -116,6 +140,8 @@
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="content/js/script.js"></script>
+
+<script src="content/js/datatables-principal.js"></script>
 </body>
 
 </html>
