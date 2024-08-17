@@ -18,29 +18,29 @@
         <input type="hidden" name="accion" class="form-control" id="accion">
         <input type="hidden" name="id_usuario" class="form-control" id="id_usuario">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="form-label" for="inputCedula">Cédula</label>
               <input type="text" class="form-control form-input" id="inputCedula" placeholder="Cédula" required>
             </div>
             <span id="sinputCedula"></span>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="form-label" for="inputNombres">Nombres</label>
               <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
             </div>
             <span id="sinputNombres"></span>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="form-label" for="inputApellidos">Apellidos</label>
               <input type="text" class="form-control form-input" id="inputApellidos" placeholder="Apellidos" required>
             </div>
             <span id="sinputApellidos"></span>
           </div>
+        </div>
+        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label class="form-label" for="inputSexo">Sexo</label>
@@ -52,6 +52,15 @@
               </select>
             </div>
             <span id="sinputSexo"></span>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-label" for="rol">Rol</label>
+              <select id="rol" class="form-control form-input" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Usuario">Usuario</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="row">

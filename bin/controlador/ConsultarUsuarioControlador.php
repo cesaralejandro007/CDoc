@@ -21,11 +21,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
             $nombres = $_POST['inputNombres'];
             $apellidos = $_POST['inputApellidos'];
+            $rol = $_POST['rol'];
             $sexo = $_POST['inputSexo'];
             $clave_encriptada = password_hash($_POST['inputPassword'], PASSWORD_DEFAULT);
             $seccion = $_POST['seccion'];
 
-            $response = $Usuario->registrar_usuario($cedula,$nombres,$apellidos,$sexo,$clave_encriptada,$seccion);
+            $response = $Usuario->registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '1',
@@ -71,6 +72,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'cedula' => $valor['cedula'],
                     'nombres' => $valor['nombres'],
                     'apellidos' => $valor['apellidos'],
+                    'rol' => $valor['rol'],
                     'sexo' => $valor['sexo'],
                     'id_seccion' => $valor['nombre_seccion']
                 ]);
@@ -81,10 +83,11 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $cedula = $_POST['cedula'];
             $nombres = $_POST['inputNombres'];
             $apellidos = $_POST['inputApellidos'];
+            $rol = $_POST['rol'];
             $sexo = $_POST['inputSexo'];
             $clave_encriptada = password_hash($_POST['inputPassword'], PASSWORD_DEFAULT);
             $seccion = $_POST['seccion'];
-            $response = $Usuario->modificar($id_usuario,$cedula,$nombres,$apellidos,$sexo,$clave_encriptada,$seccion);
+            $response = $Usuario->modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',

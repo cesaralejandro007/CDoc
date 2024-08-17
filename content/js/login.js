@@ -114,6 +114,7 @@ document.getElementById("enviar").onclick = function () {
         datos.append("cedula", $("#user").val());
         datos.append("nombres", $("#nombres").val());
         datos.append("apellidos", $("#apellidos").val());
+        datos.append("rol", $("#rol").val());
         datos.append("sexo", $("#sexo").val());
         datos.append("clave", $("#clave").val());
         datos.append("seccion", obtenerIdSeccion());

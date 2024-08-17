@@ -22,9 +22,11 @@ use config\componentes\configSistema as configSistema;
                 <li>
                     <a href="?pagina=<?php configSistema::_PRINCIPAL_();?>"><span class="icon home" aria-hidden="true"></span>Principal</a>
                 </li>
+                <?php if($_SESSION["usuario"]["rol"] == 'Administrador'){ ?>
                 <li>
                     <a href="?pagina=<?php configSistema::_ConsultarUsuario_();?>"><span class="icon document" aria-hidden="true"></span>Usuarios</a>
                 </li>
+                <?php  } ?>
                 <li>
                     <a class="show-cat-btn" href="##">
                         <span class="icon folder" aria-hidden="true"></span>Gestionar Doc.

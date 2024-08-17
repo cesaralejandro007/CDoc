@@ -41,6 +41,16 @@ use config\componentes\configSistema as configSistema;
                         </div>
                         <div class="col-12">
                                 <div class="input-group mb-1">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Rol</span>
+                                    <select type="select" class="form-select" id="rol" aria-label="Default select example">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Usuario">Usuario</option>
+                                    </select>
+                                </div>
+                                <span id="ssexo"></span>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-1">
                                     <span class="input-group-text" id="inputGroup-sizing-default">Sexo</span>
                                     <select type="select" class="form-select" id="sexo" aria-label="Default select example">
                                         <option value="0" selected>--Seleccione--</option>

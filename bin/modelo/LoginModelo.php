@@ -6,6 +6,7 @@ class loginModelo extends connectDB
     private $cedula;
     private $nombres;
     private $apellidos;
+    private $rol;
     private $sexo;
     private $password;
     private $seccion;
@@ -20,6 +21,10 @@ class loginModelo extends connectDB
     public function set_apellidos($valor)
     {
         $this->apellidos = $valor;
+    }
+    public function set_rol($valor)
+    {
+        $this->rol = $valor;
     }
     public function set_sexo($valor)
     {
@@ -49,6 +54,7 @@ class loginModelo extends connectDB
         					cedula,
                             nombres,
                             apellidos,
+                            rol,
         					sexo,
         					contrasena,
                             id_seccion,
@@ -58,6 +64,7 @@ class loginModelo extends connectDB
                             '$this->cedula',
         					'$this->nombres',
         					'$this->apellidos',
+                            '$this->rol',
         					'$this->sexo',
         					'$this->password',
                             '$this->seccion',

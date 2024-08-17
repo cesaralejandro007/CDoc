@@ -114,6 +114,7 @@ document.getElementById("enviar").onclick = function () {
         datos.append("cedula", $("#inputCedula").val());
         datos.append("inputNombres", $("#inputNombres").val());
         datos.append("inputApellidos", $("#inputApellidos").val());
+        datos.append("rol", $("#rol").val());
         datos.append("inputSexo", $("#inputSexo").val());
         datos.append("inputPassword", $("#inputPassword").val());
         datos.append("seccion", obtenerIdSeccion());
@@ -378,6 +379,7 @@ function mostrar(datos) {
             $("#inputCedula").val(res.cedula);
             $("#inputNombres").val(res.nombres);
             $("#inputApellidos").val(res.apellidos);
+            $("#rol").val(res.rol);
             $("#inputSexo").val(res.sexo);
             $("#seccion").val(res.id_seccion);
             $("#enviar").text("Modificar");

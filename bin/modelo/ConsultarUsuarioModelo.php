@@ -3,7 +3,7 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class ConsultarUsuarioModelo extends connectDB
 {
-    public function registrar_usuario($cedula,$nombres,$apellidos,$sexo,$clave_encriptada,$seccion)
+    public function registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
     {
         $validar_registro = $this->validar_registro($cedula);
         if ($validar_registro) {
@@ -84,14 +84,14 @@ class ConsultarUsuarioModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_usuario,$cedula,$nombres,$apellidos,$sexo,$clave_encriptada,$seccion)
+    public function modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
     {
         $validar_modificar = $this->validar_modificar($id_usuario, $cedula);
         if ($validar_modificar) {
             return false;
         }else {
             try {
-                $this->conex->query("UPDATE usuarios SET cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', sexo = '$sexo', contrasena = '$clave_encriptada', id_seccion = '$seccion' WHERE id_usuario  = '$id_usuario'");
+                $this->conex->query("UPDATE usuarios SET cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', rol = '$rol', sexo = '$sexo', contrasena = '$clave_encriptada', id_seccion = '$seccion' WHERE id_usuario  = '$id_usuario'");
                 return true;
             } catch (Exception $e) {
                 return false;

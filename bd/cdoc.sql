@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-08-2024 a las 20:23:39
+-- Tiempo de generación: 17-08-2024 a las 17:18:24
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -366,7 +366,7 @@ INSERT INTO `remitentes` (`id_remitente`, `nombre_rem`) VALUES
 
 CREATE TABLE `salidas` (
   `id_salida` int(11) NOT NULL,
-  `fecha_salida` date NOT NULL,
+  `fecha_salida` datetime NOT NULL,
   `id_documento` int(11) NOT NULL,
   `id_destinatario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -523,6 +523,7 @@ CREATE TABLE `usuarios` (
   `cedula` varchar(12) NOT NULL,
   `nombres` text NOT NULL,
   `apellidos` text NOT NULL,
+  `rol` varchar(20) NOT NULL,
   `sexo` varchar(9) NOT NULL,
   `contrasena` text NOT NULL,
   `id_seccion` int(11) NOT NULL,
@@ -533,8 +534,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
-(3, '28055655', 'Cesar', 'Vides', 'Masculino', '$2y$10$D0OYMx036bzPoyppTavigOmeNCLaUO.zYGk45pUYtBqvpJ0o68Xom', 1, 1);
+INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
+(3, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$QMAiHn5IL6ZsRqhYWQ9RDO/LxrnONvJB4bLPTHcaOS/3FVWNOejLS', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -608,7 +609,7 @@ ALTER TABLE `destinatarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_documento`
@@ -626,7 +627,7 @@ ALTER TABLE `remitentes`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `secciones`
@@ -644,7 +645,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas

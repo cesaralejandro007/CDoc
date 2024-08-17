@@ -108,22 +108,9 @@
           <div class="col-lg-12">
           <div class="card white-block m-1">
           <div class="card-body">
-          <div class="users-table table-responsive py-2 m-0">
-          <table id="tablaDocumentos" class="posts-table table_principal">
-                <thead>
-                  <tr>
-                    <th>Mes</th>
-                    <th>Todos Doc.</th>
-                    <th>Doc. Entrada</th>
-                    <th>Doc. Salida</th>
-                    <th>Doc. Sin Entrada</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Las filas se llenarán dinámicamente con JavaScript -->
-                </tbody>
-              </table>
-            </div>
+          <div id="contenedorTabla">
+
+          </div>
           </div>
           </div>
           </div>
@@ -141,7 +128,6 @@
 <!-- Custom scripts -->
 <script src="content/js/script.js"></script>
 
-<script src="content/js/datatables-principal.js"></script>
 </body>
 
 </html>
