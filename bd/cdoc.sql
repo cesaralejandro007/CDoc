@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-08-2024 a las 17:18:24
+-- Tiempo de generación: 18-08-2024 a las 06:00:59
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -173,6 +173,25 @@ CREATE TABLE `historial_documento` (
   `descripcion_historial` text NOT NULL,
   `fecha_historial` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `meta`
+--
+
+CREATE TABLE `meta` (
+  `id_meta` int(11) NOT NULL,
+  `meta` text NOT NULL,
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `meta`
+--
+
+INSERT INTO `meta` (`id_meta`, `meta`, `fecha`) VALUES
+(1, '800', '2024-08-01');
 
 -- --------------------------------------------------------
 
@@ -380,15 +399,15 @@ CREATE TABLE `salidas` (
 CREATE TABLE `secciones` (
   `id_seccion` int(11) NOT NULL,
   `nombre_seccion` text NOT NULL,
-  `meta` int(11) NOT NULL
+  `id_meta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `secciones`
 --
 
-INSERT INTO `secciones` (`id_seccion`, `nombre_seccion`, `meta`) VALUES
-(1, 'RRHH', 800);
+INSERT INTO `secciones` (`id_seccion`, `nombre_seccion`, `id_meta`) VALUES
+(2, 'RRHH', 1);
 
 -- --------------------------------------------------------
 
@@ -535,7 +554,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
-(3, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$QMAiHn5IL6ZsRqhYWQ9RDO/LxrnONvJB4bLPTHcaOS/3FVWNOejLS', 1, 1);
+(11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$aPDESdDRh3lSxC9Ddi96/eLPQ90/2xVkfaQPE2HH5sT6qrShM5vUm', 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -563,6 +582,12 @@ ALTER TABLE `historial_documento`
   ADD PRIMARY KEY (`id_historial`);
 
 --
+-- Indices de la tabla `meta`
+--
+ALTER TABLE `meta`
+  ADD PRIMARY KEY (`id_meta`);
+
+--
 -- Indices de la tabla `remitentes`
 --
 ALTER TABLE `remitentes`
@@ -580,7 +605,8 @@ ALTER TABLE `salidas`
 -- Indices de la tabla `secciones`
 --
 ALTER TABLE `secciones`
-  ADD PRIMARY KEY (`id_seccion`);
+  ADD PRIMARY KEY (`id_seccion`),
+  ADD KEY `id_meta` (`id_meta`);
 
 --
 -- Indices de la tabla `tipos_documentos`
@@ -618,6 +644,12 @@ ALTER TABLE `historial_documento`
   MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `meta`
+--
+ALTER TABLE `meta`
+  MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `remitentes`
 --
 ALTER TABLE `remitentes`
@@ -633,7 +665,7 @@ ALTER TABLE `salidas`
 -- AUTO_INCREMENT de la tabla `secciones`
 --
 ALTER TABLE `secciones`
-  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_documentos`
@@ -645,7 +677,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -665,6 +697,12 @@ ALTER TABLE `documentos`
 ALTER TABLE `salidas`
   ADD CONSTRAINT `salidas_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documentos` (`id_documento`),
   ADD CONSTRAINT `salidas_ibfk_2` FOREIGN KEY (`id_destinatario`) REFERENCES `destinatarios` (`id_destinatario`);
+
+--
+-- Filtros para la tabla `secciones`
+--
+ALTER TABLE `secciones`
+  ADD CONSTRAINT `secciones_ibfk_1` FOREIGN KEY (`id_meta`) REFERENCES `meta` (`id_meta`);
 
 --
 -- Filtros para la tabla `usuarios`

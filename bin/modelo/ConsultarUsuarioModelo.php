@@ -37,7 +37,7 @@ class ConsultarUsuarioModelo extends connectDB
 
     public function listar_usuario()
     {
-        $resultado = $this->conex->prepare("SELECT * FROM usuarios,secciones WHERE secciones.id_seccion = usuarios.id_seccion AND usuarios.estatus ='1'");
+        $resultado = $this->conex->prepare("SELECT * FROM usuarios,secciones,meta WHERE secciones.id_seccion = usuarios.id_seccion AND secciones.id_meta = meta.id_meta AND usuarios.estatus ='1'");
         $respuestaArreglo = [];
         try {
             $resultado->execute();
