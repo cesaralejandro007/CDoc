@@ -127,6 +127,7 @@
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="content/js/script.js"></script>
+<script src="content/js/reporte_principal.js"></script>
 
 </body>
 
