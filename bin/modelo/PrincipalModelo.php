@@ -52,7 +52,47 @@ class PrincipalModelo extends connectDB
             return 0; 
         }
     }   
-     
+
+    public function comprobar_meta()
+    {
+        $año = date('Y');
+        $mesActual = date('n'); // Obtiene el mes actual sin ceros a la izquierda
+    
+        try {
+            // Verificar si hay datos para el mes actual y el año actual
+            $query = "SELECT * FROM meta WHERE YEAR(fecha) = $año AND MONTH(fecha) = $mesActual";
+            $resultado = $this->conex->prepare($query);
+            $resultado->execute();
+    
+            if ($resultado->rowCount() == 0) {
+               return true;
+            }else{
+                return false;
+            }
+    
+            return true;
+        } catch (Exception $e) {
+            return json_encode(false);
+        }
+    }
+    
+    public function registrar_meta_mes($fecha,$meta)
+    {
+    try {
+        $this->conex->query("INSERT INTO meta(
+                    meta,
+                    fecha
+                    )
+                VALUES(
+                    '$meta',
+                    '$fecha'
+                )");
+        return true;
+    } catch (Exception $e) {
+        return $e->getMessage();
+    }
+    }
+    
     public function reporte_documentos()
     {
         try {
@@ -60,7 +100,24 @@ class PrincipalModelo extends connectDB
             $año_actual = date('Y');            
             // Consulta para obtener documentos por estatus y mes, incluyendo meta
             $queries = [
-                'todos' => "SELECT meta.meta, MONTH(documentos.fecha_registro) AS mes, COUNT(*) AS cantidad FROM documentos,usuarios,secciones,meta WHERE documentos.id_usuario = usuarios.id_usuario AND usuarios.id_seccion = secciones.id_seccion AND secciones.id_meta AND meta.id_meta AND YEAR(documentos.fecha_registro) = YEAR(meta.fecha) AND MONTH(documentos.fecha_registro) = MONTH(meta.fecha) AND YEAR(documentos.fecha_registro) = $año_actual GROUP BY(mes)",
+                'todos' => "SELECT 
+                                meta.meta, 
+                                MONTH(documentos.fecha_registro) AS mes, 
+                                COUNT(*) AS cantidad 
+                            FROM 
+                                documentos
+                                INNER JOIN usuarios ON documentos.id_usuario = usuarios.id_usuario
+                                INNER JOIN secciones ON usuarios.id_seccion = secciones.id_seccion
+                                INNER JOIN seccionesxmeta ON secciones.id_seccion = seccionesxmeta.id_seccion
+                                INNER JOIN meta ON seccionesxmeta.id_meta = meta.id_meta 
+                            WHERE 
+                                YEAR(documentos.fecha_registro) = YEAR(meta.fecha) 
+                                AND MONTH(documentos.fecha_registro) = MONTH(meta.fecha) 
+                                AND YEAR(documentos.fecha_registro) = 2024 
+                            GROUP BY 
+                                mes, 
+                                meta.meta;
+                            ",
                 'entrada' => "SELECT MONTH(fecha_registro) AS mes, COUNT(*) AS cantidad
                               FROM documentos
                               WHERE estatus = 1 AND YEAR(fecha_registro) = $año_actual

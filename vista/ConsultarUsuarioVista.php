@@ -161,38 +161,64 @@
           </thead>
           <tbody>
           <?php
-                                foreach ($list as $valor) 
-                                {?>
+            foreach ($list as $valor) {
+              // Imprimir datos básicos del usuario
+              ?>
+              <tr>
+                  <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                      <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                      onclick="cargar_datos(<?=$valor['id_usuario'];?>);">
+                          <i style="font-size: 15px" class="fas fa-edit"></i>
+                      </button>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
+                      onclick="eliminar(<?=$valor['id_usuario'];?>);">
+                          <i style="font-size: 15px" class="fas fa-trash"></i>
+                      </button>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['cedula']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['nombres']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['apellidos']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['sexo']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['nombre_seccion']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                    <?php if (!empty($valor['metas'])) { ?>
+                        <div style="max-height: 100px; overflow-y: auto;">
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                    <td style="text-align: center; padding-left:0px" class="project-actions text-left">
-                                        <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
-                                        onclick="cargar_datos(<?=$valor['id_usuario'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                                        onclick="eliminar(<?=$valor['id_usuario'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['cedula']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['nombres']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['apellidos']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['sexo']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['nombre_seccion']; ?>
-                                    </td>
-                                    <td style="text-align: center;" class="project-actions text-left">
-                                        <?php echo $valor['meta']; ?>
-                                    </td>
+                                        <th style="text-align: center;">Mes</th>
+                                        <th style="text-align: center;">Meta</th>
                                     </tr>
-                            <?php
-                                }?>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($valor['metas'] as $meta) { ?>
+                                        <tr>
+                                            <td style="text-align: center;"><?php echo $meta['mes']; ?></td>
+                                            <td style="text-align: center;"><?php echo $meta['meta']; ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } else { ?>
+                        <p>No hay metas</p>
+                    <?php } ?>
+                </td>
+              </tr>
+              <?php
+            } ?>
           </tbody>
         </table>
       </div>

@@ -37,16 +37,47 @@ class ConsultarUsuarioModelo extends connectDB
 
     public function listar_usuario()
     {
-        $resultado = $this->conex->prepare("SELECT * FROM usuarios,secciones,meta WHERE secciones.id_seccion = usuarios.id_seccion AND secciones.id_meta = meta.id_meta AND usuarios.estatus ='1'");
-        $respuestaArreglo = [];
+        $usuarios = [];
+        $metas = [];
+    
         try {
-            $resultado->execute();
-            $respuestaArreglo = $resultado->fetchAll();
+            // Primera consulta: obtener todos los usuarios activos
+            $resultadoUsuarios = $this->conex->prepare("
+                SELECT *
+                FROM usuarios 
+                JOIN secciones ON secciones.id_seccion = usuarios.id_seccion 
+                WHERE usuarios.estatus = '1'
+            ");
+            $resultadoUsuarios->execute();
+            $usuarios = $resultadoUsuarios->fetchAll();
+    
+            // Consulta de metas para cada usuario
+            foreach ($usuarios as $usuario) {
+                $cedula = $usuario['cedula'];
+                $resultadoMetas = $this->conex->prepare("
+                    SELECT MONTH(meta.fecha) as mes, meta.meta 
+                    FROM usuarios
+                    JOIN secciones ON secciones.id_seccion = usuarios.id_seccion
+                    JOIN seccionesxmeta ON secciones.id_seccion = seccionesxmeta.id_seccion
+                    JOIN meta ON seccionesxmeta.id_meta = meta.id_meta
+                    WHERE usuarios.cedula = $cedula
+                ");
+                $resultadoMetas->execute();
+                $metas[$cedula] = $resultadoMetas->fetchAll();
+            }
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        return $respuestaArreglo;
+    
+        // Combinar los resultados
+        foreach ($usuarios as &$usuario) {
+            $cedula = $usuario['cedula'];
+            $usuario['metas'] = $metas[$cedula] ?? [];
+        }
+    
+        return $usuarios;
     }
+    
 
     public function listar_secciones()
     {

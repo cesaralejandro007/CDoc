@@ -1,3 +1,134 @@
+comprobar_meta();
+function comprobar_meta() {
+  const meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+  const mesActual = new Date().getMonth(); // 0-indexado (0 = Enero, 11 = Diciembre)
+  const fechaActual = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+  var datos = new FormData();
+  datos.append("accion", "comprobar_meta");
+
+  $.ajax({
+    url: "", // Agrega tu URL de endpoint aquí
+    type: "POST",
+    contentType: false,
+    data: datos,
+    processData: false,
+    cache: false,
+    success: (response) => {
+      let data = parseInt(response);
+
+      if (data === 1) {
+        Toast.fire({
+          icon: 'info',
+          title: 'Ya hay datos para de la meta el mes actual.'
+        });
+      } else if (data === 0) {
+        Swal.fire({
+          title: `Meta para el mes ${meses[mesActual]}`,
+          html: `
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">${meses[mesActual]}:</span>
+              <input type="text" id="meta" class="form-control" placeholder="Meta">
+            </div>
+          `,
+          showCancelButton: false,
+          allowOutsideClick: false,
+          confirmButtonText: 'Guardar',
+          preConfirm: () => {
+            const value = Swal.getPopup().querySelector('#meta').value.trim();
+            
+            if (value === '') {
+              Swal.showValidationMessage('El campo no puede estar vacío.');
+              return false;
+            } else if (isNaN(value)) {
+              Swal.showValidationMessage('El campo debe ser numérico.');
+              return false;
+            }
+            return { meta: parseFloat(value) };
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const meta = result.value.meta;
+
+            // Segunda confirmación antes de enviar
+            Swal.fire({
+              title: 'Confirmación',
+              text: `¿Estás seguro de que deseas guardar la meta de ${meta} para el mes de ${meses[mesActual]}?`,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, guardar',
+              cancelButtonText: 'Cancelar'
+            }).then((confirmResult) => {
+              if (confirmResult.isConfirmed) {
+                var datos = new FormData();
+                datos.append("accion", 'registrar_meta_mes');
+                datos.append("fecha", fechaActual);
+                datos.append("meta", meta);
+                enviaAjax(datos);
+              }
+            });
+          }
+        });
+      } else {
+        Toast.fire({
+          icon: 'error',
+          title: 'Error al procesar la solicitud'
+        });
+      }
+    },
+    error: (err) => {
+      Toast.fire({
+        icon: 'error',
+        title: 'Error en la solicitud'
+      });
+    },
+  });
+}
+
+function enviaAjax(datos) {
+  var toastMixin = Swal.mixin({
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+
+  $.ajax({
+    url: "", // Agrega tu URL de endpoint aquí
+    type: "POST",
+    contentType: false,
+    data: datos,
+    processData: false,
+    cache: false,
+    success: (response) => {
+
+      toastMixin.fire({
+        title: 'Éxito',
+        text: 'La operación se completó exitosamente.',
+        icon: 'success'
+      });
+    },
+    error: (err) => {
+      toastMixin.fire({
+        text: 'Ocurrió un error durante la solicitud.',
+        icon: 'error'
+      });
+    },
+  });
+}
+
+
+
 
 reporte_doc();
 

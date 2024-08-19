@@ -23,7 +23,26 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             echo json_encode($datos);
             return 0;
             exit;
+        }else if ($accion == 'comprobar_meta') {
+            $resultado = $principal->comprobar_meta();
+            if($resultado == false){
+                echo 1;
+            }else{
+                echo 0;
+            }
+            return 0;
+            exit;
+        }else if ($accion == 'registrar_meta_mes') {
+            $resultado = $principal->registrar_meta_mes($_POST['fecha'],$_POST['meta']);
+            if($resultado){
+                echo true;
+            }else{
+                echo false;
+            }
+            return 0;
+            exit;
         }
+        
     }
 
     require_once "vista/" . $pagina . "Vista.php";

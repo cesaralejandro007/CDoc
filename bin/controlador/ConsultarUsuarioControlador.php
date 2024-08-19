@@ -109,7 +109,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     }
 
     $list = $Usuario->listar_secciones();
+   
     $list = $Usuario->listar_usuario();
+
     require_once "vista/" . $pagina . "Vista.php";
 } else {
     echo "pagina en construccion";
