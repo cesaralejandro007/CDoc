@@ -79,14 +79,15 @@ class PrincipalModelo extends connectDB
     public function registrar_meta_mes($fecha,$meta)
     {
     try {
-        $this->conex->query("INSERT INTO meta(
-                    meta,
-                    fecha
-                    )
-                VALUES(
-                    '$meta',
-                    '$fecha'
-                )");
+        $consulta = $this->conex->query("SELECT id_seccion FROM secciones WHERE nombre_seccion = 'RRHH'");
+        $id_seccion = $consulta->fetchColumn();
+
+            $this->conex->query("INSERT INTO meta (meta, fecha) VALUES ('$meta', '$fecha')");
+
+            $id_meta = $this->conex->lastInsertId();
+
+            $this->conex->query("INSERT INTO seccionesXmeta (id_meta, id_seccion) VALUES ('$id_meta', '$id_seccion')");
+      
         return true;
     } catch (Exception $e) {
         return $e->getMessage();

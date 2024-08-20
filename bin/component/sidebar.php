@@ -28,6 +28,12 @@ use config\componentes\configSistema as configSistema;
                 </li>
                 <?php  } ?>
                 <li>
+                    <a href="?pagina=<?php configSistema::_ConsultarSecciones_();?>"><span class="icon document" aria-hidden="true"></span>Secciones</a>
+                </li>
+            </ul>
+            <span class="system-menu__title">documentos</span>
+            <ul class="sidebar-body-menu">
+            <li>
                     <a class="show-cat-btn" href="##">
                         <span class="icon folder" aria-hidden="true"></span>Gestionar Doc.
                         <span class="category__btn transparent-btn" title="Open list">
@@ -37,21 +43,15 @@ use config\componentes\configSistema as configSistema;
                     </a>
                     <ul class="cat-sub-menu">
                         <li>
-                            <a href="?pagina=<?php configSistema::_DocumentosEntrada_();?>">Entrada</a>
+                            <a href="?pagina=<?php configSistema::_DocumentosEntrada_();?>"><span class="icon document" aria-hidden="true"></span>Entrada</a>
                         </li>
                         <li>
-                            <a href="?pagina=<?php configSistema::_DocumentosSalida_();?>">Salida</a>
+                            <a href="?pagina=<?php configSistema::_DocumentosSalida_();?>"><span class="icon document" aria-hidden="true"></span>Salida</a>
                         </li>
                         <li>
-                            <a href="?pagina=<?php configSistema::_DocumentosSinEntrada_();?>">Sin Entrada</a>
+                            <a href="?pagina=<?php configSistema::_DocumentosSinEntrada_();?>"><span class="icon document" aria-hidden="true"></span>Sin Entrada</a>
                         </li>
                     </ul>
-                </li>
-            </ul>
-            <span class="system-menu__title">Sistema</span>
-            <ul class="sidebar-body-menu">
-                <li>
-                    <a href="##"><span class="icon setting" aria-hidden="true"></span>Configuración</a>
                 </li>
             </ul>
         </div>

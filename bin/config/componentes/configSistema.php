@@ -95,6 +95,10 @@
 		public static function _ConsultarUsuario_() {
 			echo self::Seguridad('ConsultarUsuario', 'codificar');
 		}
+
+		public static function _ConsultarSecciones_() {
+			echo self::Seguridad('Secciones', 'codificar');
+		}
 		
 		public static function _DocumentosEntrada_() {
 			echo self::Seguridad('DocumentosEntrada', 'codificar');
