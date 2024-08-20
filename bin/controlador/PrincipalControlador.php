@@ -24,7 +24,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             return 0;
             exit;
         }else if ($accion == 'comprobar_meta') {
-            $resultado = $principal->comprobar_meta();
+            $resultado = $principal->comprobar_meta($_SESSION['usuario']['seccion']);
             if($resultado == false){
                 echo 1;
             }else{
@@ -32,8 +32,26 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             }
             return 0;
             exit;
+        }else if ($accion == 'comprobar_meta_user') {
+            $resultado = $principal->comprobar_meta_user();
+            if($resultado == true){
+                echo 1;
+            }else{
+                echo 0;
+            }
+            return 0;
+            exit;
         }else if ($accion == 'registrar_meta_mes') {
-            $resultado = $principal->registrar_meta_mes($_POST['fecha'],$_POST['meta']);
+            $resultado = $principal->registrar_meta_mes($_POST['fecha'],$_POST['meta'],$_SESSION['usuario']['seccion']);
+            if($resultado){
+                echo true;
+            }else{
+                echo false;
+            }
+            return 0;
+            exit;
+        }else if ($accion == 'registrar_meta_mes_user') {
+            $resultado = $principal->registrar_meta_mes_user($_POST['fecha'],$_SESSION['usuario']['seccion']);
             if($resultado){
                 echo true;
             }else{

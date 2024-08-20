@@ -53,14 +53,14 @@ class PrincipalModelo extends connectDB
         }
     }   
 
-    public function comprobar_meta()
+    public function comprobar_meta($id_seccion)
     {
         $año = date('Y');
         $mesActual = date('n'); // Obtiene el mes actual sin ceros a la izquierda
     
         try {
             // Verificar si hay datos para el mes actual y el año actual
-            $query = "SELECT * FROM meta WHERE YEAR(fecha) = $año AND MONTH(fecha) = $mesActual";
+            $query = "SELECT * FROM seccionesxmeta WHERE YEAR(fecha) = $año AND MONTH(fecha) = $mesActual AND id_seccion = $id_seccion";
             $resultado = $this->conex->prepare($query);
             $resultado->execute();
     
@@ -75,23 +75,79 @@ class PrincipalModelo extends connectDB
             return json_encode(false);
         }
     }
-    
-    public function registrar_meta_mes($fecha,$meta)
+
+    public function comprobar_meta_user()
     {
-    try {
-        $consulta = $this->conex->query("SELECT id_seccion FROM secciones WHERE nombre_seccion = 'RRHH'");
-        $id_seccion = $consulta->fetchColumn();
-
-            $this->conex->query("INSERT INTO meta (meta, fecha) VALUES ('$meta', '$fecha')");
-
-            $id_meta = $this->conex->lastInsertId();
-
-            $this->conex->query("INSERT INTO seccionesXmeta (id_meta, id_seccion) VALUES ('$id_meta', '$id_seccion')");
-      
-        return true;
-    } catch (Exception $e) {
-        return $e->getMessage();
+        $año = date('Y');
+        $mesActual = date('n'); // Obtiene el mes actual sin ceros a la izquierda
+        try {
+            // Verificar si hay datos para el mes actual y el año actual
+            $query2 = "SELECT meta.meta FROM seccionesxmeta,meta WHERE  YEAR(seccionesxmeta.fecha) = $año AND MONTH(seccionesxmeta.fecha) = $mesActual AND seccionesxmeta.id_meta = meta.id_meta";
+            $resultado = $this->conex->prepare($query2);
+            $resultado->execute();
+            if ($resultado->rowCount() == '') {
+               return false;
+            }else{
+                return true;
+            }
+            return true;
+        } catch (Exception $e) {
+            return json_encode(false);
+        }
     }
+    
+    public function registrar_meta_mes($fecha,$meta,$id_seccion)
+    {
+        try {
+                $query = "SELECT id_meta FROM meta WHERE meta = '$meta'";
+                $resultado = $this->conex->query($query);
+                
+                if ($resultado->rowCount() == 0) {
+                    // Si no existe el registro, inserta un nuevo valor
+                    $this->conex->query("INSERT INTO meta (meta) VALUES ('$meta')");
+                    $id_meta = $this->conex->lastInsertId();  // Captura el ID del registro insertado
+                } else {
+                    // Si ya existe el registro, captura el ID
+                    $fila = $resultado->fetchAll();
+                    $id_meta = $fila[0]['id_meta'];
+                }
+            
+                $this->conex->query("INSERT INTO seccionesXmeta (id_meta,id_seccion,fecha) VALUES ('$id_meta','$id_seccion','$fecha')");
+        
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function registrar_meta_mes_user($fecha, $id_seccion)
+    {
+        $año = date('Y');
+        $mesActual = date('n'); 
+        try {
+            $validar_registro = "SELECT meta.id_meta FROM seccionesxmeta, meta 
+            WHERE YEAR(seccionesxmeta.fecha) =  $año
+            AND MONTH(seccionesxmeta.fecha) = $mesActual
+            AND seccionesxmeta.id_meta = meta.id_meta AND seccionesxmeta.id_seccion = $id_seccion";
+            $resultado_validar = $this->conex->prepare($validar_registro);
+            $resultado_validar->execute();
+            if ($resultado_validar->rowCount() == 0) {
+                $query = "SELECT meta.id_meta FROM seccionesxmeta, meta 
+                        WHERE YEAR(seccionesxmeta.fecha) = $año 
+                        AND MONTH(seccionesxmeta.fecha) = $mesActual 
+                        AND seccionesxmeta.id_meta = meta.id_meta";
+                $resultado = $this->conex->prepare($query);
+                $resultado->execute();
+                $fila = $resultado->fetchAll();
+                $id_meta = $fila[0]['id_meta'];
+                $this->conex->query("INSERT INTO seccionesXmeta (id_meta, id_seccion, fecha) VALUES ('$id_meta', '$id_seccion', '$fecha')");
+                return true;
+            }else{
+                return true;
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     
     public function reporte_documentos()
@@ -102,22 +158,24 @@ class PrincipalModelo extends connectDB
             // Consulta para obtener documentos por estatus y mes, incluyendo meta
             $queries = [
                 'todos' => "SELECT 
-                                meta.meta, 
-                                MONTH(documentos.fecha_registro) AS mes, 
-                                COUNT(*) AS cantidad 
+                                MONTH(documentos.fecha_registro) AS mes,
+                                YEAR(documentos.fecha_registro) AS año,
+                                COUNT(documentos.id_documento) AS cantidad,
+                                COALESCE(meta.meta, 'Sin Meta') AS meta
                             FROM 
                                 documentos
-                                INNER JOIN usuarios ON documentos.id_usuario = usuarios.id_usuario
-                                INNER JOIN secciones ON usuarios.id_seccion = secciones.id_seccion
-                                INNER JOIN seccionesxmeta ON secciones.id_seccion = seccionesxmeta.id_seccion
-                                INNER JOIN meta ON seccionesxmeta.id_meta = meta.id_meta 
+                                LEFT JOIN seccionesxmeta ON MONTH(documentos.fecha_registro) = MONTH(seccionesxmeta.fecha)
+                                AND YEAR(documentos.fecha_registro) = YEAR(seccionesxmeta.fecha)
+                                LEFT JOIN meta ON seccionesxmeta.id_meta = meta.id_meta
                             WHERE 
-                                YEAR(documentos.fecha_registro) = YEAR(meta.fecha) 
-                                AND MONTH(documentos.fecha_registro) = MONTH(meta.fecha) 
-                                AND YEAR(documentos.fecha_registro) = 2024 
+                                YEAR(documentos.fecha_registro) = $año_actual
                             GROUP BY 
                                 mes, 
-                                meta.meta;
+                                año, 
+                                meta
+                            ORDER BY 
+                                año, 
+                                mes;
                             ",
                 'entrada' => "SELECT MONTH(fecha_registro) AS mes, COUNT(*) AS cantidad
                               FROM documentos

@@ -1,4 +1,46 @@
-comprobar_meta();
+if (typeof Admin !== 'undefined') {
+  comprobar_meta();
+} else {
+  let datos = new FormData();
+  datos.append("accion", 'comprobar_meta_user');
+  $.ajax({
+    url: "", // Agrega tu URL de endpoint aquí
+    type: "POST",
+    contentType: false,
+    data: datos,
+    processData: false,
+    cache: false,
+    success: (response) => {
+      if (response == 1) {
+        const fechaActualizada = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        let datos1 = new FormData();
+        datos1.append("accion", 'registrar_meta_mes_user');
+        datos1.append("fecha", fechaActualizada);
+        enviaAjax1(datos1);
+      } else {
+        // Mostrar alerta de SweetAlert2
+        Swal.fire({
+          title: 'Meta del mes',
+          text: 'Por favor, solicite al administrador que ingrese la meta de este mes.',
+          icon: 'warning',
+          showConfirmButton: false,   // No mostrar botones
+          allowOutsideClick: false,   // No permitir cerrar al hacer clic fuera de la alerta
+          allowEscapeKey: false,      // No permitir cerrar con la tecla Escape
+          allowEnterKey: false        // No permitir cerrar con la tecla Enter
+        });
+      }
+    },
+    error: (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error en la solicitud',
+        text: 'Hubo un problema al realizar la solicitud.'
+      });
+    },
+  });
+}
+
+
 function comprobar_meta() {
   const meses = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
@@ -127,6 +169,31 @@ function enviaAjax(datos) {
   });
 }
 
+function enviaAjax1(datos) {
+  var toastMixin = Swal.mixin({
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+
+  $.ajax({
+    url: "", // Agrega tu URL de endpoint aquí
+    type: "POST",
+    contentType: false,
+    data: datos,
+    processData: false,
+    cache: false,
+    success: (response) => {
+
+    },
+    error: (err) => {
+      toastMixin.fire({
+        text: 'Ocurrió un error durante la solicitud.',
+        icon: 'error'
+      });
+    },
+  });
+}
 
 
 
@@ -294,7 +361,7 @@ function reporte_doc() {
           <td>${datosDesplazados.salida[i] || 0}</td>
           <td>${datosDesplazados.sin_entrada[i] || 0}</td>
           <td>${cantidad}</td>
-          <td>${porcentaje}%</td>
+          <td>${redondearNumero(porcentaje)}%</td>
           <td>${meta}</td>
         </tr>`;
     }
@@ -415,3 +482,9 @@ function reporte_doc() {
   });
 }
 
+function redondearNumero(numero) {
+  if (numero < 1) {
+      return numero; // Si el número es menor a 1, no lo redondea
+  }
+  return Math.round(numero); // Redondea el número
+}

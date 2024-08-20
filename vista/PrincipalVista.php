@@ -117,6 +117,11 @@
         </div>
       </div>
     </main>
+    <?php if($_SESSION["usuario"]["rol"] == 'Administrador'){?>
+        <script>
+          var Admin = true;
+        </script>
+    <?php } ?>
     <!-- ! Footer -->
     <?php include_once "bin/component/footer.php";?>
   </div>

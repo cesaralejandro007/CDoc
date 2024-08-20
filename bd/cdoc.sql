@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2024 a las 20:44:38
+-- Tiempo de generación: 20-08-2024 a las 20:56:38
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -152,7 +152,7 @@ INSERT INTO `destinatarios` (`id_destinatario`, `nombre_des`) VALUES
 CREATE TABLE `documentos` (
   `id_documento` int(11) NOT NULL,
   `fecha_entrada` date DEFAULT NULL,
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `descripcion` text NOT NULL,
   `numero_doc` varchar(15) NOT NULL,
   `estatus` varchar(1) DEFAULT NULL,
@@ -166,8 +166,8 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `descripcion`, `numero_doc`, `estatus`, `id_remitente`, `id_tipo_documento`, `id_usuario`) VALUES
-(8, '2024-08-19', '2024-09-19 17:40:13', 'asdsadsa', '32432432', '1', 13, 18, 11),
-(9, '2024-08-21', '2024-08-19 17:44:58', 'dfgdfg', '34543', '1', 11, 10, 11);
+(22, '2024-08-21', '2024-07-20 18:24:31', 'asdfdsfdsfdsf', '32432432', '1', 13, 12, 13),
+(23, '2024-08-20', '2024-08-20 18:25:29', 'asdasdasdsad', '3243243223', '1', 10, 10, 11);
 
 -- --------------------------------------------------------
 
@@ -190,17 +190,16 @@ CREATE TABLE `historial_documento` (
 
 CREATE TABLE `meta` (
   `id_meta` int(11) NOT NULL,
-  `meta` text NOT NULL,
-  `fecha` date NOT NULL
+  `meta` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `meta`
 --
 
-INSERT INTO `meta` (`id_meta`, `meta`, `fecha`) VALUES
-(5, '999', '2024-09-19'),
-(6, '888', '2024-08-19');
+INSERT INTO `meta` (`id_meta`, `meta`) VALUES
+(25, '850'),
+(26, '100');
 
 -- --------------------------------------------------------
 
@@ -428,17 +427,18 @@ INSERT INTO `secciones` (`id_seccion`, `nombre_seccion`, `cantidad_documentos`) 
 CREATE TABLE `seccionesxmeta` (
   `id_seccionesXmeta` int(11) NOT NULL,
   `id_seccion` int(11) NOT NULL,
-  `id_meta` int(11) NOT NULL
+  `id_meta` int(11) NOT NULL,
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `seccionesxmeta`
 --
 
-INSERT INTO `seccionesxmeta` (`id_seccionesXmeta`, `id_seccion`, `id_meta`) VALUES
-(1, 2, 6),
-(2, 2, 5),
-(5, 4, 6);
+INSERT INTO `seccionesxmeta` (`id_seccionesXmeta`, `id_seccion`, `id_meta`, `fecha`) VALUES
+(42, 2, 25, '2024-08-20'),
+(43, 4, 26, '2024-07-20'),
+(44, 4, 25, '2024-08-20');
 
 -- --------------------------------------------------------
 
@@ -586,7 +586,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
 (11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$aPDESdDRh3lSxC9Ddi96/eLPQ90/2xVkfaQPE2HH5sT6qrShM5vUm', 2, 1),
-(13, '28055565', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$2rjxOTGHoE6Zma0.aKe8b.Nezy/BcSxFEw0hHeFFdR7Tk8rZFuxo.', 4, 1);
+(13, '28055565', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$NVKNt3o20MF3V2PmUutw/OcbdB8Ilm0RTdGYP0CXb3b8HBeSUmO1.', 4, 1);
 
 --
 -- Índices para tablas volcadas
@@ -674,7 +674,7 @@ ALTER TABLE `destinatarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_documento`
@@ -686,7 +686,7 @@ ALTER TABLE `historial_documento`
 -- AUTO_INCREMENT de la tabla `meta`
 --
 ALTER TABLE `meta`
-  MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `remitentes`
@@ -698,7 +698,7 @@ ALTER TABLE `remitentes`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `secciones`
@@ -710,7 +710,7 @@ ALTER TABLE `secciones`
 -- AUTO_INCREMENT de la tabla `seccionesxmeta`
 --
 ALTER TABLE `seccionesxmeta`
-  MODIFY `id_seccionesXmeta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_seccionesXmeta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_documentos`
