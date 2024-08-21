@@ -361,7 +361,7 @@ function reporte_doc() {
           <td>${datosDesplazados.salida[i] || 0}</td>
           <td>${datosDesplazados.sin_entrada[i] || 0}</td>
           <td>${cantidad}</td>
-          <td>${redondearNumero(porcentaje)}%</td>
+          <td>${porcentaje}</td>
           <td>${meta}</td>
         </tr>`;
     }
@@ -389,6 +389,8 @@ function reporte_doc() {
                       "sNext":"<p class='text-dark'>Siguiente</p>",
                       "sPrevious": "<p class='text-dark'>Anterior</p>"
              },
+              "decimal": ",",
+              "thousands": ".",
              "sProcessing":"Procesando...",
               },
           //para usar los botones   
@@ -400,6 +402,17 @@ function reporte_doc() {
           colReorder: true,
           lengthMenu: [6, 12, 18, 24, 30, 36], 
           ordering: false,
+          columnDefs: [
+            {
+                targets: [5], // El índice de la columna que deseas formatear
+                render: function(data, type, row) {
+                    // Formatear el número con coma como separador decimal y punto como separador de miles
+                    var formattedNumber = $.fn.dataTable.render.number('.', ',', 2).display(data);
+                    // Añadir el símbolo de porcentaje
+                    return formattedNumber + ' %';
+                }
+            }
+        ],
           buttons:[ 
         {
           extend:    'excelHtml5',
@@ -480,11 +493,4 @@ function reporte_doc() {
       });
     }
   });
-}
-
-function redondearNumero(numero) {
-  if (numero < 1) {
-      return numero; // Si el número es menor a 1, no lo redondea
-  }
-  return Math.round(numero); // Redondea el número
 }

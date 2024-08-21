@@ -3,37 +3,6 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class SeccionesModelo extends connectDB
 {
-    public function registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
-    {
-        $validar_registro = $this->validar_registro($cedula);
-        if ($validar_registro) {
-            return false;
-        } else {
-            try {
-                $this->conex->query("INSERT INTO usuarios(
-        					cedula,
-                            nombres,
-                            apellidos,
-        					sexo,
-        					contrasena,
-                            id_seccion,
-                            estatus
-        					)
-        				VALUES(
-                            '$cedula',
-        					'$nombres',
-        					'$apellidos',
-        					'$sexo',
-        					'$clave_encriptada',
-                            '$seccion',
-                            '1'
-        				)");
-                return true;
-            } catch (Exception $e) {
-                return $e->getMessage();
-            }
-        }
-    }
 
     public function listar_usuario()
     {
@@ -81,7 +50,24 @@ class SeccionesModelo extends connectDB
 
     public function listar_secciones()
     {
-        $resultado = $this->conex->prepare("SELECT * FROM secciones");
+        $resultado = $this->conex->prepare("
+            SELECT 
+                secciones.id_seccion AS id_seccion,
+                secciones.nombre_seccion AS nombre_seccion, 
+                secciones.cantidad_documentos AS total_documentos, 
+                COUNT(documentos.id_documento) AS cantidad_documentos,
+                (COUNT(documentos.id_documento) / secciones.cantidad_documentos) * 100 AS porcentaje_documentos
+            FROM 
+                secciones
+            JOIN 
+                usuarios ON secciones.id_seccion = usuarios.id_seccion
+            JOIN 
+                documentos ON usuarios.id_usuario = documentos.id_usuario
+            GROUP BY 
+                secciones.id_seccion, 
+                secciones.nombre_seccion, 
+                secciones.cantidad_documentos;
+        ");
         $respuestaArreglo = [];
         try {
             $resultado->execute();
@@ -92,19 +78,9 @@ class SeccionesModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function eliminar($id_usuario)
+    public function cargar($id_seccion)
     {
-        try {
-            $this->conex->query("UPDATE usuarios SET estatus='0' WHERE id_usuario = '$id_usuario'");
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public function cargar($id_usuario)
-    {
-        $resultado = $this->conex->prepare("SELECT * FROM usuarios,secciones WHERE usuarios.id_seccion = secciones.id_seccion AND usuarios.id_usuario ='$id_usuario'");
+        $resultado = $this->conex->prepare("SELECT * FROM secciones WHERE id_seccion = '$id_seccion'");
         $respuestaArreglo = [];
         try {
             $resultado->execute();
@@ -115,52 +91,15 @@ class SeccionesModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
+    public function modificar($id_seccion,$cantidad)
     {
-        $validar_modificar = $this->validar_modificar($id_usuario, $cedula);
-        if ($validar_modificar) {
-            return false;
-        }else {
             try {
-                $this->conex->query("UPDATE usuarios SET cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', rol = '$rol', sexo = '$sexo', contrasena = '$clave_encriptada', id_seccion = '$seccion' WHERE id_usuario  = '$id_usuario'");
+                $this->conex->query("UPDATE secciones SET cantidad_documentos = '$cantidad' WHERE id_seccion  = '$id_seccion'");
                 return true;
             } catch (Exception $e) {
                 return false;
             }
-        }
         return $respuesta;
-    }
-
-    public function validar_modificar($id_usuario, $cedula)
-    {
-        try {
-            $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula='$cedula' AND id_usuario <>'$id_usuario'");
-            $resultado->execute();
-            $fila = $resultado->fetchAll();
-            if ($fila) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public function validar_registro($cedula)
-    {
-        try {
-            $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula='$cedula'");
-            $resultado->execute();
-            $fila = $resultado->fetchAll();
-            if ($fila) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            return false;
-        }
     }
 
 }

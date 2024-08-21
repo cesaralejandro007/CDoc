@@ -11,84 +11,20 @@
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content white-block">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Persona</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Secciones</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="sign-up-form form">
         <input type="hidden" name="accion" class="form-control" id="accion">
-        <input type="hidden" name="id_usuario" class="form-control" id="id_usuario">
+        <input type="hidden" name="id_seccion" class="form-control" id="id_seccion">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-12">
             <div class="form-group">
-              <label class="form-label" for="inputCedula">Cédula</label>
-              <input type="text" class="form-control form-input" id="inputCedula" placeholder="Cédula" required>
+              <label class="form-label" for="cantidad">Meta por Sección</label>
+              <input type="text" class="form-control form-input" id="cantidad" placeholder="Cantidad" required>
             </div>
-            <span id="sinputCedula"></span>
+            <span id="scantidad"></span>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputNombres">Nombres</label>
-              <input type="text" class="form-control form-input" id="inputNombres" placeholder="Nombres" required>
-            </div>
-            <span id="sinputNombres"></span>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputApellidos">Apellidos</label>
-              <input type="text" class="form-control form-input" id="inputApellidos" placeholder="Apellidos" required>
-            </div>
-            <span id="sinputApellidos"></span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="form-label" for="inputSexo">Sexo</label>
-              <select id="inputSexo" class="form-control form-input" required>
-                <option value="0" selected>Seleccione...</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
-            <span id="sinputSexo"></span>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label class="form-label" for="rol">Rol</label>
-              <select id="rol" class="form-control form-input" required>
-                <option value="Administrador">Administrador</option>
-                <option value="Usuario">Usuario</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputPassword">Contraseña</label>
-              <input type="password" class="form-control form-input" id="inputPassword" placeholder="Contraseña" required>
-            </div>
-            <span id="sinputPassword"></span>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputPassword2">Repetir Contraseña</label>
-              <input type="password" class="form-control form-input" id="inputPassword2" placeholder="Repetir Contraseña" required>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group"> 
-                <label class="form-label" for="seccion">Nombre de Sección</label>
-                <input list="tipoSeccion" id="seccion" placeholder="Sección" class="form-control form-input" required>
-                <datalist id="tipoSeccion">
-                    <?php foreach($list as $key => $section) {?>
-                    <option value="<?php echo $section["nombre_seccion"]; ?>" data-id="<?php echo $section["id_seccion"]; ?>"></option>
-                    <?php }?>
-                </datalist>
-              </div>
-              <span id="sseccion"></span>
-            </div>
         </div>
       </form>
       <div class="modal-footer">
@@ -150,24 +86,41 @@
           <thead>
             <tr class="users-table-info">
               <th style="text-align: center;">Editar</th>
-              <th style="text-align: center;">Eliminar</th>
-              <th style="text-align: center;">Cedula</th>
-              <th style="text-align: center;">Nombres</th>
-              <th style="text-align: center;">Apellidos</th>
-              <th style="text-align: center;">Genero</th>
-              <th style="text-align: center;">Nombre de Sección</th>
-              <th style="text-align: center;">Meta</th>
+              <th style="text-align: center;">Secciones</th>
+              <th style="text-align: center;">Cantidad de Doc.</th>
+              <th style="text-align: center;">Cumplimiento %</th>
+              <th style="text-align: center;">Meta por sección</th>
             </tr>
           </thead>
           <tbody>
-         
+          <?php
+            foreach ($list as $valor) {
+              // Imprimir datos básicos del usuario
+              ?>
+              <tr>
+                  <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                      <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
+                      onclick="cargar_datos(<?=$valor['id_seccion'];?>);">
+                          <i style="font-size: 15px" class="fas fa-edit"></i>
+                      </button>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['nombre_seccion']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['cantidad_documentos']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['porcentaje_documentos']; ?>
+                  </td>
+                  <td style="text-align: center;" class="project-actions text-left">
+                      <?php echo $valor['total_documentos']; ?>
+                  </td>
+              </tr>
+              <?php
+            } ?>
           </tbody>
         </table>
-      </div>
-    </div>
-    <div class="card-footer">
-      <div class="d-flex justify-content-center">
-      <button type="submit" id="nuevo" data-toggle="modal" class="form-btn primary-default-btn transparent-btn col-2 text-nowrap">Registrar Seccion</button>
       </div>
     </div>
   </div>
@@ -176,17 +129,29 @@
     <?php include_once "bin/component/footer.php";?>
   </div>
 </div>
+<script>
+    // Obtén el mes actual
+    var fechaActual = new Date();
+    var mes = fechaActual.getMonth() + 1; // Mes actual (1-12)
+
+    // Array de nombres de meses (opcional)
+    var nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+                        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    // Inserta el mes en el botón
+    document.getElementById("nuevo").innerHTML = "Editar Meta: "+ nombresMeses[mes - 1];
+</script>
 <!-- Chart library -->
 <script src="plugins/chart.min.js"></script>
 <!-- Icons library -->
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 
-<script src="content/js/datatables-Usuarios.js"></script>
+<script src="content/js/datatables-Secciones.js"></script>
 
 <script src="content/js/script.js"></script>
 
-<script src="content/js/usuario.js"></script>
+<script src="content/js/secciones.js"></script>
 </body>
 
 </html>

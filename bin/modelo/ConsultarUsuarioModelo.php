@@ -55,7 +55,7 @@ class ConsultarUsuarioModelo extends connectDB
             foreach ($usuarios as $usuario) {
                 $cedula = $usuario['cedula'];
                 $resultadoMetas = $this->conex->prepare("
-                    SELECT MONTH(meta.fecha) as mes, meta.meta 
+                    SELECT MONTH(seccionesxmeta.fecha) as mes, meta.meta 
                     FROM usuarios
                     JOIN secciones ON secciones.id_seccion = usuarios.id_seccion
                     JOIN seccionesxmeta ON secciones.id_seccion = seccionesxmeta.id_seccion
