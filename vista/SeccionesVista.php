@@ -44,7 +44,7 @@
     <nav class="main-nav--bg">
         <div class="container main-nav">
             <div class="main-nav-start">
-                <h2 class="sign-up__title">Consultar Secciones</h2>
+                <h2 class="sign-up__title">Consultar Secciones y Documentos</h2>
             </div>
             <div class="main-nav-end">
             <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
@@ -122,6 +122,13 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+    <div class="input-group mb-3 col-6">
+      <label class="input-group-text" for="meta">Meta general del mes</label>
+      <input type="text" class="form-control" id="meta" placeholder="...">
+      <button class="btn btn-outline-primary" type="button" id="actualizar_meta">Actualizar</button>
+    </div>
     </div>
   </div>
     </main>

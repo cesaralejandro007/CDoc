@@ -90,11 +90,44 @@ class SeccionesModelo extends connectDB
         }
         return $respuestaArreglo;
     }
+    
+    public function cargar_meta()
+    {
+        $año = date('Y');
+        $mesActual = date('n'); 
+        $resultado = $this->conex->prepare("SELECT meta.meta FROM meta,seccionesxmeta WHERE meta.id_meta = seccionesxmeta.id_meta AND YEAR(seccionesxmeta.fecha) = $año AND MONTH(seccionesxmeta.fecha) = $mesActual GROUP BY meta.meta");
+        $respuestaArreglo = [];
+        try {
+            $resultado->execute();
+            $respuestaArreglo = $resultado->fetchAll();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return $respuestaArreglo;
+    }
 
     public function modificar($id_seccion,$cantidad)
     {
             try {
                 $this->conex->query("UPDATE secciones SET cantidad_documentos = '$cantidad' WHERE id_seccion  = '$id_seccion'");
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+        return $respuesta;
+    }
+
+    public function modificar_meta($meta)
+    {
+            try {
+                $this->conex->query("
+                    UPDATE meta 
+                    JOIN seccionesxmeta 
+                    ON meta.id_meta = seccionesxmeta.id_meta 
+                    SET meta.meta = $meta 
+                    WHERE YEAR(seccionesxmeta.fecha) = 2024 
+                    AND MONTH(seccionesxmeta.fecha) = 08;
+                ");
                 return true;
             } catch (Exception $e) {
                 return false;

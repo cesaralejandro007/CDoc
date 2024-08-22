@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-08-2024 a las 20:56:38
+-- Tiempo de generación: 22-08-2024 a las 20:07:43
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -166,21 +166,22 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `descripcion`, `numero_doc`, `estatus`, `id_remitente`, `id_tipo_documento`, `id_usuario`) VALUES
-(22, '2024-08-21', '2024-07-20 18:24:31', 'asdfdsfdsfdsf', '32432432', '1', 13, 12, 13),
-(23, '2024-08-20', '2024-08-20 18:25:29', 'asdasdasdsad', '3243243223', '1', 10, 10, 11);
+(25, '2024-08-21', '2024-07-21 15:49:03', 'asdasdsad', '32432432', '3', 10, 9, 11),
+(26, '2024-08-22', '2024-08-22 15:33:19', 'sdfsdfds', '4324324', '1', 11, 9, 11),
+(27, '2024-08-22', '2024-08-22 15:35:49', 'asdasdsad', '45555', '3', 8, 18, 14);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `historial_documento`
+-- Estructura de tabla para la tabla `historial`
 --
 
-CREATE TABLE `historial_documento` (
+CREATE TABLE `historial` (
   `id_historial` int(11) NOT NULL,
-  `id_documento` int(11) NOT NULL,
-  `descripcion_historial` text NOT NULL,
-  `fecha_historial` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `accion` text NOT NULL,
+  `fecha` datetime NOT NULL,
+  `id_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -198,8 +199,8 @@ CREATE TABLE `meta` (
 --
 
 INSERT INTO `meta` (`id_meta`, `meta`) VALUES
-(25, '850'),
-(26, '100');
+(27, '850'),
+(28, '400');
 
 -- --------------------------------------------------------
 
@@ -398,6 +399,14 @@ CREATE TABLE `salidas` (
   `id_destinatario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `salidas`
+--
+
+INSERT INTO `salidas` (`id_salida`, `fecha_salida`, `id_documento`, `id_destinatario`) VALUES
+(5, '2024-08-22 00:00:00', 25, 12),
+(6, '2024-08-22 00:00:00', 27, 13);
+
 -- --------------------------------------------------------
 
 --
@@ -415,8 +424,8 @@ CREATE TABLE `secciones` (
 --
 
 INSERT INTO `secciones` (`id_seccion`, `nombre_seccion`, `cantidad_documentos`) VALUES
-(2, 'RRHH', ''),
-(4, 'BN', '');
+(2, 'Recursos Humanos', '101'),
+(4, 'Bienes Nacionales', '20');
 
 -- --------------------------------------------------------
 
@@ -436,9 +445,9 @@ CREATE TABLE `seccionesxmeta` (
 --
 
 INSERT INTO `seccionesxmeta` (`id_seccionesXmeta`, `id_seccion`, `id_meta`, `fecha`) VALUES
-(42, 2, 25, '2024-08-20'),
-(43, 4, 26, '2024-07-20'),
-(44, 4, 25, '2024-08-20');
+(45, 2, 27, '2024-07-21'),
+(46, 2, 28, '2024-08-22'),
+(47, 4, 28, '2024-08-22');
 
 -- --------------------------------------------------------
 
@@ -586,7 +595,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
 (11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$aPDESdDRh3lSxC9Ddi96/eLPQ90/2xVkfaQPE2HH5sT6qrShM5vUm', 2, 1),
-(13, '28055565', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$NVKNt3o20MF3V2PmUutw/OcbdB8Ilm0RTdGYP0CXb3b8HBeSUmO1.', 4, 1);
+(14, '28055654', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$2FuToaTbAOOTfK7INN1nKuTRiNIJku5AMrKFxJj92H9LjV.xhEj8u', 4, 1);
 
 --
 -- Índices para tablas volcadas
@@ -608,10 +617,11 @@ ALTER TABLE `documentos`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `historial_documento`
+-- Indices de la tabla `historial`
 --
-ALTER TABLE `historial_documento`
-  ADD PRIMARY KEY (`id_historial`);
+ALTER TABLE `historial`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `meta`
@@ -674,19 +684,19 @@ ALTER TABLE `destinatarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT de la tabla `historial_documento`
+-- AUTO_INCREMENT de la tabla `historial`
 --
-ALTER TABLE `historial_documento`
+ALTER TABLE `historial`
   MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `meta`
 --
 ALTER TABLE `meta`
-  MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_meta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `remitentes`
@@ -698,19 +708,19 @@ ALTER TABLE `remitentes`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `secciones`
 --
 ALTER TABLE `secciones`
-  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_seccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `seccionesxmeta`
 --
 ALTER TABLE `seccionesxmeta`
-  MODIFY `id_seccionesXmeta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_seccionesXmeta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_documentos`
@@ -722,7 +732,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
@@ -735,6 +745,12 @@ ALTER TABLE `documentos`
   ADD CONSTRAINT `documentos_ibfk_1` FOREIGN KEY (`id_remitente`) REFERENCES `remitentes` (`id_remitente`),
   ADD CONSTRAINT `documentos_ibfk_2` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipos_documentos` (`id_tipo_documento`),
   ADD CONSTRAINT `documentos_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Filtros para la tabla `historial`
+--
+ALTER TABLE `historial`
+  ADD CONSTRAINT `historial_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Filtros para la tabla `salidas`

@@ -27,6 +27,14 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 ]);
             }
             return 0;
+        }if ($accion == 'cargar_meta') {
+            $datos = $secciones->cargar_meta();
+            foreach ($datos as $valor) {
+                echo json_encode([
+                    'meta' => $valor['meta']
+                ]);
+            }
+            return 0;
         }else if ($accion == 'modificar') {
             $id_seccion = $_POST['id'];
             $cantidad = $_POST['cantidad'];
@@ -44,6 +52,16 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'icon' => 'info',
                     'title' => 'Modificar modificar',
                     'message' => 'El Documento ya se encuetra registrado.'
+                ]);
+            }
+            return 0;
+            exit;
+        }else if ($accion == 'actualizar_meta') {
+            $meta = $_POST['meta'];
+            $response = $secciones->modificar_meta($meta);
+            if ($response) {
+                echo json_encode([
+                    'estatus' => '1'
                 ]);
             }
             return 0;

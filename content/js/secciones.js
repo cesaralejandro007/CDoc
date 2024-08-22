@@ -1,4 +1,73 @@
 var keyup_cantidad = /^[0-9]+$/; // Expresión regular para números enteros
+cargar_meta();
+function cargar_meta(){
+    var datos = new FormData();
+    datos.append("accion", "cargar_meta");
+    mostrar_meta(datos);
+}
+
+
+document.getElementById('actualizar_meta').addEventListener('click', function() {
+    var meta = document.getElementById('meta').value;
+
+    // Validar que el campo no esté vacío
+    if (meta.trim() === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo vacío',
+            text: 'Por favor, ingresa una meta antes de actualizar.'
+        });
+        return;
+    }
+
+    // Confirmar si es la meta que quiere enviar
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "La meta que estás por enviar es: " + meta,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, enviar',
+        cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datos1 = new FormData();
+            datos1.append("accion", "actualizar_meta");
+            datos1.append("meta", meta);
+            $.ajax({
+                url: "",
+                type: "POST",
+                contentType: false,
+                data: datos1,
+                processData: false,
+                cache: false,
+                success: (response) => {
+                    var res = JSON.parse(response);
+                    //alert(res.title);
+                    if (res.estatus == 1) {
+                        Swal.fire(
+                            'Enviada!',
+                            'La meta ha sido actualizada correctamente.',
+                            'success'
+                        );
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 3000);
+                    }
+                },
+                    error: (err) => {
+                    Toast.fire({
+                        icon: res.error,
+                    });
+                },
+            });
+        
+
+        }
+    });
+});
+
+
+
 
 document.onload = carga();
 function carga() {
@@ -219,6 +288,29 @@ function mostrar(datos) {
             $("#modalshowhide").modal("show");
             $("#accion").val("modificar");
             $("#exampleModalCenterTitle").text("Modificar Meta de la Sección: "+ res.nombre_seccion);
+        },
+        error: (err) => {
+            Toast.fire({
+                icon: error.icon,
+            });
+        },
+    });
+}
+
+
+function mostrar_meta(datos) {
+    $.ajax({
+        async: true,
+        url: "",
+        type: "POST",
+        contentType: false,
+        data: datos,
+        processData: false,
+        cache: false,
+        success: (response) => {
+            var res = JSON.parse(response);
+            limpiar();
+            $("#meta").val(res.meta);
         },
         error: (err) => {
             Toast.fire({

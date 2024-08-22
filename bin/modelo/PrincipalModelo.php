@@ -99,21 +99,9 @@ class PrincipalModelo extends connectDB
     public function registrar_meta_mes($fecha,$meta,$id_seccion)
     {
         try {
-                $query = "SELECT id_meta FROM meta WHERE meta = '$meta'";
-                $resultado = $this->conex->query($query);
-                
-                if ($resultado->rowCount() == 0) {
-                    // Si no existe el registro, inserta un nuevo valor
-                    $this->conex->query("INSERT INTO meta (meta) VALUES ('$meta')");
-                    $id_meta = $this->conex->lastInsertId();  // Captura el ID del registro insertado
-                } else {
-                    // Si ya existe el registro, captura el ID
-                    $fila = $resultado->fetchAll();
-                    $id_meta = $fila[0]['id_meta'];
-                }
-            
-                $this->conex->query("INSERT INTO seccionesXmeta (id_meta,id_seccion,fecha) VALUES ('$id_meta','$id_seccion','$fecha')");
-        
+            $this->conex->query("INSERT INTO meta (meta) VALUES ('$meta')");
+            $id_meta = $this->conex->lastInsertId();
+            $this->conex->query("INSERT INTO seccionesXmeta (id_meta,id_seccion,fecha) VALUES ('$id_meta','$id_seccion','$fecha')");
             return true;
         } catch (Exception $e) {
             return $e->getMessage();
@@ -154,29 +142,73 @@ class PrincipalModelo extends connectDB
     {
         try {
             // Obtén el año actual
-            $año_actual = date('Y');            
-            // Consulta para obtener documentos por estatus y mes, incluyendo meta
+            $año_actual = date('Y');
+    
+            // Consulta 1: Obtener la cantidad de documentos por mes
+            $sql_documentos = "SELECT 
+                                    MONTH(fecha_registro) AS mes, 
+                                    YEAR(fecha_registro) AS año, 
+                                    COUNT(id_documento) AS cantidad 
+                               FROM 
+                                    documentos 
+                               WHERE 
+                                    YEAR(fecha_registro) = $año_actual
+                               GROUP BY 
+                                    mes, 
+                                    año 
+                               ORDER BY 
+                                    año, 
+                                    mes";
+            $stmt_documentos = $this->conex->prepare($sql_documentos);
+            $stmt_documentos->execute();
+            $resultado_documentos = $stmt_documentos->fetchAll();
+    
+            // Consulta 2: Obtener las metas por mes
+            $sql_meta = "SELECT 
+                             MONTH(fecha) AS mes, 
+                             YEAR(fecha) AS año, 
+                             meta 
+                         FROM 
+                             meta 
+                         JOIN 
+                             seccionesxmeta ON meta.id_meta = seccionesxmeta.id_meta
+                         WHERE 
+                             YEAR(fecha) = $año_actual";
+            $stmt_meta = $this->conex->prepare($sql_meta);
+            $stmt_meta->execute();
+            $resultado_meta = $stmt_meta->fetchAll();
+    
+            // Inicializar el objeto para almacenar los resultados
+            $documentos = [
+                'todos' => array_fill(1, 12, ['cantidad' => 0, 'meta' => 'Sin Meta']),
+                'entrada' => array_fill(1, 12, 0),
+                'sin_entrada' => array_fill(1, 12, 0),
+                'salida' => array_fill(1, 12, 0)
+            ];
+    
+            // Combinar los resultados para 'todos'
+            foreach ($resultado_documentos as $doc) {
+                $mes = (int)$doc['mes'];
+                $cantidad = (int)$doc['cantidad'];
+    
+                // Buscar la meta correspondiente para el mismo mes y año
+                $meta_encontrada = 'Sin Meta';
+                foreach ($resultado_meta as $meta) {
+                    if ($meta['mes'] == $mes && $meta['año'] == $doc['año']) {
+                        $meta_encontrada = $meta['meta'];
+                        break;
+                    }
+                }
+    
+                // Almacenar el resultado en el arreglo 'todos'
+                $documentos['todos'][$mes] = [
+                    'cantidad' => $cantidad,
+                    'meta' => $meta_encontrada
+                ];
+            }
+    
+            // Consulta y combinación para 'entrada', 'sin_entrada', y 'salida' (mantén las consultas que ya tienes)
             $queries = [
-                'todos' => "SELECT 
-                                MONTH(documentos.fecha_registro) AS mes,
-                                YEAR(documentos.fecha_registro) AS año,
-                                COUNT(documentos.id_documento) AS cantidad,
-                                COALESCE(meta.meta, 'Sin Meta') AS meta
-                            FROM 
-                                documentos
-                                LEFT JOIN seccionesxmeta ON MONTH(documentos.fecha_registro) = MONTH(seccionesxmeta.fecha)
-                                AND YEAR(documentos.fecha_registro) = YEAR(seccionesxmeta.fecha)
-                                LEFT JOIN meta ON seccionesxmeta.id_meta = meta.id_meta
-                            WHERE 
-                                YEAR(documentos.fecha_registro) = $año_actual
-                            GROUP BY 
-                                mes, 
-                                año, 
-                                meta
-                            ORDER BY 
-                                año, 
-                                mes;
-                            ",
                 'entrada' => "SELECT MONTH(fecha_registro) AS mes, COUNT(*) AS cantidad
                               FROM documentos
                               WHERE estatus = 1 AND YEAR(fecha_registro) = $año_actual
@@ -194,15 +226,6 @@ class PrincipalModelo extends connectDB
                              ORDER BY mes"
             ];
     
-            // Inicializar el objeto para almacenar los resultados
-            $documentos = [
-                'todos' => array_fill(1, 12, ['cantidad' => 0, 'meta' => 0]),
-                'entrada' => array_fill(1, 12, 0),
-                'sin_entrada' => array_fill(1, 12, 0),
-                'salida' => array_fill(1, 12, 0)
-            ];
-    
-            // Ejecutar cada consulta y almacenar los resultados
             foreach ($queries as $key => $query) {
                 $stmt = $this->conex->prepare($query);
                 $stmt->execute();
@@ -211,16 +234,7 @@ class PrincipalModelo extends connectDB
                 foreach ($resultados as $fila) {
                     $mes = (int)$fila['mes'];
                     $cantidad = (int)$fila['cantidad'];
-    
-                    if ($key === 'todos') {
-                        $meta = isset($fila['meta']) ? (int)$fila['meta'] : 0; // Convertir null a 0
-                        $documentos[$key][$mes] = [
-                            'cantidad' => $cantidad,
-                            'meta' => $meta
-                        ];
-                    } else {
-                        $documentos[$key][$mes] = $cantidad;
-                    }
+                    $documentos[$key][$mes] = $cantidad;
                 }
             }
     
@@ -228,14 +242,14 @@ class PrincipalModelo extends connectDB
         } catch (Exception $e) {
             // Manejo de errores, puedes registrar el error si lo deseas
             return [
-                'todos' => array_fill(1, 12, ['cantidad' => 0, 'meta' => 0]),
+                'todos' => array_fill(1, 12, ['cantidad' => 0, 'meta' => 'Sin Meta']),
                 'entrada' => array_fill(1, 12, 0),
                 'sin_entrada' => array_fill(1, 12, 0),
                 'salida' => array_fill(1, 12, 0)
             ];
         }
     }
-    
+     
 
     
 }
