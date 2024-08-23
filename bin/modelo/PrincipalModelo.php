@@ -96,12 +96,13 @@ class PrincipalModelo extends connectDB
         }
     }
     
-    public function registrar_meta_mes($fecha,$meta,$id_seccion)
+    public function registrar_meta_mes($fecha,$meta,$id_seccion,$id_usuario,$accion)
     {
         try {
             $this->conex->query("INSERT INTO meta (meta) VALUES ('$meta')");
             $id_meta = $this->conex->lastInsertId();
             $this->conex->query("INSERT INTO seccionesXmeta (id_meta,id_seccion,fecha) VALUES ('$id_meta','$id_seccion','$fecha')");
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return $e->getMessage();
@@ -249,7 +250,6 @@ class PrincipalModelo extends connectDB
             ];
         }
     }
-     
-
+    
     
 }

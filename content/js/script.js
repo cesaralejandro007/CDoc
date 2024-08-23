@@ -431,3 +431,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
   addData();
 });
+function cambiarClave() {
+  Swal.fire({
+      title: 'Cambiar Contraseña',
+      html: `
+          <input type="password" id="nuevaClave" class="swal2-input" placeholder="Nueva contraseña">
+          <input type="password" id="confirmarClave" class="swal2-input" placeholder="Confirmar contraseña">
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+          const nuevaClave = Swal.getPopup().querySelector('#nuevaClave').value;
+          const confirmarClave = Swal.getPopup().querySelector('#confirmarClave').value;
+
+          // Expresión regular para validar la contraseña
+          const regexPassword = /^[A-Za-z\d@$!%*?&]{6,}$/;
+
+          if (!nuevaClave || !confirmarClave) {
+              Swal.showValidationMessage(`Por favor, ingrese ambas contraseñas.`);
+          } else if (nuevaClave !== confirmarClave) {
+              Swal.showValidationMessage(`Las contraseñas no coinciden.`);
+          } else if (!regexPassword.test(nuevaClave)) {
+              Swal.showValidationMessage(`La contraseña debe tener al menos 6 caracteres y puede incluir letras, números y algunos caracteres especiales (@$!%*?&).`);
+          } else {
+              return nuevaClave;
+          }
+      }
+  }).then((result) => {
+      if (result.isConfirmed) {
+          const nuevaClave = result.value;
+          var datos1 = new FormData();
+          datos1.append("accion", "actualizar_clave");
+          datos1.append("clave", nuevaClave);
+          $.ajax({
+              url: "",
+              type: "POST",
+              contentType: false,
+              data: datos1,
+              processData: false,
+              cache: false,
+              success: (response) => {
+                  var res = JSON.parse(response);
+                  if (res.estatus == 1) {
+                      Swal.fire(
+                          'Enviada!',
+                          'Contraseña actualizada.',
+                          'success'
+                      );
+                  }
+              },
+              error: (err) => {
+              Swal.fire(
+                  'no enviado!',
+                  'Error.',
+                  'error'
+              );
+          },
+          });
+      }
+  });
+}

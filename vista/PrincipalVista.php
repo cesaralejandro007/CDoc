@@ -2,7 +2,11 @@
 <html lang="en">
 
 <?php include_once "bin/component/head.php";?>
-
+<style>
+        .swal2-confirm {
+            background-color: #2f49d1 !important;
+        }
+    </style>
 <body>
   <div class="layer"></div>
 <!-- ! Body -->
@@ -31,9 +35,9 @@
                 </span>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                <li><a href="##">
+                <li><a href="##" onclick="cambiarClave()">
                     <i data-feather="user" aria-hidden="true"></i>
-                    <span>Perfil</span>
+                    <span>Cambiar Clave</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>

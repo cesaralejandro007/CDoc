@@ -1,6 +1,5 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
-var keyup_clave =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
 
 function obtenerIdSeccion() {
     let input = $("#seccion").val();
@@ -78,36 +77,14 @@ function carga() {
         );
     };
 /*--------------FIN VALIDACION PARA sexo--------------------*/
-/*--------------VALIDACION PARA CLAVE--------------------*/
-document.getElementById("clave").maxLength = 30;
-document.getElementById("clave").onkeypress = function (e) {
-    er = /^[A-Za-z\d@$.!%*?&\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
-    validarkeypress(er, e);
-};
-document.getElementById("clave").onkeyup = function () {
-    r = validarkeyup(
-        keyup_clave,
-        this,
-        document.getElementById("sclave"),
-        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
-    );
-};
+
 /*--------------FIN VALIDACION PARA APELLIDO--------------------*/
 
 /*----------------------CRUD DEL MODULO------------------------*/
 document.getElementById("enviar").onclick = function () {
     a = valida_registrar();
     if (a != "") {
-    }else if($("#clave").val() != $("#clave2").val()){
-        document.getElementById("sclave").innerText = "¡Las claves no coinciden!";
-        document.getElementById("clave").classList.add("is-invalid");
-        document.getElementById("clave2").classList.add("is-invalid");
     }else {
-        document.getElementById("sclave").innerText = "";
-        document.getElementById("clave").classList.remove("is-invalid");
-        document.getElementById("clave2").classList.remove("is-invalid");
-        document.getElementById("clave").classList.add("is-valid");
-        document.getElementById("clave2").classList.add("is-valid");
         var datos = new FormData();
         datos.append("accion", 'registrar_usuario');
         datos.append("id", $("#id_usuario").val());
@@ -116,7 +93,14 @@ document.getElementById("enviar").onclick = function () {
         datos.append("apellidos", $("#apellidos").val());
         datos.append("rol", $("#rol").val());
         datos.append("sexo", $("#sexo").val());
-        datos.append("clave", $("#clave").val());
+        // Obtén el año actual
+        const añoActual = new Date().getFullYear();
+
+        // Concatenar la cadena con el año actual
+        const nuevaClave = "Seniat" + añoActual;
+
+        // Añadir al objeto FormData
+        datos.append("clave", nuevaClave);
         datos.append("seccion", obtenerIdSeccion());
         enviaAjax(datos);
     }
@@ -191,22 +175,16 @@ function limpiar() {
     $("#nombres").val("");
     $("#apellidos").val("");
     $("#sexo").val(0);
-    $("#clave").val("");
-    $("#clave2").val("");
     document.getElementById("suser").innerText = "";
     document.getElementById("snombres").innerText = "";
     document.getElementById("sapellidos").innerText = "";
     document.getElementById("ssexo").innerText = "";
-    document.getElementById("sclave").innerText = "";
-    document.getElementById("sclave2").innerText = "";
    /*  document.getElementById("sarea").innerText = ""; */
 
     document.getElementById("user").classList.remove("is-invalid", "is-valid");
     document.getElementById("nombres").classList.remove("is-invalid", "is-valid");
     document.getElementById("apellidos").classList.remove("is-invalid", "is-valid");
     document.getElementById("sexo").classList.remove("is-invalid", "is-valid");
-    document.getElementById("clave").classList.remove("is-invalid", "is-valid");
-    document.getElementById("clave2").classList.remove("is-invalid", "is-valid");
     /* document.getElementById("area").classList.remove("is-invalid", "is-valid"); */
 }
 
@@ -239,12 +217,6 @@ function valida_registrar() {
         document.getElementById("sexo").classList.remove("is-invalid");
         document.getElementById("sexo").classList.add("is-valid");
     }
-    clave = validarkeyup(
-        keyup_clave,
-        document.getElementById("clave"),
-        document.getElementById("sclave"),
-        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
-    );
 
     if(obtenerIdSeccion() == ""){
         document.getElementById("sseccion").innerHTML ="* Seleccione una sección";
@@ -261,7 +233,6 @@ function valida_registrar() {
         nombres == 0 ||
         apellidos == 0 ||
         document.getElementById("sexo").value == 0 ||
-        clave == 0  ||    
         obtenerIdSeccion() == ""
     ){
         error = true;

@@ -2,7 +2,11 @@
 <html lang="en">
 
 <?php include_once "bin/component/head.php";?>
-
+<style>
+        .swal2-confirm {
+            background-color: #2f49d1 !important;
+        }
+    </style>
 <body>
   <div class="layer"></div>
 
@@ -61,9 +65,9 @@
                 </span>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                <li><a href="##">
+                <li><a href="##" onclick="cambiarClave()">
                     <i data-feather="user" aria-hidden="true"></i>
-                    <span>Perfil</span>
+                    <span>Cambiar Clave</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>
@@ -133,18 +137,6 @@
     <?php include_once "bin/component/footer.php";?>
   </div>
 </div>
-<script>
-    // Obtén el mes actual
-    var fechaActual = new Date();
-    var mes = fechaActual.getMonth() + 1; // Mes actual (1-12)
-
-    // Array de nombres de meses (opcional)
-    var nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
-                        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-    // Inserta el mes en el botón
-    document.getElementById("nuevo").innerHTML = "Editar Meta: "+ nombresMeses[mes - 1];
-</script>
 <!-- Chart library -->
 <script src="plugins/chart.min.js"></script>
 <!-- Icons library -->

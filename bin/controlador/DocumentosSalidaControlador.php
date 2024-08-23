@@ -1,9 +1,11 @@
 <?php
 use modelo\DocumentosSalidaModelo as DocumentosSalida;
 use config\componentes\configSistema as configSistema;
+use modelo\LoginModelo as Login;
 
 $config = new configSistema;
 $DS = new DocumentosSalida();
+$login = new Login;
 session_start();
 if (!isset($_SESSION['usuario'])) {
 	$redirectUrl = '?pagina=' . configSistema::_INICIO_();
@@ -120,6 +122,19 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 ]);
                 return 0;
             }
+        }else if ($accion == 'actualizar_clave') {
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Cambió su contraseña";
+            $clave_encriptada = password_hash($_POST['clave'], PASSWORD_DEFAULT);
+            $resultado = $login->actualizar_contrasena($_SESSION['usuario']['id'],$clave_encriptada,$accion);
+            if($resultado){
+                echo json_encode([
+                    'estatus' => 1
+                ]);
+            }
+            return 0;
+            exit;
         }
     }
     $listDestinarios = $DS->listaDestinatarios();

@@ -55,9 +55,11 @@ document.getElementById('actualizar_meta').addEventListener('click', function() 
                     }
                 },
                     error: (err) => {
-                    Toast.fire({
-                        icon: res.error,
-                    });
+                    Swal.fire(
+                        'no enviado!',
+                        'Error.',
+                        'error'
+                    );
                 },
             });
         
@@ -96,14 +98,6 @@ function carga() {
             datos.append("seccion", $("#nombre_seccion").val());
             enviaAjax(datos);
         }
-    };
-
-    document.getElementById("nuevo").onclick = function () {
-        limpiar();
-        $("#accion").val("registrar_seccion");
-        $("#exampleModalCenterTitle").text("Registrar Secciones");
-        $("#enviar").text("Registrar");
-        $("#modalshowhide").modal("show");
     };
 }
 
@@ -155,29 +149,6 @@ function limpiar() {
 }
 
 /*-------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
-
-function eliminar(id) {
-    Swal.fire({
-        title: "¿Está seguro de eliminar el registro?",
-        text: "¡No podrás revertir esto!",
-        icon: "warning",
-        showCloseButton: true,
-        showCancelButton: true,
-        confirmButtonColor: "#0C72C4",
-        cancelButtonColor: "#9D2323",
-        confirmButtonText: "Confirmar",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            setTimeout(function () {
-                var datos = new FormData();
-                datos.append("accion", "eliminar");
-                datos.append("id_seccion", id);
-                enviaAjax(datos);
-            }, 10);
-        }
-    });
-}
 
 function cargar_datos(id_seccion) {
     var datos = new FormData();

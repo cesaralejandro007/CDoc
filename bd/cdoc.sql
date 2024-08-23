@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2024 a las 17:18:06
+-- Tiempo de generación: 23-08-2024 a las 20:40:53
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -161,16 +161,6 @@ CREATE TABLE `documentos` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `documentos`
---
-
-INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `descripcion`, `numero_doc`, `estatus`, `id_remitente`, `id_tipo_documento`, `id_usuario`) VALUES
-(30, '2024-08-22', '2024-08-23 01:22:56', 'asdsad', '32432', '1', 11, 31, 11),
-(35, '2024-07-30', '2024-08-23 02:48:23', 'asdasdsa', '5435435', '1', 14, 12, 11),
-(44, '2024-08-15', '2024-08-23 13:30:06', 'asdasdasd', '32432432', '1', 9, 9, 11),
-(45, '2024-08-23', '2024-08-23 13:32:15', 'asdsadsad', '535345', '1', 9, 8, 11);
-
 -- --------------------------------------------------------
 
 --
@@ -183,14 +173,6 @@ CREATE TABLE `historial` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `historial`
---
-
-INSERT INTO `historial` (`id_historial`, `accion`, `id_usuario`) VALUES
-(21, '23-08-2024 11:16:37 - Modificó la meta general del mes 08 al valor: 100 / 23-08-2024 10:58:25 - Modificó el documento de entrada con el número de documento: 32432 / 23-08-2024 10:58:07 - Eliminó el documento de entrada con el número de documento: 545556 / 23-08-2024 10:57:51 - Eliminó el documento de entrada con el número de documento: 4566666 / 23-08-2024 10:25:40 -  Inició sesión en el sistema.', 11),
-(23, '23-08-2024 11:17:28 -  Cerró sesión en el sistema. / 23-08-2024 11:17:13 - Eliminó el documento de salida con el número de documento: 5654654 / 23-08-2024 11:15:55 - Registró el documento de sin entrada con el número de documento: 5654654 / 23-08-2024 11:15:18 -  Inició sesión en el sistema.', 15);
-
 -- --------------------------------------------------------
 
 --
@@ -201,14 +183,6 @@ CREATE TABLE `meta` (
   `id_meta` int(11) NOT NULL,
   `meta` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `meta`
---
-
-INSERT INTO `meta` (`id_meta`, `meta`) VALUES
-(27, '850'),
-(28, '100');
 
 -- --------------------------------------------------------
 
@@ -440,15 +414,6 @@ CREATE TABLE `seccionesxmeta` (
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `seccionesxmeta`
---
-
-INSERT INTO `seccionesxmeta` (`id_seccionesXmeta`, `id_seccion`, `id_meta`, `fecha`) VALUES
-(45, 2, 27, '2024-07-21'),
-(46, 2, 28, '2024-08-22'),
-(47, 4, 28, '2024-08-22');
-
 -- --------------------------------------------------------
 
 --
@@ -594,9 +559,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
-(11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$6njZ6fYzljiKL8dHxbyatOAht1xEOTcZksAXQIJIkiz6/ziq5pOQ6', 2, 1),
-(14, '28055654', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$2FuToaTbAOOTfK7INN1nKuTRiNIJku5AMrKFxJj92H9LjV.xhEj8u', 4, 0),
-(15, '28055653', 'Cezsa', 'Vides', '', 'Masculino', '$2y$10$L8HCK7jrjdtRDvkjG1xqOufx9.XU8U86F4theGaXgeMatiQ2p1rWW', 2, 1);
+(11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$QpXksD1NBxJlbRCWiMnxmOoAjzkqnyOg1IpmWQEVQjSQo493X3Da2', 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -691,7 +654,7 @@ ALTER TABLE `documentos`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `meta`
@@ -709,7 +672,7 @@ ALTER TABLE `remitentes`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `secciones`
@@ -733,7 +696,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas

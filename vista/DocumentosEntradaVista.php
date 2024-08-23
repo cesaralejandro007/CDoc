@@ -109,9 +109,9 @@
                 </span>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                <li><a href="##">
+                <li><a href="##" onclick="cambiarClave()">
                     <i data-feather="user" aria-hidden="true"></i>
-                    <span>Perfil</span>
+                    <span>Cambiar Clave</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>

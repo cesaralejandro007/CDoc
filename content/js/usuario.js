@@ -1,6 +1,5 @@
 var keyup_cedula = /^[0-9]{7,8}$/;
 var keyup_nombre = /^[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29}(\s[A-ZÁÉÍÓÚ][a-zñáéíóú]{2,29})?$/;
-var keyup_inputPassword =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;;
 
 function obtenerIdSeccion() {
     let input = $("#seccion").val();
@@ -77,37 +76,13 @@ function carga() {
             "* Seleccione un Sexo"
         );
     };
-/*--------------FIN VALIDACION PARA inputSexo--------------------*/
-/*--------------VALIDACION PARA inputPassword--------------------*/
-document.getElementById("inputPassword").maxLength = 30;
-document.getElementById("inputPassword").onkeypress = function (e) {
-    er = /^[A-Za-z\d@$.!%*?&\s\b\u00f1\u00d1\u00E0-\u00FC]*$/;
-    validarkeypress(er, e);
-};
-document.getElementById("inputPassword").onkeyup = function () {
-    r = validarkeyup(
-        keyup_inputPassword,
-        this,
-        document.getElementById("sinputPassword"),
-        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
-    );
-};
 /*--------------FIN VALIDACION PARA APELLIDO--------------------*/
 
 document.getElementById("enviar").onclick = function () {
     a = valida_registrar();
     if (a != "") {
 
-    }else if($("#inputPassword").val() != $("#inputPassword2").val()){
-        document.getElementById("sinputPassword").innerText = "¡Las claves no coinciden!";
-        document.getElementById("inputPassword").classList.add("is-invalid");
-        document.getElementById("inputPassword2").classList.add("is-invalid");
     }else {
-        document.getElementById("sinputPassword").innerText = "";
-        document.getElementById("inputPassword").classList.remove("is-invalid");
-        document.getElementById("inputPassword2").classList.remove("is-invalid");
-        document.getElementById("inputPassword").classList.add("is-valid");
-        document.getElementById("inputPassword2").classList.add("is-valid");
         var datos = new FormData();
         datos.append("accion", $("#accion").val());
         datos.append("id", $("#id_usuario").val());
@@ -116,7 +91,14 @@ document.getElementById("enviar").onclick = function () {
         datos.append("inputApellidos", $("#inputApellidos").val());
         datos.append("rol", $("#rol").val());
         datos.append("inputSexo", $("#inputSexo").val());
-        datos.append("inputPassword", $("#inputPassword").val());
+        // Obtén el año actual
+        const añoActual = new Date().getFullYear();
+
+        // Concatenar la cadena con el año actual
+        const nuevaClave = "Seniat" + añoActual;
+
+        // Añadir al objeto FormData
+        datos.append("inputPassword", nuevaClave);
         datos.append("seccion", obtenerIdSeccion());
         enviaAjax(datos);
     }
@@ -172,20 +154,16 @@ function limpiar() {
     $("#inputNombres").val("");
     $("#inputApellidos").val("");
     $("#inputSexo").val(0);
-    $("#inputPassword").val("");
     document.getElementById("sinputCedula").innerText = "";
     document.getElementById("sinputNombres").innerText = "";
     document.getElementById("sinputApellidos").innerText = "";
     document.getElementById("sinputSexo").innerText = "";
-    document.getElementById("sinputPassword").innerText = "";
    /*  document.getElementById("sarea").innerText = ""; */
 
     document.getElementById("inputCedula").classList.remove("is-invalid", "is-valid");
     document.getElementById("inputNombres").classList.remove("is-invalid", "is-valid");
     document.getElementById("inputApellidos").classList.remove("is-invalid", "is-valid");
     document.getElementById("inputSexo").classList.remove("is-invalid", "is-valid");
-    document.getElementById("inputPassword").classList.remove("is-invalid", "is-valid");
-    /* document.getElementById("area").classList.remove("is-invalid", "is-valid"); */
 }
 
 function valida_registrar() {
@@ -217,12 +195,6 @@ function valida_registrar() {
         document.getElementById("inputSexo").classList.remove("is-invalid");
         document.getElementById("inputSexo").classList.add("is-valid");
     }
-    inputPassword = validarkeyup(
-        keyup_inputPassword,
-        document.getElementById("inputPassword"),
-        document.getElementById("sinputPassword"),
-        "La clave debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un dígito y un carácter especial."
-    );
     if(obtenerIdSeccion() == ""){
         document.getElementById("sseccion").innerHTML ="* Seleccione una sección";
         document.getElementById("sseccion").style.color = "red";
@@ -238,7 +210,6 @@ function valida_registrar() {
         inputNombres == 0 ||
         inputApellidos == 0 ||
         document.getElementById("inputSexo").value == 0 ||
-        inputPassword == 0 ||    
         obtenerIdSeccion() == ""
     ){
         error = true;

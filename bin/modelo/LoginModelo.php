@@ -144,4 +144,16 @@ class loginModelo extends connectDB
         parent::registrar_bitacora($id_usuario,$accion);
     }
 
+    public function actualizar_contrasena($id_usuario,$clave_encriptada,$accion)
+    {
+        try {
+            $this->conex->query("UPDATE usuarios SET contrasena = '$clave_encriptada' WHERE id_usuario  = '$id_usuario'");
+            parent::registrar_bitacora($id_usuario,$accion);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+        return $respuesta;
+    }
+
 }

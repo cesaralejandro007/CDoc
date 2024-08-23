@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="form-label" for="inputSexo">Sexo</label>
               <select id="inputSexo" class="form-control form-input" required>
@@ -53,28 +53,13 @@
             </div>
             <span id="sinputSexo"></span>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="form-label" for="rol">Rol</label>
               <select id="rol" class="form-control form-input" required>
                 <option value="Administrador">Administrador</option>
                 <option value="Usuario">Usuario</option>
               </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputPassword">Contraseña</label>
-              <input type="password" class="form-control form-input" id="inputPassword" placeholder="Contraseña" required>
-            </div>
-            <span id="sinputPassword"></span>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label class="form-label" for="inputPassword2">Repetir Contraseña</label>
-              <input type="password" class="form-control form-input" id="inputPassword2" placeholder="Repetir Contraseña" required>
             </div>
           </div>
           <div class="col-md-4">
@@ -124,9 +109,9 @@
                 </span>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                <li><a href="##">
+                <li><a href="##" onclick="cambiarClave()">
                     <i data-feather="user" aria-hidden="true"></i>
-                    <span>Perfil</span>
+                    <span>Cambiar Clave</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>

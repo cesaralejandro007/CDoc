@@ -62,20 +62,6 @@ use config\componentes\configSistema as configSistema;
                             </div>
                         <div class="col-12">
                             <div class="input-group mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Clave</span>
-                                <input type="password" name="clave" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="clave" required>
-                            </div>
-                            <span id="sclave"></span>
-                        </div>
-                        <div class="col-12">
-                            <div class="input-group mb-1">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Confirmar Clave</span>
-                                <input type="password" name="clave2" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="clave2" required>
-                            </div>
-                            <span id="sclave2"></span>
-                        </div>
-                        <div class="col-12">
-                            <div class="input-group mb-1">
                                 <label class="input-group-text" for="seccion">Sección</label>
                                 <input list="tipoSeccion" id="seccion" placeholder="Sección" class="form-control" required>
                                 <datalist id="tipoSeccion">

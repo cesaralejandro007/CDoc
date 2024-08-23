@@ -32,9 +32,9 @@
                 </span>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                <li><a href="##">
+                <li><a href="##" onclick="cambiarClave()">
                     <i data-feather="user" aria-hidden="true"></i>
-                    <span>Perfil</span>
+                    <span>Cambiar Clave</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>
@@ -103,11 +103,10 @@ foreach ($list as $valor) {
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 
-<script src="content/js/datatables-Usuarios.js"></script>
+<script src="content/js/datatables-historial.js"></script>
 
 <script src="content/js/script.js"></script>
 
-<script src="content/js/usuario.js"></script>
 </body>
 
 </html>
