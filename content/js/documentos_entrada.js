@@ -249,7 +249,7 @@ function valida_registrar() {
 
 /*--------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
 
-function eliminar(id) {
+function eliminar(id,numeroDocumento) {
     Swal.fire({
         title: "¿Está seguro de eliminar el registro?",
         text: "¡No podrás revertir esto!",
@@ -266,13 +266,14 @@ function eliminar(id) {
                 var datos = new FormData();
                 datos.append("accion", "eliminar");
                 datos.append("id_documento", id);
+                datos.append("numeroDocumento", numeroDocumento);
                 enviaAjax(datos);
             }, 10);
         }
     });
 }
 
-function migrarDoc(id) {
+function migrarDoc(id,numeroDocumento) {
     var datos_buscar = new FormData();
     datos_buscar.append("accion", "buscarData");
     $.ajax({
@@ -335,6 +336,7 @@ function migrarDoc(id) {
                     datos_migrar.append("fecha_salida", result.value.fecha);
                     datos_migrar.append("id_documento", id);
                     datos_migrar.append("id_destinatario", result.value.id_destinatario);
+                    datos_migrar.append("numeroDocumento", numeroDocumento);
                     $.ajax({
                         url: "", // Proporciona la URL de tu servidor
                         type: "POST",

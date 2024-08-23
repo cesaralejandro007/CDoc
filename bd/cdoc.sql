@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-08-2024 a las 20:07:43
+-- Tiempo de generación: 23-08-2024 a las 04:53:27
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -166,9 +166,10 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `descripcion`, `numero_doc`, `estatus`, `id_remitente`, `id_tipo_documento`, `id_usuario`) VALUES
-(25, '2024-08-21', '2024-07-21 15:49:03', 'asdasdsad', '32432432', '3', 10, 9, 11),
-(26, '2024-08-22', '2024-08-22 15:33:19', 'sdfsdfds', '4324324', '1', 11, 9, 11),
-(27, '2024-08-22', '2024-08-22 15:35:49', 'asdasdsad', '45555', '3', 8, 18, 14);
+(27, '2024-08-22', '2024-08-22 15:35:49', 'asdasdsad', '45555', '3', 8, 18, 14),
+(30, '2024-08-22', '2024-08-23 01:22:56', 'asdsad', '32432', '1', 11, 31, 11),
+(32, '2024-08-20', '2024-08-23 01:43:54', 'fdsfdsfsd', '4566666', '3', 75, 12, 11),
+(35, '2024-07-30', '2024-08-23 02:48:23', 'asdasdsa', '5435435', '1', 14, 12, 11);
 
 -- --------------------------------------------------------
 
@@ -179,9 +180,15 @@ INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `de
 CREATE TABLE `historial` (
   `id_historial` int(11) NOT NULL,
   `accion` text NOT NULL,
-  `fecha` datetime NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historial`
+--
+
+INSERT INTO `historial` (`id_historial`, `accion`, `id_usuario`) VALUES
+(6, '22-08-2024 22:52:29 - Eliminó el documento de entrada con el número de documento: 564654 / 22-08-2024 22:51:53 - Migró el documento de entrada a los documentos de salida con el número de documento: 45555 / 22-08-2024 22:51:41 - Modificó el documento de entrada con el número de documento: 32432 / 22-08-2024 22:51:27 - Eliminó el documento de entrada con el número de documento: 4324324', 11);
 
 -- --------------------------------------------------------
 
@@ -200,7 +207,7 @@ CREATE TABLE `meta` (
 
 INSERT INTO `meta` (`id_meta`, `meta`) VALUES
 (27, '850'),
-(28, '400');
+(28, '900');
 
 -- --------------------------------------------------------
 
@@ -404,8 +411,8 @@ CREATE TABLE `salidas` (
 --
 
 INSERT INTO `salidas` (`id_salida`, `fecha_salida`, `id_documento`, `id_destinatario`) VALUES
-(5, '2024-08-22 00:00:00', 25, 12),
-(6, '2024-08-22 00:00:00', 27, 13);
+(8, '2024-08-22 00:00:00', 32, 15),
+(9, '2024-08-21 00:00:00', 27, 16);
 
 -- --------------------------------------------------------
 
@@ -684,13 +691,13 @@ ALTER TABLE `destinatarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `meta`
@@ -708,7 +715,7 @@ ALTER TABLE `remitentes`
 -- AUTO_INCREMENT de la tabla `salidas`
 --
 ALTER TABLE `salidas`
-  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_salida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `secciones`

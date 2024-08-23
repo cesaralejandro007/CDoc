@@ -1,7 +1,7 @@
 <?php
 use modelo\DocumentosEntradaModelo as DocumentosEntrada;
 use config\componentes\configSistema as configSistema;
-
+date_default_timezone_set('America/Caracas');
 $config = new configSistema;
 $DE = new DocumentosEntrada();
 session_start();
@@ -25,8 +25,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $remitente = $_POST['remitente'];
             $descripcion = $_POST['descripcion'];
             $id_usuario = $_SESSION['usuario']['id'];
-
-            $response = $DE->registrar_Documentos_Entrada($fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario);
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Registró el documento de entrada con el número de documento: $numeroDocumento";
+            
+            $response = $DE->registrar_Documentos_Entrada($fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario,$accion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '1',
@@ -50,8 +52,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $numeroDocumento = $_POST['numeroDocumento'];
             $descripcion = $_POST['descripcion'];
             $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Registró el documento de sin entrada con el número de documento: $numeroDocumento";
 
-            $response = $DE->registrar_Documentos_Sin_Entrada($descripcion,$numeroDocumento,$tipoDocumento,$id_usuario);
+            $response = $DE->registrar_Documentos_Sin_Entrada($descripcion,$numeroDocumento,$tipoDocumento,$id_usuario,$accion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '2',
@@ -71,7 +75,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 return 0;
             }
         }else if ($accion == 'eliminar') {
-            $response = $DE->eliminar($_POST['id_documento']);
+            $numeroDocumento = $_POST['numeroDocumento'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Eliminó el documento de entrada con el número de documento: $numeroDocumento";
+
+            $response = $DE->eliminar($_POST['id_documento'],$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
@@ -112,8 +121,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 $remitente = $_POST['remitente'];
                 $descripcion = $_POST['descripcion'];
                 $id_usuario = $_SESSION['usuario']['id'];
+                $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+                $accion = "$fechaAccion - Modificó el documento de entrada con el número de documento: $numeroDocumento";
 
-                $response = $DE->modificar($id_documento,$fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario);
+                $response = $DE->modificar($id_documento,$fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario,$accion);
                 if ($response) {
                     echo json_encode([
                         'estatus' => '1',
@@ -140,8 +151,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 $fecha_salida = $_POST['fecha_salida'];
                 $id_documento = $_POST['id_documento'];
                 $id_destinatario = $_POST['id_destinatario'];
-    
-                $response = $DE->registrar_documento_salida($fecha_salida,$id_documento,$id_destinatario);
+                $numeroDocumento = $_POST['numeroDocumento'];
+                $id_usuario = $_SESSION['usuario']['id'];
+                $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+                $accion = "$fechaAccion - Migró el documento de entrada a los documentos de salida con el número de documento: $numeroDocumento";
+                
+                $response = $DE->registrar_documento_salida($fecha_salida,$id_documento,$id_destinatario,$id_usuario,$accion);
                 if ($response == true) {
                     echo json_encode([
                         'estatus' => '1',

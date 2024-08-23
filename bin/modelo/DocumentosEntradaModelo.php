@@ -56,39 +56,43 @@ class DocumentosEntradaModelo extends connectDB
         return $respuestaArreglo;
     }
     
-    public function registrar_Documentos_Entrada($fecha,$descripcion,$numeroDocumento,$remitent,$tipoDocumento,$id_usuario)
+    public function registrar_Documentos_Entrada($fecha, $descripcion, $numeroDocumento, $remitent, $tipoDocumento, $id_usuario, $accion)
     {
+        // Verificar si el documento ya está registrado
         $validar_registro = $this->validar_registro($numeroDocumento);
         if ($validar_registro) {
             return false;
         } else {
             try {
+                // Insertar el documento en la tabla `documentos`
                 $this->conex->query("INSERT INTO documentos(
-        					fecha_entrada,
-                            descripcion,
-                            numero_doc,
-        					estatus,
-        					id_remitente,
-                            id_tipo_documento,
-                            id_usuario
-        					)
-        				VALUES(
-                            '$fecha',
-        					'$descripcion',
-        					'$numeroDocumento',
-                            '1',
-        					'$remitent',
-        					'$tipoDocumento',
-                            '$id_usuario'
-        				)");
+                                        fecha_entrada,
+                                        descripcion,
+                                        numero_doc,
+                                        estatus,
+                                        id_remitente,
+                                        id_tipo_documento,
+                                        id_usuario
+                                    )
+                                    VALUES(
+                                        '$fecha',
+                                        '$descripcion',
+                                        '$numeroDocumento',
+                                        '1',
+                                        '$remitent',
+                                        '$tipoDocumento',
+                                        '$id_usuario'
+                                    )");
+                    $this->registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
         }
     }
+    
 
-    public function registrar_documento_salida($fecha_salida,$id_documento,$id_destinatario)
+    public function registrar_documento_salida($fecha_salida,$id_documento,$id_destinatario,$id_usuario,$accion)
     {
         try {
             $this->conex->query("INSERT INTO salidas(
@@ -102,13 +106,14 @@ class DocumentosEntradaModelo extends connectDB
                         '$id_destinatario'
                     )");
             $this->conex->query("UPDATE documentos SET  estatus = '3' WHERE id_documento  = '$id_documento'");
+            $this->registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;
         }
     }
 
-    public function registrar_Documentos_Sin_Entrada($descripcion,$numeroDocumento,$tipoDocumento,$id_usuario)
+    public function registrar_Documentos_Sin_Entrada($descripcion,$numeroDocumento,$tipoDocumento,$id_usuario,$accion)
     {
         $validar_registro = $this->validar_registro($numeroDocumento);
         if ($validar_registro) {
@@ -129,6 +134,7 @@ class DocumentosEntradaModelo extends connectDB
         					'$tipoDocumento',
                             '$id_usuario'
         				)");
+                        $this->registrar_bitacora($id_usuario,$accion);  
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
@@ -136,10 +142,11 @@ class DocumentosEntradaModelo extends connectDB
         }
     }
 
-    public function eliminar($id_documento)
+    public function eliminar($id_documento,$id_usuario,$accion)
     {
     try {
         $this->conex->query("DELETE FROM documentos WHERE id_documento = '$id_documento'");
+        $this->registrar_bitacora($id_usuario,$accion);
         return true;
     } catch (Exception $e) {
         return false;
@@ -159,7 +166,7 @@ class DocumentosEntradaModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_documento ,$fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario)
+    public function modificar($id_documento ,$fecha,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario,$accion)
     {
         $validar_modificar = $this->validar_modificar($id_documento, $numeroDocumento);
         if ($validar_modificar) {
@@ -167,6 +174,7 @@ class DocumentosEntradaModelo extends connectDB
         }else {
             try {
                 $this->conex->query("UPDATE documentos SET fecha_entrada = '$fecha', descripcion = '$descripcion', numero_doc = '$numeroDocumento', id_remitente = '$remitente', id_tipo_documento  = '$tipoDocumento', id_usuario   = '$id_usuario' WHERE id_documento  = '$id_documento'");
+                $this->registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -203,6 +211,25 @@ class DocumentosEntradaModelo extends connectDB
             } else {
                 return false;
             }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function registrar_bitacora($id_usuario,$accion)
+    {
+        try {
+            // Verificar si ya existe un registro en la tabla `historial` para el usuario
+            $result = $this->conex->query("SELECT accion FROM historial WHERE id_usuario = '$id_usuario'");
+            if ($result->rowCount() > 0) {
+                // Si existe, concatenar la nueva acción con un `/`
+                $row = $result->fetch();
+                $nueva_accion = $accion . " / " . $row['accion'] ;
+                $this->conex->query("UPDATE historial SET accion = '$nueva_accion' WHERE id_usuario = '$id_usuario'");
+            } else {
+                // Si no existe, insertar un nuevo registro en la tabla `historial`
+                $this->conex->query("INSERT INTO historial(id_usuario, accion) VALUES('$id_usuario', '$accion')");
+            }   
         } catch (Exception $e) {
             return false;
         }
