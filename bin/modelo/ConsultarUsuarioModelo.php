@@ -3,7 +3,7 @@ namespace modelo;
 use config\connect\connectDB as connectDB;
 class ConsultarUsuarioModelo extends connectDB
 {
-    public function registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
+    public function registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion,$id_usuario,$accion)
     {
         $validar_registro = $this->validar_registro($cedula);
         if ($validar_registro) {
@@ -28,6 +28,7 @@ class ConsultarUsuarioModelo extends connectDB
                             '$seccion',
                             '1'
         				)");
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
@@ -92,10 +93,11 @@ class ConsultarUsuarioModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function eliminar($id_usuario)
+    public function eliminar($id_usuario,$id_user,$accion)
     {
         try {
             $this->conex->query("UPDATE usuarios SET estatus='0' WHERE id_usuario = '$id_usuario'");
+            parent::registrar_bitacora($id_user,$accion);
             return true;
         } catch (Exception $e) {
             return false;
@@ -115,7 +117,7 @@ class ConsultarUsuarioModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion)
+    public function modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion,$id_user,$accion)
     {
         $validar_modificar = $this->validar_modificar($id_usuario, $cedula);
         if ($validar_modificar) {
@@ -123,6 +125,7 @@ class ConsultarUsuarioModelo extends connectDB
         }else {
             try {
                 $this->conex->query("UPDATE usuarios SET cedula = '$cedula', nombres = '$nombres', apellidos = '$apellidos', rol = '$rol', sexo = '$sexo', contrasena = '$clave_encriptada', id_seccion = '$seccion' WHERE id_usuario  = '$id_usuario'");
+                parent::registrar_bitacora($id_user,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;

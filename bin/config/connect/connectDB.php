@@ -29,5 +29,24 @@
 				die();
 			}
 		}
+
+		public function registrar_bitacora($id_usuario,$accion)
+		{
+			try {
+				// Verificar si ya existe un registro en la tabla `historial` para el usuario
+				$result = $this->conex->query("SELECT accion FROM historial WHERE id_usuario = '$id_usuario'");
+				if ($result->rowCount() > 0) {
+					// Si existe, concatenar la nueva acción con un `/`
+					$row = $result->fetch();
+					$nueva_accion = $accion . " / " . $row['accion'] ;
+					$this->conex->query("UPDATE historial SET accion = '$nueva_accion' WHERE id_usuario = '$id_usuario'");
+				} else {
+					// Si no existe, insertar un nuevo registro en la tabla `historial`
+					$this->conex->query("INSERT INTO historial(id_usuario, accion) VALUES('$id_usuario', '$accion')");
+				}   
+			} catch (Exception $e) {
+				return false;
+			}
+		}
 	
  }

@@ -1,10 +1,8 @@
 <?php 
-
-
 	namespace bin\controlador;
-
+	
 	use config\componentes\configSistema as configSistema;
-
+	
 	class frontControlador extends configSistema{
 		private $pagina;
 		private $directory;

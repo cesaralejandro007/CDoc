@@ -13,7 +13,7 @@
 	define("MODEL", "Modelo.php");
 	define("CONTROLADOR", "Controlador.php");
 	define("VISTA", "Vista.php");
-
+	date_default_timezone_set('America/Caracas');
 
 	class configSistema{
 		public function _int(){
@@ -78,8 +78,6 @@
 			return self::Seguridad('Login', 'codificar');
 		}
 
-
-
 		public static function _MLOGIN_() {
 			echo self::Seguridad('Login', 'codificar');
 		}
@@ -90,6 +88,10 @@
 
 		public static function _PRINCIPAL_() {
 			echo self::Seguridad('Principal', 'codificar');
+		}
+
+		public static function _Historial_() {
+			echo self::Seguridad('Historial', 'codificar');
 		}
 
 		public static function _ConsultarUsuario_() {

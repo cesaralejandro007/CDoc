@@ -1,7 +1,6 @@
 <?php
 use modelo\DocumentosEntradaModelo as DocumentosEntrada;
 use config\componentes\configSistema as configSistema;
-date_default_timezone_set('America/Caracas');
 $config = new configSistema;
 $DE = new DocumentosEntrada();
 session_start();

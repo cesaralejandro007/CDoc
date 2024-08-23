@@ -64,10 +64,11 @@ class DocumentosSalidaModelo extends connectDB
             return false;
         }
     }
-    public function eliminar($id_documento)
+    public function eliminar($id_documento,$id_usuario,$accion)
     {
         try {
             $this->conex->query("DELETE FROM documentos WHERE id_documento = '$id_documento'");
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;
@@ -89,7 +90,7 @@ class DocumentosSalidaModelo extends connectDB
     }
 
     
-    public function modificar($id_documento,$id_salida,$fecha,$fecha_salida,$destinatario,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario)
+    public function modificar($id_documento,$id_salida,$fecha,$fecha_salida,$destinatario,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario,$accion)
     {
         $validar_modificar = $this->validar_modificar($id_documento, $numeroDocumento);
         if ($validar_modificar) {
@@ -98,6 +99,7 @@ class DocumentosSalidaModelo extends connectDB
             try {
                 $this->conex->query("UPDATE documentos SET fecha_entrada = '$fecha', descripcion = '$descripcion', numero_doc = '$numeroDocumento', id_remitente = '$remitente', id_tipo_documento  = '$tipoDocumento', id_usuario   = '$id_usuario' WHERE id_documento  = '$id_documento'");
                 $this->conex->query("UPDATE salidas SET fecha_salida = '$fecha_salida', id_destinatario = '$destinatario' WHERE id_salida  = '$id_salida'");
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -106,11 +108,12 @@ class DocumentosSalidaModelo extends connectDB
         return $respuesta;
     }
 
-    public function migrar_documento_entrada($id_documento,$id_salida)
+    public function migrar_documento_entrada($id_documento,$id_salida,$id_usuario,$accion)
     {
         try {
             $this->conex->query("UPDATE documentos SET estatus='1' WHERE id_documento = '$id_documento'");
             $this->conex->query("DELETE FROM salidas WHERE id_salida = '$id_salida'");
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;

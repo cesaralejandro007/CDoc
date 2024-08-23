@@ -128,10 +128,6 @@
                     <i data-feather="user" aria-hidden="true"></i>
                     <span>Perfil</span>
                     </a></li>
-                <li><a href="##">
-                    <i data-feather="settings" aria-hidden="true"></i>
-                    <span>Configuración</span>
-                    </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>
                     <span>Salir</span>
@@ -173,7 +169,7 @@
                   </td>
                   <td style="text-align: center;" class="project-actions text-left">
                       <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
-                      onclick="eliminar(<?=$valor['id_usuario'];?>);">
+                      onclick="eliminar(<?=$valor['id_usuario'];?>,<?=$valor['cedula'];?>,`<?=$valor['nombres'];?>`,`<?=$valor['apellidos'];?>`);">
                           <i style="font-size: 15px" class="fas fa-trash"></i>
                       </button>
                   </td>

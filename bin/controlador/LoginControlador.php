@@ -15,7 +15,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $usuario = $_POST['usuario'];
             $clave = $_POST['password'];
             if($usuario != "" && $clave != ""){
-                $res_usuario = $login->verificar_usuario($usuario,$clave);
+                $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+                $accion = "$fechaAccion -  Inició sesión en el sistema.";
+                $res_usuario = $login->verificar_usuario($usuario,$clave,$accion);
                 if($res_usuario == true){
                     $info_usuario = $login->datos_usuario($usuario);
                     if($info_usuario[0]['estatus']==1){
@@ -95,9 +97,21 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 return 0;
             }
         }else{
+            if (isset($_SESSION['usuario'])) {
+                $id_usuario = $_SESSION['usuario']['id'];
+                $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+                $accion = "$fechaAccion -  Cerró sesión en el sistema.";
+                $login->cerrar_sesion($id_usuario,$accion);
+            }
             session_destroy();  
         }
     }else {
+        if (isset($_SESSION['usuario'])) {
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion -  Cerró sesión en el sistema.";
+            $login->cerrar_sesion($id_usuario,$accion);
+        }
         session_destroy();
     }
     $list = $login->listar_secciones();

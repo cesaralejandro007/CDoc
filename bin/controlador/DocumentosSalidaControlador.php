@@ -18,8 +18,13 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     if (isset($_POST['accion'])) {
         $accion = $_POST['accion'];
         if ($accion == 'eliminar') {
+            $numeroDocumento = $_POST['numeroDocumento'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Eliminó el documento de salida con el número de documento: $numeroDocumento";
+
             $response = $DS->eliminar_salida($_POST['id_salida']);
-            $response1 = $DS->eliminar($_POST['id_documento']);
+            $response1 = $DS->eliminar($_POST['id_documento'],$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
@@ -66,8 +71,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $destinatario = $_POST['destinario'];
             $descripcion = $_POST['descripcion'];
             $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Modificó el documento de salida con el número de documento: $numeroDocumento";
 
-            $response = $DS->modificar($id_documento,$id_salida,$fecha,$fecha_salida,$destinatario,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario);
+            $response = $DS->modificar($id_documento,$id_salida,$fecha,$fecha_salida,$destinatario,$descripcion,$numeroDocumento,$remitente,$tipoDocumento,$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
@@ -87,9 +94,14 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             exit;
         }else if($accion=="migrar_documento_entrada"){
 
+            $numeroDocumento = $_POST['numeroDocumento'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Migró el documento de salida a los documentos de entrada con el número de documento: $numeroDocumento";
+
             $id_documento = $_POST['id_documento'];
             $id_salida = $_POST['id_salida'];
-            $response = $DS->migrar_documento_entrada($id_documento,$id_salida);
+            $response = $DS->migrar_documento_entrada($id_documento,$id_salida,$id_usuario,$accion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '2',

@@ -18,7 +18,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
     if (isset($_POST['accion'])) {
         $accion = $_POST['accion'];
         if ($accion == 'eliminar') {
-            $response = $DSE->eliminar($_POST['id_documento']);
+            $numeroDocumento = $_POST['numeroDocumento'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Eliminó el documento de salida con el número de documento: $numeroDocumento";
+
+            $response = $DSE->eliminar($_POST['id_documento'],$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
@@ -55,8 +60,9 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $numeroDocumento = $_POST['numeroDocumento'];
             $descripcion = $_POST['descripcion'];
             $id_usuario = $_SESSION['usuario']['id'];
-
-            $response = $DSE->modificar($id_documento ,$descripcion,$numeroDocumento,$tipoDocumento,$id_usuario);
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Modificó el documento sin entrada con el número de documento: $numeroDocumento";
+            $response = $DSE->modificar($id_documento ,$descripcion,$numeroDocumento,$tipoDocumento,$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
@@ -79,10 +85,15 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             echo json_encode($datos);
             return 0;
         }else if($accion=="migrar_documento_entrada"){
+            $numeroDocumento = $_POST['numeroDocumento'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Migró el documento sin entrada a los documentos de entrada con el número de documento: $numeroDocumento";
+
             $id_documento = $_POST['id_documento'];
             $id_remitente = $_POST['id_remitente'];
             $fecha_entrada = $_POST['fecha_entrada'];
-            $response = $DSE->migrar_documento_entrada($id_documento,$id_remitente,$fecha_entrada);
+            $response = $DSE->migrar_documento_entrada($id_documento,$id_remitente,$fecha_entrada,$id_usuario,$accion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '1',

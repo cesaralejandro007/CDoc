@@ -25,8 +25,10 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $sexo = $_POST['inputSexo'];
             $clave_encriptada = password_hash($_POST['inputPassword'], PASSWORD_DEFAULT);
             $seccion = $_POST['seccion'];
-
-            $response = $Usuario->registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion);
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Registró al usuario: ".$cedula. ", ".$nombres." ".$apellidos;
+            $response = $Usuario->registrar_usuario($cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion,$id_usuario,$accion);
             if ($response == true) {
                 echo json_encode([
                     'estatus' => '1',
@@ -45,13 +47,20 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                 return 0;
             }
         }else if($accion=="eliminar"){
-            $response = $Usuario->eliminar($_POST['id_usuario']);
+            $cedula = $_POST['cedula'];
+            $nombres = $_POST['inputNombres'];
+            $apellidos = $_POST['inputApellidos'];
+            $id_usuario = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Eliminó al usuario: ".$cedula. ", ".$nombres." ".$apellidos;
+
+            $response = $Usuario->eliminar($_POST['id_usuario'],$id_usuario,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',
                     'icon' => 'success',
                     'title' => 'Eliminar Usuario',
-                    'message' => 'Registro Eliminado'
+                    'message' => $accion
                 ]);
             }else{
                 echo json_encode([
@@ -87,7 +96,12 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
             $sexo = $_POST['inputSexo'];
             $clave_encriptada = password_hash($_POST['inputPassword'], PASSWORD_DEFAULT);
             $seccion = $_POST['seccion'];
-            $response = $Usuario->modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion);
+
+            $id_user = $_SESSION['usuario']['id'];
+            $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
+            $accion = "$fechaAccion - Modificó al usuario: ".$cedula. ", ".$nombres." ".$apellidos;
+
+            $response = $Usuario->modificar($id_usuario,$cedula,$nombres,$apellidos,$rol,$sexo,$clave_encriptada,$seccion,$id_user,$accion);
             if ($response) {
                 echo json_encode([
                     'estatus' => '1',

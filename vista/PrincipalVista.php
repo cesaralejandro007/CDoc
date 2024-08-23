@@ -35,10 +35,6 @@
                     <i data-feather="user" aria-hidden="true"></i>
                     <span>Perfil</span>
                     </a></li>
-                <li><a href="##">
-                    <i data-feather="settings" aria-hidden="true"></i>
-                    <span>Configuración</span>
-                    </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>
                     <span>Salir</span>

@@ -43,10 +43,11 @@ class DocumentosSinEntradaModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function eliminar($id_documento)
+    public function eliminar($id_documento,$id_usuario,$accion)
     {
         try {
             $this->conex->query("DELETE FROM documentos WHERE id_documento = '$id_documento'");
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;
@@ -66,7 +67,7 @@ class DocumentosSinEntradaModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_documento ,$descripcion,$numeroDocumento,$tipoDocumento,$id_usuario)
+    public function modificar($id_documento ,$descripcion,$numeroDocumento,$tipoDocumento,$id_usuario,$accion)
     {
         $validar_modificar = $this->validar_modificar($id_documento, $numeroDocumento);
         if ($validar_modificar) {
@@ -74,6 +75,7 @@ class DocumentosSinEntradaModelo extends connectDB
         }else {
             try {
                 $this->conex->query("UPDATE documentos SET descripcion = '$descripcion', numero_doc = '$numeroDocumento', id_tipo_documento  = '$tipoDocumento', id_usuario   = '$id_usuario' WHERE id_documento  = '$id_documento'");
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -82,10 +84,11 @@ class DocumentosSinEntradaModelo extends connectDB
         return $respuesta;
     }
 
-    public function migrar_documento_entrada($id_documento,$id_remitente,$fecha_entrada)
+    public function migrar_documento_entrada($id_documento,$id_remitente,$fecha_entrada,$id_usuario,$accion)
     {
         try {
             $this->conex->query("UPDATE documentos SET fecha_entrada='$fecha_entrada', id_remitente='$id_remitente', estatus='1' WHERE id_documento = '$id_documento'");
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;

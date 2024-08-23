@@ -166,7 +166,7 @@ function valida_registrar() {
 
 /*--------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
 
-function eliminar(id_documento,id_salida) {
+function eliminar(id_documento,numeroDocumento) {
     Swal.fire({
         title: "¿Está seguro de eliminar el registro?",
         text: "¡No podrás revertir esto!",
@@ -183,31 +183,7 @@ function eliminar(id_documento,id_salida) {
                 var datos = new FormData();
                 datos.append("accion", "eliminar");
                 datos.append("id_documento", id_documento);
-                datos.append("id_salida", id_salida);
-                enviaAjax(datos);
-            }, 10);
-        }
-    });
-}
-
-function migrarDoc(id_documento, id_salida) {
-    Swal.fire({
-        title: "¿Estás seguro de que deseas migrar el documento sin entrada a los documentos con entrada?",
-        text: "¡No podrás revertir esto!",
-        icon: "warning",
-        showCloseButton: true,
-        showCancelButton: true,
-        confirmButtonColor: "#0C72C4",
-        cancelButtonColor: "#9D2323",
-        confirmButtonText: "Confirmar",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            setTimeout(function () {
-                var datos = new FormData();
-                datos.append("accion", "migrar_documento_entrada");
-                datos.append("id_documento", id_documento);
-                datos.append("id_salida", id_salida);
+                datos.append("numeroDocumento", numeroDocumento);
                 enviaAjax(datos);
             }, 10);
         }
@@ -223,7 +199,8 @@ function cargar_datos(id_documento) {
     datos.append("id_documento", id_documento);
     mostrar(datos);
 }
-function migrarDoc(id) {
+
+function migrarDoc(id,numeroDocumento) {
     var datos_buscar = new FormData();
     datos_buscar.append("accion", "buscarData");
 
@@ -282,6 +259,7 @@ function migrarDoc(id) {
                     datos_migrar.append("fecha_entrada", result.value.fecha);
                     datos_migrar.append("id_documento", id);
                     datos_migrar.append("id_remitente", result.value.id_remitente);
+                    datos_migrar.append("numeroDocumento", numeroDocumento);
 
                     $.ajax({
                         url: "", // Proporciona la URL de tu servidor
@@ -291,8 +269,7 @@ function migrarDoc(id) {
                         processData: false,
                         cache: false,
                         success: (response) => {
-                            const res = JSON.parse(response);
-
+                            var res = JSON.parse(response);
                             Swal.fire({
                                 title: res.title,
                                 text: res.message,

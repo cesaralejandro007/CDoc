@@ -77,7 +77,7 @@ class loginModelo extends connectDB
         }
     }
 
-    public function verificar_usuario($usuario,$password)
+    public function verificar_usuario($usuario,$password,$accion)
     {
         $resultado = $this->conex->prepare("SELECT * FROM usuarios WHERE cedula ='$usuario'");
         try {
@@ -85,6 +85,7 @@ class loginModelo extends connectDB
             $respuesta1 = $resultado->fetchAll();
             if (!empty($respuesta1)) {
                 if(password_verify($password, $respuesta1[0]['contrasena'])) {
+                    parent::registrar_bitacora($respuesta1[0]['id_usuario'],$accion);
                     return true;
                 } else {
                     return false;
@@ -108,8 +109,7 @@ class loginModelo extends connectDB
         }
         return $respuestaArreglo;
     }
-
-
+    
     public function validar_registro($cedula)
     {
         try {
@@ -137,6 +137,11 @@ class loginModelo extends connectDB
             return $e->getMessage();
         }
         return $respuestaArreglo;
+    }
+
+    public function cerrar_sesion($id_usuario,$accion)
+    {
+        parent::registrar_bitacora($id_usuario,$accion);
     }
 
 }

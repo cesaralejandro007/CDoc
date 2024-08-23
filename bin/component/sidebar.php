@@ -26,10 +26,13 @@ use config\componentes\configSistema as configSistema;
                 <li>
                     <a href="?pagina=<?php configSistema::_ConsultarUsuario_();?>"><span class="icon document" aria-hidden="true"></span>Usuarios</a>
                 </li>
-                <?php  } ?>
                 <li>
                     <a href="?pagina=<?php configSistema::_ConsultarSecciones_();?>"><span class="icon document" aria-hidden="true"></span>Secciones</a>
                 </li>
+                <li>
+                    <a href="?pagina=<?php configSistema::_Historial_();?>"><span class="icon document" aria-hidden="true"></span>Historial</a>
+                </li>
+                <?php  } ?>
             </ul>
             <span class="system-menu__title">documentos</span>
             <ul class="sidebar-body-menu">

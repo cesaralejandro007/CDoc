@@ -106,10 +106,11 @@ class SeccionesModelo extends connectDB
         return $respuestaArreglo;
     }
 
-    public function modificar($id_seccion,$cantidad)
+    public function modificar($id_seccion,$cantidad,$id_usuario,$accion)
     {
             try {
                 $this->conex->query("UPDATE secciones SET cantidad_documentos = '$cantidad' WHERE id_seccion  = '$id_seccion'");
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -117,17 +118,20 @@ class SeccionesModelo extends connectDB
         return $respuesta;
     }
 
-    public function modificar_meta($meta)
+    public function modificar_meta($meta,$id_usuario,$accion)
     {
+            $año = date('Y');
+            $mesActual = date('n'); 
             try {
                 $this->conex->query("
                     UPDATE meta 
                     JOIN seccionesxmeta 
                     ON meta.id_meta = seccionesxmeta.id_meta 
                     SET meta.meta = $meta 
-                    WHERE YEAR(seccionesxmeta.fecha) = 2024 
-                    AND MONTH(seccionesxmeta.fecha) = 08;
+                    WHERE YEAR(seccionesxmeta.fecha) = $año 
+                    AND MONTH(seccionesxmeta.fecha) = $mesActual;
                 ");
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;

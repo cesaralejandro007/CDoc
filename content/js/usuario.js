@@ -248,7 +248,7 @@ function valida_registrar() {
 
 /*-------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
 
-function eliminar(id) {
+function eliminar(id,cedula,nombres,apellidos) {
     Swal.fire({
         title: "¿Está seguro de eliminar el registro?",
         text: "¡No podrás revertir esto!",
@@ -265,6 +265,9 @@ function eliminar(id) {
                 var datos = new FormData();
                 datos.append("accion", "eliminar");
                 datos.append("id_usuario", id);
+                datos.append("cedula", cedula);
+                datos.append("inputNombres", nombres);
+                datos.append("inputApellidos", apellidos);
                 enviaAjax(datos);
             }, 10);
         }

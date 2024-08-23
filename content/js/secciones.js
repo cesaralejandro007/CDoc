@@ -93,6 +93,7 @@ function carga() {
             datos.append("accion", $("#accion").val());
             datos.append("id", $("#id_seccion").val());
             datos.append("cantidad", $("#cantidad").val());
+            datos.append("seccion", $("#nombre_seccion").val());
             enviaAjax(datos);
         }
     };
@@ -287,6 +288,7 @@ function mostrar(datos) {
             $("#enviar").text("Modificar");
             $("#modalshowhide").modal("show");
             $("#accion").val("modificar");
+            $("#nombre_seccion").val(res.nombre_seccion);
             $("#exampleModalCenterTitle").text("Modificar Meta de la Sección: "+ res.nombre_seccion);
         },
         error: (err) => {

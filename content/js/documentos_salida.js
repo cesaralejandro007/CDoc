@@ -288,7 +288,7 @@ function valida_registrar() {
 
 /*--------------------FIN DE FUNCIONES DE HERRAMIENTAS-------------------*/
 
-function eliminar(id_documento,id_salida) {
+function eliminar(id_documento,id_salida,numeroDocumento) {
     Swal.fire({
         title: "¿Está seguro de eliminar el registro?",
         text: "¡No podrás revertir esto!",
@@ -306,13 +306,14 @@ function eliminar(id_documento,id_salida) {
                 datos.append("accion", "eliminar");
                 datos.append("id_documento", id_documento);
                 datos.append("id_salida", id_salida);
+                datos.append("numeroDocumento", numeroDocumento);
                 enviaAjax(datos);
             }, 10);
         }
     });
 }
 
-function migrarDoc(id_documento, id_salida) {
+function migrarDoc(id_documento, id_salida,numeroDocumento) {
     Swal.fire({
         title: "¿Estás seguro de que deseas migrar el documento sin entrada a los documentos con entrada?",
         text: "¡No podrás revertir esto!",
@@ -330,6 +331,7 @@ function migrarDoc(id_documento, id_salida) {
                 datos.append("accion", "migrar_documento_entrada");
                 datos.append("id_documento", id_documento);
                 datos.append("id_salida", id_salida);
+                datos.append("numeroDocumento", numeroDocumento);
                 enviaAjax(datos);
             }, 10);
         }

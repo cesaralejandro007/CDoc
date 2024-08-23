@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2024 a las 04:53:27
+-- Tiempo de generación: 23-08-2024 a las 17:18:06
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 7.4.33
 
@@ -166,10 +166,10 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `fecha_entrada`, `fecha_registro`, `descripcion`, `numero_doc`, `estatus`, `id_remitente`, `id_tipo_documento`, `id_usuario`) VALUES
-(27, '2024-08-22', '2024-08-22 15:35:49', 'asdasdsad', '45555', '3', 8, 18, 14),
 (30, '2024-08-22', '2024-08-23 01:22:56', 'asdsad', '32432', '1', 11, 31, 11),
-(32, '2024-08-20', '2024-08-23 01:43:54', 'fdsfdsfsd', '4566666', '3', 75, 12, 11),
-(35, '2024-07-30', '2024-08-23 02:48:23', 'asdasdsa', '5435435', '1', 14, 12, 11);
+(35, '2024-07-30', '2024-08-23 02:48:23', 'asdasdsa', '5435435', '1', 14, 12, 11),
+(44, '2024-08-15', '2024-08-23 13:30:06', 'asdasdasd', '32432432', '1', 9, 9, 11),
+(45, '2024-08-23', '2024-08-23 13:32:15', 'asdsadsad', '535345', '1', 9, 8, 11);
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,8 @@ CREATE TABLE `historial` (
 --
 
 INSERT INTO `historial` (`id_historial`, `accion`, `id_usuario`) VALUES
-(6, '22-08-2024 22:52:29 - Eliminó el documento de entrada con el número de documento: 564654 / 22-08-2024 22:51:53 - Migró el documento de entrada a los documentos de salida con el número de documento: 45555 / 22-08-2024 22:51:41 - Modificó el documento de entrada con el número de documento: 32432 / 22-08-2024 22:51:27 - Eliminó el documento de entrada con el número de documento: 4324324', 11);
+(21, '23-08-2024 11:16:37 - Modificó la meta general del mes 08 al valor: 100 / 23-08-2024 10:58:25 - Modificó el documento de entrada con el número de documento: 32432 / 23-08-2024 10:58:07 - Eliminó el documento de entrada con el número de documento: 545556 / 23-08-2024 10:57:51 - Eliminó el documento de entrada con el número de documento: 4566666 / 23-08-2024 10:25:40 -  Inició sesión en el sistema.', 11),
+(23, '23-08-2024 11:17:28 -  Cerró sesión en el sistema. / 23-08-2024 11:17:13 - Eliminó el documento de salida con el número de documento: 5654654 / 23-08-2024 11:15:55 - Registró el documento de sin entrada con el número de documento: 5654654 / 23-08-2024 11:15:18 -  Inició sesión en el sistema.', 15);
 
 -- --------------------------------------------------------
 
@@ -207,7 +208,7 @@ CREATE TABLE `meta` (
 
 INSERT INTO `meta` (`id_meta`, `meta`) VALUES
 (27, '850'),
-(28, '900');
+(28, '100');
 
 -- --------------------------------------------------------
 
@@ -401,18 +402,10 @@ INSERT INTO `remitentes` (`id_remitente`, `nombre_rem`) VALUES
 
 CREATE TABLE `salidas` (
   `id_salida` int(11) NOT NULL,
-  `fecha_salida` datetime NOT NULL,
+  `fecha_salida` date NOT NULL,
   `id_documento` int(11) NOT NULL,
   `id_destinatario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `salidas`
---
-
-INSERT INTO `salidas` (`id_salida`, `fecha_salida`, `id_documento`, `id_destinatario`) VALUES
-(8, '2024-08-22 00:00:00', 32, 15),
-(9, '2024-08-21 00:00:00', 27, 16);
 
 -- --------------------------------------------------------
 
@@ -431,7 +424,7 @@ CREATE TABLE `secciones` (
 --
 
 INSERT INTO `secciones` (`id_seccion`, `nombre_seccion`, `cantidad_documentos`) VALUES
-(2, 'Recursos Humanos', '101'),
+(2, 'Recursos Humanos', '200'),
 (4, 'Bienes Nacionales', '20');
 
 -- --------------------------------------------------------
@@ -601,8 +594,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `cedula`, `nombres`, `apellidos`, `rol`, `sexo`, `contrasena`, `id_seccion`, `estatus`) VALUES
-(11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$aPDESdDRh3lSxC9Ddi96/eLPQ90/2xVkfaQPE2HH5sT6qrShM5vUm', 2, 1),
-(14, '28055654', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$2FuToaTbAOOTfK7INN1nKuTRiNIJku5AMrKFxJj92H9LjV.xhEj8u', 4, 1);
+(11, '28055655', 'Cesar', 'Vides', 'Administrador', 'Masculino', '$2y$10$6njZ6fYzljiKL8dHxbyatOAht1xEOTcZksAXQIJIkiz6/ziq5pOQ6', 2, 1),
+(14, '28055654', 'Cesar', 'Vides', 'Usuario', 'Masculino', '$2y$10$2FuToaTbAOOTfK7INN1nKuTRiNIJku5AMrKFxJj92H9LjV.xhEj8u', 4, 0),
+(15, '28055653', 'Cezsa', 'Vides', '', 'Masculino', '$2y$10$L8HCK7jrjdtRDvkjG1xqOufx9.XU8U86F4theGaXgeMatiQ2p1rWW', 2, 1);
 
 --
 -- Índices para tablas volcadas
@@ -691,13 +685,13 @@ ALTER TABLE `destinatarios`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_historial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `meta`
@@ -739,7 +733,7 @@ ALTER TABLE `tipos_documentos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas

@@ -83,7 +83,7 @@ class DocumentosEntradaModelo extends connectDB
                                         '$tipoDocumento',
                                         '$id_usuario'
                                     )");
-                    $this->registrar_bitacora($id_usuario,$accion);
+                    parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
@@ -106,7 +106,7 @@ class DocumentosEntradaModelo extends connectDB
                         '$id_destinatario'
                     )");
             $this->conex->query("UPDATE documentos SET  estatus = '3' WHERE id_documento  = '$id_documento'");
-            $this->registrar_bitacora($id_usuario,$accion);
+            parent::registrar_bitacora($id_usuario,$accion);
             return true;
         } catch (Exception $e) {
             return false;
@@ -134,7 +134,7 @@ class DocumentosEntradaModelo extends connectDB
         					'$tipoDocumento',
                             '$id_usuario'
         				)");
-                        $this->registrar_bitacora($id_usuario,$accion);  
+                        parent::registrar_bitacora($id_usuario,$accion);  
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
@@ -146,7 +146,7 @@ class DocumentosEntradaModelo extends connectDB
     {
     try {
         $this->conex->query("DELETE FROM documentos WHERE id_documento = '$id_documento'");
-        $this->registrar_bitacora($id_usuario,$accion);
+        parent::registrar_bitacora($id_usuario,$accion);
         return true;
     } catch (Exception $e) {
         return false;
@@ -174,7 +174,7 @@ class DocumentosEntradaModelo extends connectDB
         }else {
             try {
                 $this->conex->query("UPDATE documentos SET fecha_entrada = '$fecha', descripcion = '$descripcion', numero_doc = '$numeroDocumento', id_remitente = '$remitente', id_tipo_documento  = '$tipoDocumento', id_usuario   = '$id_usuario' WHERE id_documento  = '$id_documento'");
-                $this->registrar_bitacora($id_usuario,$accion);
+                parent::registrar_bitacora($id_usuario,$accion);
                 return true;
             } catch (Exception $e) {
                 return false;
@@ -211,25 +211,6 @@ class DocumentosEntradaModelo extends connectDB
             } else {
                 return false;
             }
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public function registrar_bitacora($id_usuario,$accion)
-    {
-        try {
-            // Verificar si ya existe un registro en la tabla `historial` para el usuario
-            $result = $this->conex->query("SELECT accion FROM historial WHERE id_usuario = '$id_usuario'");
-            if ($result->rowCount() > 0) {
-                // Si existe, concatenar la nueva acción con un `/`
-                $row = $result->fetch();
-                $nueva_accion = $accion . " / " . $row['accion'] ;
-                $this->conex->query("UPDATE historial SET accion = '$nueva_accion' WHERE id_usuario = '$id_usuario'");
-            } else {
-                // Si no existe, insertar un nuevo registro en la tabla `historial`
-                $this->conex->query("INSERT INTO historial(id_usuario, accion) VALUES('$id_usuario', '$accion')");
-            }   
         } catch (Exception $e) {
             return false;
         }

@@ -17,6 +17,7 @@
       <form class="sign-up-form form">
         <input type="hidden" name="accion" class="form-control" id="accion">
         <input type="hidden" name="id_seccion" class="form-control" id="id_seccion">
+        <input type="hidden" name="nombre_seccion" class="form-control" id="nombre_seccion">
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
@@ -63,10 +64,6 @@
                 <li><a href="##">
                     <i data-feather="user" aria-hidden="true"></i>
                     <span>Perfil</span>
-                    </a></li>
-                <li><a href="##">
-                    <i data-feather="settings" aria-hidden="true"></i>
-                    <span>Configuración</span>
                     </a></li>
                 <li><a class="danger" href=".">
                     <i data-feather="log-out" aria-hidden="true"></i>
