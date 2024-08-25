@@ -116,11 +116,18 @@
                 <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
             </button>
             <div class="nav-user-wrapper">
-                <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                <button href="##" class="nav-user-btn dropdown-btn d-flex justify-content-center align-items-center" title="My profile" type="button">
                 <span class="sr-only">My profile</span>
+                <span class="p-1">   <?php echo "V". $_SESSION['usuario']['cedula'] ?></span>      
+                <?php if($_SESSION['usuario']['sexo'] == "Masculino"){ ?>
                 <span class="nav-user-img">
                     <picture><source srcset="assets/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
                 </span>
+                <?php }else{ ?>
+                <span class="nav-user-img">
+                    <picture><source srcset="assets/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+                </span>
+                <?php } ?>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
                 <li><a href="##" onclick="cambiarClave()">
@@ -162,16 +169,28 @@
           {?>
               <tr>
               <td style="text-align: center; padding-left:0px" class="project-actions text-left">
+                <?php if($valor['id_usuario'] == $_SESSION['usuario']['id']){ ?>
                   <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar"
                   onclick="cargar_datos(<?=$valor['id_documento'];?>);"><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                <?php }else{ ?>
+                  <button class="btn m-1 text-white px-2 py-1" style="background:#E67E22;" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Editar" disabled><i style="font-size: 15px" class="fas fa-edit"></i></button>
+                <?php } ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
+                <?php if($valor['id_usuario'] == $_SESSION['usuario']['id']){ ?>
                   <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar"
                   onclick="eliminar(<?=$valor['id_documento'];?>,<?=$valor['id_salida'];?>,<?=$valor['numero_doc'];?>);"><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                <?php }else{ ?>
+                  <button class="btn m-1 px-2 py-1" style="background:#9D2323;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Eliminar" disabled><i style="font-size: 15px" class="fas fa-trash"></i></button>
+                <?php } ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
+                <?php if($valor['id_usuario'] == $_SESSION['usuario']['id']){ ?>
                   <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Migrar"
                   onclick="migrarDoc(<?=$valor['id_documento'];?>,<?=$valor['id_salida'];?>,<?=$valor['numero_doc'];?>);"><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+                <?php }else{ ?>
+                  <button class="btn m-1 px-2 py-1" style="background:#0228B5;color:white"  type="button" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Migrar" disabled><i style="font-size: 15px" class="fas fa-exchange-alt"></i></button>
+                <?php } ?>
               </td>
               <td style="text-align: center;" class="project-actions text-left">
                   <?php echo $valor['usuario_completo']; ?>

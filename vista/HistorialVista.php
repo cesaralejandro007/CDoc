@@ -25,11 +25,18 @@
                 <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
             </button>
             <div class="nav-user-wrapper">
-                <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                <button href="##" class="nav-user-btn dropdown-btn d-flex justify-content-center align-items-center" title="My profile" type="button">
                 <span class="sr-only">My profile</span>
+                <span class="p-1">   <?php echo "V". $_SESSION['usuario']['cedula'] ?></span>      
+                <?php if($_SESSION['usuario']['sexo'] == "Masculino"){ ?>
                 <span class="nav-user-img">
                     <picture><source srcset="assets/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
                 </span>
+                <?php }else{ ?>
+                <span class="nav-user-img">
+                    <picture><source srcset="assets/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="assets/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+                </span>
+                <?php } ?>
                 </button>
                 <ul class="users-item-dropdown nav-user-dropdown dropdown">
                 <li><a href="##" onclick="cambiarClave()">
