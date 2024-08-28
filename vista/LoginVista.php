@@ -8,9 +8,8 @@ use config\componentes\configSistema as configSistema;
 <body>
   <div class="layer"></div>
 <main class="page-center">
-
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,9 +79,33 @@ use config\componentes\configSistema as configSistema;
                     </div>
                 </div>
                 </div>
+  <!-- Cabecera con el Logo -->
+  <header class="header">
+    <img src="assets/seniat.png" alt="Logo" class="header-logo">
+  </header>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Usuario</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Aquí va el contenido del modal -->
+          <!-- Código del formulario aquí -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="enviar" type="button" style="background:#2f49d1" class="btn btn-primary">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <article class="sign-up">
-    <h1 class="sign-up__title" style="margin-bottom:15px">Control de Documentos</h1>
+    <h1 class="sign-up__title" style="margin-bottom:5px; font-weight:bold;font-size:34px; max-width:500px">Control de Documentos</h1>
     <p class="sign-up__subtitle" style="margin-bottom:5px">Inicia sesión en tu cuenta para continuar</p>
     <form class="sign-up-form form" action="" method="">
       <label class="form-label-wrapper">
@@ -104,7 +127,6 @@ use config\componentes\configSistema as configSistema;
 <script src="plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="content/js/script.js"></script>
-
 <script src="content/js/login.js"></script>
 </body>
 

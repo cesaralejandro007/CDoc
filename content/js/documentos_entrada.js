@@ -273,7 +273,7 @@ function eliminar(id,numeroDocumento) {
     });
 }
 
-function migrarDoc(id,numeroDocumento) {
+function migrarDoc(id, numeroDocumento) {
     var datos_buscar = new FormData();
     datos_buscar.append("accion", "buscarData");
     $.ajax({
@@ -298,10 +298,21 @@ function migrarDoc(id,numeroDocumento) {
             Swal.fire({
                 title: 'Selecciona un destinatario',
                 html: `
-                <input type="date" id="fecha" class="swal2-input">
-                <input list="listaDestinatarios" id="destinatario" name="destinatario" class="swal2-input" placeholder="Seleccione destinatario">
-                ${datalist}
-            `,
+                <div style="position: relative;">
+                    <input type="date" id="fecha" class="swal2-input" style="margin-bottom: 15px;">
+                    <input list="listaDestinatarios" id="destinatario" name="destinatario" class="swal2-input" placeholder="Seleccione destinatario" style="padding-right: 40px;">
+                    <i class="fa fa-chevron-down" style="
+                        position: absolute;
+                        top: 82.5%;
+                        right: 70px;
+                        transform: translateY(-50%);
+                        font-size: 16px;
+                        color: #000;
+                        pointer-events: none;
+                    "></i>
+                    ${datalist}
+                </div>
+                `,
                 confirmButtonText: 'Migrar Documento',
                 focusConfirm: false,
                 preConfirm: () => {

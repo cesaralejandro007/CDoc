@@ -2,7 +2,39 @@
 <html lang="en">
 
 <?php include_once "bin/component/head.php";?>
+<style>
+      body {
+    margin: 0;
+    padding: 0;
+    position: relative; /* Asegura que el pseudoelemento se posicione correctamente */
+    overflow: auto; /* Evita barras de desplazamiento si el pseudoelemento excede el tamaño del viewport */
+}
 
+/* Pseudoelemento para la imagen de fondo con opacidad */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 98%;
+    background-image: 
+        linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.7) 50%),
+        url('assets/img/seniat_fondo.jpg');
+    background-repeat: repeat;
+    background-size: 250px 120px; /* Tamaño de la imagen */
+    background-position: 0 0; /* Posiciona la imagen en la esquina superior izquierda */
+    opacity: 0.2; /* Ajusta la opacidad de la imagen de fondo */
+    z-index: -1; /* Asegura que la imagen esté detrás de todo el contenido */
+    pointer-events: none; /* Evita que el pseudoelemento interfiera con la interacción del usuario */
+}
+
+/* Estilo adicional para asegurar que los botones y otros elementos estén visibles sobre el fondo */
+.swal2-confirm {
+    background-color: #2f49d1 !important;
+}
+
+</style>
 <body>
   <div class="layer"></div>
 

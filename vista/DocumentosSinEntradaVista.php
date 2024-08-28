@@ -2,7 +2,56 @@
 <html lang="en">
 
 <?php include_once "bin/component/head.php";?>
+<style>
+      body {
+    margin: 0;
+    padding: 0;
+    position: relative; /* Asegura que el pseudoelemento se posicione correctamente */
+    overflow: auto; /* Evita barras de desplazamiento si el pseudoelemento excede el tamaño del viewport */
+}
 
+/* Pseudoelemento para la imagen de fondo con opacidad */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 98%;
+    background-image: 
+        linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.7) 50%),
+        url('assets/img/seniat_fondo.jpg');
+    background-repeat: repeat;
+    background-size: 250px 120px; /* Tamaño de la imagen */
+    background-position: 0 0; /* Posiciona la imagen en la esquina superior izquierda */
+    opacity: 0.2; /* Ajusta la opacidad de la imagen de fondo */
+    z-index: -1; /* Asegura que la imagen esté detrás de todo el contenido */
+    pointer-events: none; /* Evita que el pseudoelemento interfiera con la interacción del usuario */
+}
+
+.input-wrapper {
+    position: relative; /* Necesario para posicionar el icono de manera absoluta */
+}
+
+.input-wrapper .form-input {
+    padding-right: 40px; /* Espacio para el icono */
+}
+
+.input-wrapper .input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Espacio desde el borde derecho del campo */
+    transform: translateY(-50%); /* Centra verticalmente el icono */
+    color: #000; /* Color del icono */
+    opacity: 0.3;
+    pointer-events: none; /* Asegura que el icono no interfiera con la interacción del usuario */
+}
+
+/* Estilo adicional para asegurar que los botones y otros elementos estén visibles sobre el fondo */
+.swal2-confirm {
+    background-color: #2f49d1 !important;
+}
+</style>
 <body>
   <div class="layer"></div>
 
@@ -39,16 +88,19 @@
         </div>
     </div> 
     <div class="row">
-        <div class="form-group col-md-6">
-            <label class="form-label" for="inputTipo">Tipo de Documento</label>
-            <input list="tipoDocumentos" id="inputTipo" placeholder="Tipo de Documento" class="form-control form-input" required>
-            <datalist id="tipoDocumentos">
-                <?php foreach($listTDoc as $key => $tipo) {?>
-                <option value="<?php echo $tipo["nombre_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
-                <?php }?>
-            </datalist>
-            <span id="stipo"></span>
-        </div>
+    <div class="form-group col-md-6">
+        <label class="form-label" for="inputTipo">Tipo de Documento</label>
+          <div class="input-wrapper">
+              <input list="tipoDocumentos" id="inputTipo" placeholder="Tipo de Documento" class="form-control form-input" required>
+              <datalist id="tipoDocumentos">
+                  <?php foreach($listTDoc as $key => $tipo) {?>
+                    <option value="<?php echo $tipo["nombre_doc"]; ?>" data-id="<?php echo $tipo["id_tipo_documento"]; ?>"></option>
+                  <?php }?>
+              </datalist>
+              <span id="stipo"></span>
+              <i class="fa fa-chevron-down input-icon"></i> <!-- Icono de flecha -->
+          </div>
+      </div>
         <div class="form-group col-md-6">
             <div class="form-group">
                 <label class="form-label" for="inputDescripcion">Descripción del Documento</label>
