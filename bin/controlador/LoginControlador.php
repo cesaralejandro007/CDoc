@@ -2,8 +2,10 @@
 use modelo\LoginModelo as Login;
 use config\componentes\configSistema as configSistema;
 session_start();
+require_once 'bin/component/captcha/securimage/securimage.php';
 $config = new configSistema;
 $login = new Login;
+$securimage = new Securimage();
 if (!is_file($config->_Dir_Model_().$pagina.$config->_MODEL_())) {
     echo "Falta definir la clase " . $pagina;
     exit;
@@ -14,12 +16,14 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
         if($accion=="ingresar"){
             $usuario = $_POST['usuario'];
             $clave = $_POST['password'];
-            if($usuario != "" && $clave != ""){
+            $codigo = $_POST['captcha'];
+            if($usuario != "" && $clave != "" || $codigo == ""){
                 $fechaAccion = date("d-m-Y H:i:s"); // Formato de fecha y hora
                 $accion = "$fechaAccion -  Inició sesión en el sistema.";
                 $res_usuario = $login->verificar_usuario($usuario,$clave,$accion);
-                if($res_usuario == true){
+                if($res_usuario == true && $securimage->check($codigo) == true){
                     $info_usuario = $login->datos_usuario($usuario);
+                    
                     if($info_usuario[0]['estatus']==1){
                         foreach ($info_usuario as $datos) {
                             $_SESSION['usuario'] = array('id' => $datos['id_usuario'],'cedula' => $datos['cedula'], 'nombres' => $datos['nombres'], 'apellidos' => $datos['apellidos'], 'rol' => $datos['rol'],'sexo' => $datos['sexo'], 'seccion' => $datos['id_seccion']);
@@ -46,7 +50,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                         'estatus' => '2',
                         'icon' => 'info',
                         'title' => 'Login',
-                        'message' => 'Verifique sus datos!'
+                        'message' => 'Verifique los datos de usuario, contraseña y codigo!'
                     ]);
                     return 0;
                 }
@@ -55,7 +59,7 @@ if (is_file("vista/" . $pagina . "Vista.php")) {
                     'estatus' => '2',
                     'icon' => 'error',
                     'title' => 'Login',
-                    'message' => 'Ingrese usuario y contraseña!'
+                    'message' => 'Ingrese usuario, contraseña y codigo!'
                 ]);
                 return 0;
             }
