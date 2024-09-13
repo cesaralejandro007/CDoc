@@ -32,6 +32,9 @@ use config\componentes\configSistema as configSistema;
                 <li>
                     <a href="?pagina=<?php configSistema::_Historial_();?>"><span class="icon document" aria-hidden="true"></span>Historial</a>
                 </li>
+                <li>
+                    <a href="?pagina=<?php configSistema::_BitacoraSistema_();?>"><span class="icon document" aria-hidden="true"></span>Bitacora del Sistema</a>
+                </li>
                 <?php  } ?>
             </ul>
             <span class="system-menu__title">documentos</span>

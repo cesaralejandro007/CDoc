@@ -90,6 +90,10 @@
 			echo self::Seguridad('Principal', 'codificar');
 		}
 
+		public static function _BitacoraSistema_() {
+			echo self::Seguridad('BitacoraSistema', 'codificar');
+		}
+
 		public static function _Historial_() {
 			echo self::Seguridad('Historial', 'codificar');
 		}
